@@ -163,7 +163,6 @@
     <Compile Include="Database\relay.cs" />
     <Compile Include="Database\relayconnectionweight.cs" />
     <Compile Include="Database\store.cs" />
-    <Compile Include="Database\storetorelay.cs" />
     <Compile Include="Database\transaction.cs" />
     <Compile Include="Database\user.cs" />
     <Compile Include="Global.asax.cs">

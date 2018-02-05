@@ -13,6 +13,7 @@ namespace MonitorNetwork.Database
         public store()
         {
             transaction = new HashSet<transaction>();
+            relay = new HashSet<relay>();
         }
 
         public int storeID { get; set; }
@@ -25,5 +26,8 @@ namespace MonitorNetwork.Database
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<transaction> transaction { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<relay> relay { get; set; }
     }
 }

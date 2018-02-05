@@ -17,7 +17,6 @@ namespace MonitorNetwork.Database
         public virtual DbSet<relay> relay { get; set; }
         public virtual DbSet<relayconnectionweight> relayconnectionweight { get; set; }
         public virtual DbSet<store> store { get; set; }
-        public virtual DbSet<storetorelay> storetorelay { get; set; }
         public virtual DbSet<transaction> transaction { get; set; }
         public virtual DbSet<user> user { get; set; }
 
@@ -49,6 +48,11 @@ namespace MonitorNetwork.Database
                 .HasMany(e => e.relayconnectionweight1)
                 .WithOptional(e => e.relay3)
                 .HasForeignKey(e => e.relay2);
+
+            modelBuilder.Entity<relay>()
+                .HasMany(e => e.store)
+                .WithMany(e => e.relay)
+                .Map(m => m.ToTable("storetorelay", "cs744").MapLeftKey("relayID").MapRightKey("storeID"));
 
             modelBuilder.Entity<transaction>()
                 .Property(e => e.timeOfTransaction)

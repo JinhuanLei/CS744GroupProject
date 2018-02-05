@@ -14,7 +14,6 @@ namespace MonitorNetwork.Models
         public IEnumerable<relay> relays;
         public IEnumerable<relayconnectionweight> relayconnectionweights;
         public IEnumerable<store> stores;
-        public IEnumerable<storetorelay> storetorelays;
         public IEnumerable<transaction> transaction;
         public IEnumerable<user> user;
     }

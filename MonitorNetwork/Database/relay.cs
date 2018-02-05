@@ -14,6 +14,7 @@ namespace MonitorNetwork.Database
         {
             relayconnectionweight = new HashSet<relayconnectionweight>();
             relayconnectionweight1 = new HashSet<relayconnectionweight>();
+            store = new HashSet<store>();
         }
 
         public int relayID { get; set; }
@@ -30,5 +31,8 @@ namespace MonitorNetwork.Database
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<relayconnectionweight> relayconnectionweight1 { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<store> store { get; set; }
     }
 }
