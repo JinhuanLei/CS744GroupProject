@@ -1,0 +1,165 @@
+﻿@model MonitorNetwork.Models.EntireDatabase
+@{
+    ViewBag.Title = "EntireDatabase";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>EntireDatabase</h2>
+
+<table style="border: 1px solid black">
+    <thead>
+        <tr>
+            <th colspan="7">Accounts</th>
+        </tr>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Spending Limit</th>
+            <th>Balance</th>
+            <th>Account Credit Card Numbers</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach(MonitorNetwork.Database.account account in Model.accounts)
+{
+    <tr>
+        <td>@account.accountFirstName</td>
+        <td>@account.accountLastName</td>
+        <td>@account.address</td>
+        <td>@account.phoneNumber</td>
+        <td>@account.spendingLimit</td>
+        <td>@account.balance</td>
+        <td>@string.Join(", ", account.creditcard.Select(x => x.cardNumber))</td>
+    </tr>
+}
+    </tbody>
+
+</table>
+
+<table style="border: 1px solid black">
+    <thead>
+        <tr>
+            <th colspan="6">Credit Cards</th>
+        </tr>
+        <tr>
+            <th>Card Number</th>
+            <th>Expiration Date</th>
+            <th>Security Code</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Account Holder's Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (MonitorNetwork.Database.creditcard creditcard in Model.creditcards)
+        {
+            <tr>
+                <td>@creditcard.cardNumber</td>
+                <td>@(creditcard.expirationDate.HasValue ? creditcard.expirationDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                <td>@creditcard.securityCode</td>
+                <td>@creditcard.customerFirstName</td>
+                <td>@creditcard.customerLastName</td>
+                <td>@creditcard.account.accountFirstName @creditcard.account.accountLastName</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<table style="border: 1px solid black">
+    <thead>
+        <tr>
+            <th colspan="4">Relays</th>
+        </tr>
+        <tr>
+            <th>Replay IP</th>
+            <th>Relay Status</th>
+            <th>Is Processing Center</th>
+            <th>Connected Relay IPs</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (MonitorNetwork.Database.relay relay in Model.relays)
+        {
+            <tr>
+                <td>@relay.relayIP</td>
+                <td>@(relay.status == 1 ? "Active" : "Inactive")</td>
+                <td>@(relay.isProcessingCenter == 1)</td>
+                <td>@string.Join(", ", relay.relayconnectionweight.Select(x => x.relay3.relayIP))</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<table style="border: 1px solid black">
+    <thead>
+        <tr>
+            <th colspan="3">Relay Connection Weight</th>
+        </tr>
+        <tr>
+            <th>Relay 1</th>
+            <th>Relay 2</th>
+            <th>Weight</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (MonitorNetwork.Database.relayconnectionweight relayconnectionweight in Model.relayconnectionweights)
+        {
+            <tr>
+                <td>@relayconnectionweight.relay.relayIP</td>
+                <td>@relayconnectionweight.relay3.relayIP</td>
+                <td>@relayconnectionweight.weight</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<table style="border: 1px solid black">
+    <thead>
+        <tr>
+            <th colspan="3">Store</th>
+        </tr>
+        <tr>
+            <th>Store IP</th>
+            <th>Merchant Name</th>
+            <th>Store Transaction Times</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (MonitorNetwork.Database.store store in Model.stores)
+        {
+            <tr>
+                <td>@store.storeIP</td>
+                <td>@store.merchantName</td>
+                <td>@string.Join(", ", store.transaction.Select(x => x.timeOfTransaction))</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<table style="border: 1px solid black">
+    <thead>
+        <tr>
+            <th colspan="2">Users</th>
+        </tr>
+        <tr>
+            <th>Username</th>
+            <th>User is Blocked</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (MonitorNetwork.Database.user user in Model.user)
+        {
+            <tr>
+                <td>@user.username</td>
+                <td>@(user.isBlocked == 1 ? "Blocked" : "Not Blocked")</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
