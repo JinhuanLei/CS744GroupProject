@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MonitorNetwork.Database.creditcard>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.account.accountFirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cardNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.expirationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.securityCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customerFirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customerLastName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.account.accountFirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cardNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.expirationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.securityCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.customerFirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.customerLastName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.cardID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.cardID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.cardID })
+        </td>
+    </tr>
+}
+
+</table>

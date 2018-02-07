@@ -1,0 +1,67 @@
+﻿@model MonitorNetwork.Database.creditcard
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>creditcard</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.account.accountFirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.account.accountFirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cardNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cardNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expirationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expirationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.securityCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.securityCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.customerFirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.customerFirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.customerLastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.customerLastName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.cardID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
