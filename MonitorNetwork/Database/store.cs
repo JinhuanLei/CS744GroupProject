@@ -18,9 +18,11 @@ namespace MonitorNetwork.Database
 
         public int storeID { get; set; }
 
+        [Required]
         [StringLength(15)]
         public string storeIP { get; set; }
 
+        [Required]
         [StringLength(30)]
         public string merchantName { get; set; }
 

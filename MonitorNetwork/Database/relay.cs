@@ -19,12 +19,13 @@ namespace MonitorNetwork.Database
 
         public int relayID { get; set; }
 
+        [Required]
         [StringLength(15)]
         public string relayIP { get; set; }
 
-        public short? status { get; set; }
+        public short status { get; set; }
 
-        public short? isProcessingCenter { get; set; }
+        public short isProcessingCenter { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<relayconnectionweight> relayconnectionweight { get; set; }

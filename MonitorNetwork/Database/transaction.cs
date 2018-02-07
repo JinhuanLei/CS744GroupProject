@@ -12,20 +12,20 @@ namespace MonitorNetwork.Database
         public int transactionID { get; set; }
 
         [Column(TypeName = "datetime2")]
-        public DateTime? timeOfTransaction { get; set; }
+        public DateTime timeOfTransaction { get; set; }
 
         [Column(TypeName = "datetime2")]
         public DateTime? timeOfResponse { get; set; }
 
-        public decimal? amount { get; set; }
+        public decimal amount { get; set; }
 
-        public short? isCredit { get; set; }
+        public short isCredit { get; set; }
 
-        public short? status { get; set; }
+        public short status { get; set; }
 
-        public int? storeID { get; set; }
+        public int storeID { get; set; }
 
-        public int? accountID { get; set; }
+        public int accountID { get; set; }
 
         public virtual account account { get; set; }
 
