@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MonitorNetwork.Database;
 
-namespace MonitorNetwork.Views
+namespace MonitorNetwork.Controllers
 {
     public class CreditCardController : Controller
     {
@@ -39,7 +39,7 @@ namespace MonitorNetwork.Views
         // GET: CreditCard/Create
         public ActionResult Create()
         {
-            ViewBag.accountID = new SelectList(db.account, "accountID", "accountFirstName");
+            ViewBag.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname");
             return View();
         }
 
@@ -47,7 +47,6 @@ namespace MonitorNetwork.Views
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "cardID,cardNumber,expirationDate,securityCode,customerFirstName,customerLastName,accountID")] creditcard creditcard)
         {
             if (ModelState.IsValid)
@@ -57,7 +56,7 @@ namespace MonitorNetwork.Views
                 return RedirectToAction("Index");
             }
 
-            ViewBag.accountID = new SelectList(db.account, "accountID", "accountFirstName", creditcard.accountID);
+            ViewBag.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditcard.accountID);
             return View(creditcard);
         }
 
@@ -73,7 +72,7 @@ namespace MonitorNetwork.Views
             {
                 return HttpNotFound();
             }
-            ViewBag.accountID = new SelectList(db.account, "accountID", "accountFirstName", creditcard.accountID);
+            ViewBag.accountID = new SelectList((from acct in db.account select new {accountID=acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditcard.accountID);
             return View(creditcard);
         }
 
@@ -81,7 +80,6 @@ namespace MonitorNetwork.Views
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "cardID,cardNumber,expirationDate,securityCode,customerFirstName,customerLastName,accountID")] creditcard creditcard)
         {
             if (ModelState.IsValid)
@@ -90,7 +88,7 @@ namespace MonitorNetwork.Views
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.accountID = new SelectList(db.account, "accountID", "accountFirstName", creditcard.accountID);
+            ViewBag.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditcard.accountID);
             return View(creditcard);
         }
 
@@ -111,7 +109,6 @@ namespace MonitorNetwork.Views
 
         // POST: CreditCard/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             creditcard creditcard = db.creditcard.Find(id);
