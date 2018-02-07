@@ -6,7 +6,7 @@ namespace MonitorNetwork.Database
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("cs744.creditcard")]
+    [Table("creditcard")]
     public partial class creditcard
     {
         [Key]

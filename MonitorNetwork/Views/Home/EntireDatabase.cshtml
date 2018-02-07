@@ -1,10 +1,10 @@
 ﻿@model MonitorNetwork.Models.EntireDatabase
 @{
-    ViewBag.Title = "EntireDatabase";
+    ViewBag.Title = "Entire Database";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>EntireDatabase</h2>
+<h2>Entire Database</h2>
 
 <table style="border: 1px solid black">
     <thead>
@@ -29,8 +29,8 @@
         <td>@account.accountLastName</td>
         <td>@account.address</td>
         <td>@account.phoneNumber</td>
-        <td>@account.spendingLimit</td>
-        <td>@account.balance</td>
+        <td>$@account.spendingLimit</td>
+        <td>$@account.balance</td>
         <td>@string.Join(", ", account.creditcard.Select(x => x.cardNumber))</td>
     </tr>
 }

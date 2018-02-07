@@ -52,7 +52,7 @@ namespace MonitorNetwork.Database
             modelBuilder.Entity<relay>()
                 .HasMany(e => e.store)
                 .WithMany(e => e.relay)
-                .Map(m => m.ToTable("storetorelay", "cs744").MapLeftKey("relayID").MapRightKey("storeID"));
+                .Map(m => m.ToTable("storetorelay").MapLeftKey("relayID").MapRightKey("storeID"));
 
             modelBuilder.Entity<transaction>()
                 .Property(e => e.timeOfTransaction)

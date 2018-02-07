@@ -6,7 +6,7 @@ namespace MonitorNetwork.Database
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("cs744.relayconnectionweight")]
+    [Table("relayconnectionweight")]
     public partial class relayconnectionweight
     {
         public int relayConnectionWeightID { get; set; }

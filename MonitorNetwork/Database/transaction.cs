@@ -6,7 +6,7 @@ namespace MonitorNetwork.Database
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("cs744.transaction")]
+    [Table("transaction")]
     public partial class transaction
     {
         public int transactionID { get; set; }

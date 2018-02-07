@@ -6,7 +6,7 @@ namespace MonitorNetwork.Database
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("cs744.user")]
+    [Table("user")]
     public partial class user
     {
         public int userID { get; set; }
