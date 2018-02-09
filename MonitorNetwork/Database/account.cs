@@ -6,7 +6,7 @@ namespace MonitorNetwork.Database
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("cs744.account")]
+    [Table("account")]
     public partial class account
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -18,21 +18,25 @@ namespace MonitorNetwork.Database
 
         public int accountID { get; set; }
 
+        [Required]
         [StringLength(45)]
         public string accountFirstName { get; set; }
 
+        [Required]
         [StringLength(45)]
         public string accountLastName { get; set; }
 
+        [Required]
         [StringLength(100)]
         public string address { get; set; }
 
+        [Required]
         [StringLength(45)]
         public string phoneNumber { get; set; }
 
-        public decimal? spendingLimit { get; set; }
+        public decimal spendingLimit { get; set; }
 
-        public decimal? balance { get; set; }
+        public decimal balance { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<creditcard> creditcard { get; set; }

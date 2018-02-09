@@ -6,35 +6,43 @@ namespace MonitorNetwork.Database
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("cs744.user")]
+    [Table("user")]
     public partial class user
     {
         public int userID { get; set; }
 
+        [Required]
         [StringLength(45)]
         public string username { get; set; }
 
+        [Required]
         [StringLength(45)]
         public string password { get; set; }
 
+        [Required]
         [StringLength(100)]
         public string security1 { get; set; }
 
+        [Required]
         [StringLength(45)]
         public string answer1 { get; set; }
 
+        [Required]
         [StringLength(100)]
         public string security2 { get; set; }
 
+        [Required]
         [StringLength(45)]
         public string answer2 { get; set; }
 
+        [Required]
         [StringLength(100)]
         public string security3 { get; set; }
 
+        [Required]
         [StringLength(45)]
         public string answer3 { get; set; }
 
-        public short? isBlocked { get; set; }
+        public short isBlocked { get; set; }
     }
 }

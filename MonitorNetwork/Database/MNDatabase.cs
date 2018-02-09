@@ -17,7 +17,6 @@ namespace MonitorNetwork.Database
         public virtual DbSet<relay> relay { get; set; }
         public virtual DbSet<relayconnectionweight> relayconnectionweight { get; set; }
         public virtual DbSet<store> store { get; set; }
-        public virtual DbSet<storetorelay> storetorelay { get; set; }
         public virtual DbSet<transaction> transaction { get; set; }
         public virtual DbSet<user> user { get; set; }
 
@@ -33,8 +32,13 @@ namespace MonitorNetwork.Database
 
             modelBuilder.Entity<account>()
                 .HasMany(e => e.creditcard)
-                .WithOptional(e => e.account)
-                .HasForeignKey(e => e.accID);
+                .WithRequired(e => e.account)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<account>()
+                .HasMany(e => e.transaction)
+                .WithRequired(e => e.account)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<creditcard>()
                 .Property(e => e.expirationDate)
@@ -42,13 +46,25 @@ namespace MonitorNetwork.Database
 
             modelBuilder.Entity<relay>()
                 .HasMany(e => e.relayconnectionweight)
-                .WithOptional(e => e.relay)
-                .HasForeignKey(e => e.relay1);
+                .WithRequired(e => e.relay)
+                .HasForeignKey(e => e.relayID1)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<relay>()
                 .HasMany(e => e.relayconnectionweight1)
-                .WithOptional(e => e.relay3)
-                .HasForeignKey(e => e.relay2);
+                .WithRequired(e => e.relay1)
+                .HasForeignKey(e => e.relayID2)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<relay>()
+                .HasMany(e => e.store)
+                .WithMany(e => e.relay)
+                .Map(m => m.ToTable("storetorelay").MapLeftKey("relayID").MapRightKey("storeID"));
+
+            modelBuilder.Entity<store>()
+                .HasMany(e => e.transaction)
+                .WithRequired(e => e.store)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<transaction>()
                 .Property(e => e.timeOfTransaction)
