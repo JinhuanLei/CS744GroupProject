@@ -57,7 +57,7 @@
         {
             <tr>
                 <td>@creditcard.cardNumber</td>
-                <td>@(creditcard.expirationDate.HasValue ? creditcard.expirationDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                <td>@creditcard.expirationDate.ToString("dd/MM/yyyy")</td>
                 <td>@creditcard.securityCode</td>
                 <td>@creditcard.customerFirstName</td>
                 <td>@creditcard.customerLastName</td>
@@ -87,7 +87,7 @@
                 <td>@relay.relayIP</td>
                 <td>@(relay.status == 1 ? "Active" : "Inactive")</td>
                 <td>@(relay.isProcessingCenter == 1 ? "*" : "")</td>
-                <td>@string.Join(", ", relay.relayconnectionweight.Select(x => x.relay3.relayIP))</td>
+                <td>@string.Join(", ", relay.relayconnectionweight.Select(x => x.relay1.relayIP).Concat(relay.relayconnectionweight1.Select(x => x.relay.relayIP)))</td>
             </tr>
         }
     </tbody>
@@ -110,7 +110,7 @@
         {
             <tr>
                 <td>@relayconnectionweight.relay.relayIP</td>
-                <td>@relayconnectionweight.relay3.relayIP</td>
+                <td>@relayconnectionweight.relay1.relayIP</td>
                 <td>@relayconnectionweight.weight</td>
             </tr>
         }
