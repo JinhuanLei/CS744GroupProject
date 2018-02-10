@@ -19,9 +19,13 @@ namespace MonitorNetwork.Database
 
         public decimal amount { get; set; }
 
-        public short isCredit { get; set; }
+        public bool isCredit { get; set; }
 
-        public short status { get; set; }
+        public bool status { get; set; }
+
+        public bool isEncrypted { get; set; }
+
+        public bool isSent { get; set; }
 
         public int storeID { get; set; }
 

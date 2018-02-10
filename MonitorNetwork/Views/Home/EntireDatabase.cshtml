@@ -85,8 +85,8 @@
         {
             <tr>
                 <td>@relay.relayIP</td>
-                <td>@(relay.status == 1 ? "Active" : "Inactive")</td>
-                <td>@(relay.isProcessingCenter == 1 ? "*" : "")</td>
+                <td>@(relay.status ? "Active" : "Inactive")</td>
+                <td>@(relay.isProcessingCenter ? "*" : "")</td>
                 <td>@string.Join(", ", relay.relayconnectionweight.Select(x => x.relay1.relayIP).Concat(relay.relayconnectionweight1.Select(x => x.relay.relayIP)))</td>
             </tr>
         }
@@ -159,7 +159,7 @@
         {
             <tr>
                 <td>@user.username</td>
-                <td>@(user.isBlocked == 1 ? "Blocked" : "Not Blocked")</td>
+                <td>@(user.isBlocked ? "Blocked" : "Not Blocked")</td>
             </tr>
         }
     </tbody>
