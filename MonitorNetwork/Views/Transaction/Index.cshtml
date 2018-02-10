@@ -1,43 +1,28 @@
 ﻿@model IEnumerable<MonitorNetwork.Database.transaction>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Transactions";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Transactions</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Transaction", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.account.accountFirstName)
+            Account
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.store.storeIP)
+            Merchant Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.timeOfTransaction)
+            Credit/Debit
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.timeOfResponse)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.amount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.isCredit)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.isEncrypted)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.isSent)
+            Amount
         </th>
         <th></th>
     </tr>
@@ -45,36 +30,21 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.account.accountFirstName)
+            @(Html.DisplayFor(modelItem => item.account.accountFirstName)) @(Html.DisplayFor(modelItem => item.account.accountLastName))
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.store.storeIP)
+            @Html.DisplayFor(modelItem => item.store.merchantName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.timeOfTransaction)
+            @(item.isCredit ? "Credit" : "Debit")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.timeOfResponse)
+            $@Html.DisplayFor(modelItem => item.amount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.amount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.isCredit)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.isEncrypted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.isSent)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.transactionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.transactionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.transactionID })
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.transactionID }) |*@
+            @*@Html.ActionLink("Details", "Details", new { id=item.transactionID }) |*@
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.transactionID })*@
         </td>
     </tr>
 }

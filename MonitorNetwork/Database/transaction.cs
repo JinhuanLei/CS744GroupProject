@@ -12,7 +12,7 @@ namespace MonitorNetwork.Database
         public int transactionID { get; set; }
 
         [Column(TypeName = "datetime2")]
-        public DateTime timeOfTransaction { get; set; }
+        public DateTime? timeOfTransaction { get; set; }
 
         [Column(TypeName = "datetime2")]
         public DateTime? timeOfResponse { get; set; }
