@@ -27,7 +27,7 @@ namespace MonitorNetwork.Database
 
         public bool isSent { get; set; }
 
-        public int storeID { get; set; }
+        public int? storeID { get; set; }
 
         public int accountID { get; set; }
 

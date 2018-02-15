@@ -19,6 +19,7 @@ namespace MonitorNetwork.Database
         public virtual DbSet<store> store { get; set; }
         public virtual DbSet<transaction> transaction { get; set; }
         public virtual DbSet<user> user { get; set; }
+        public virtual DbSet<connections> connections { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -60,11 +61,6 @@ namespace MonitorNetwork.Database
                 .HasMany(e => e.store)
                 .WithMany(e => e.relay)
                 .Map(m => m.ToTable("storetorelay").MapLeftKey("relayID").MapRightKey("storeID"));
-
-            modelBuilder.Entity<store>()
-                .HasMany(e => e.transaction)
-                .WithRequired(e => e.store)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<transaction>()
                 .Property(e => e.timeOfTransaction)
