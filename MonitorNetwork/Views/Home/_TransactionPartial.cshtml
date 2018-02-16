@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MonitorNetwork.Database.transaction>
+
+<table class="table">
+    <tr>
+        <th>
+            Account
+        </th>
+        <th>
+            Merchant Name
+        </th>
+        <th>
+            Time of Transaction
+        </th>
+        <th>
+            Time of Response
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            credit/Debit
+        </th>
+        <th>
+            Rejected/Accepted
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isSent)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @(Html.DisplayFor(modelItem => item.account.accountFirstName)) @(Html.DisplayFor(modelItem => item.account.accountLastName))
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.store.merchantName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.timeOfTransaction)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.timeOfResponse)
+        </td>
+        <td>
+            $@Html.DisplayFor(modelItem => item.amount)
+        </td>
+        <td>
+            @(item.isCredit ? "Credit" : "Debit")
+        </td>
+        <td>
+            @(item.status ? "Html.DisplayFor(modelItem => item.status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isSent)
+        </td>
+        <td>
+            @Html.ActionLink("Send", "Send", new { id=item.transactionID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MonitorNetwork.Database;
 
-namespace MonitorNetwork.Views
+namespace MonitorNetwork.Controllers
 {
     public class TransactionController : Controller
     {
@@ -51,6 +51,25 @@ namespace MonitorNetwork.Views
             ViewBag.accountID = new SelectList(accountInfo, "accountID", "fullname", transaction.accountID);
             ViewBag.storeID = new SelectList(db.store, "storeID", "merchantName", transaction.storeID);
             return View(transaction);
+        }
+
+        public ActionResult Encrypt(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            transaction transaction = db.transaction.Find(id);
+            if (transaction == null)
+            {
+                return HttpNotFound();
+            }
+
+            transaction.isEncrypted = true;
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         #region Unused features

@@ -45,6 +45,12 @@
             @*@Html.ActionLink("Edit", "Edit", new { id=item.transactionID }) |*@
             @*@Html.ActionLink("Details", "Details", new { id=item.transactionID }) |*@
             @*@Html.ActionLink("Delete", "Delete", new { id=item.transactionID })*@
+            @if (!item.isEncrypted) {
+                @Html.ActionLink("Encrypt", "Encrypt", new { id = item.transactionID });
+            } else
+            {
+                @: Encrypted
+            }
         </td>
     </tr>
 }

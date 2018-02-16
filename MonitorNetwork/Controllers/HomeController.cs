@@ -12,7 +12,12 @@ namespace MonitorNetwork.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            MNDatabase context = new MNDatabase();
+            NetworkModel nm = new NetworkModel();
+
+            nm.transactions = context.transaction.AsEnumerable();
+
+            return View(nm);
         }
 
         public ActionResult About()
