@@ -13,6 +13,9 @@
 <table class="table">
     <tr>
         <th>
+            Transaction ID
+        </th>
+        <th>
             Account
         </th>
         <th>
@@ -29,6 +32,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.transactionID)
+        </td>
         <td>
             @(Html.DisplayFor(modelItem => item.account.accountFirstName)) @(Html.DisplayFor(modelItem => item.account.accountLastName))
         </td>

@@ -5,4 +5,19 @@
 
 
 
-@Html.Partial("_TransactionPartial", Model.transactions);
+<div id="transactions">
+@Html.Partial("_TransactionPartial", Model.transactions)
+</div>
+
+<script>
+    function sendTransaction(transactionId) {
+        $.ajax({
+            type: "GET",
+            url: '/Home/Send?id=' + transactionId,
+            dataType: 'html',
+            success: function (data) {
+                $('#transactions').html(data);
+            }
+        });
+    }
+</script>

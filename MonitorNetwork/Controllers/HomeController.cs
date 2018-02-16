@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using MonitorNetwork.Database;
 using MonitorNetwork.Models;
+using MonitorNetwork.BLL;
+using System.Net;
 
 namespace MonitorNetwork.Controllers
 {
@@ -14,24 +16,34 @@ namespace MonitorNetwork.Controllers
         {
             MNDatabase context = new MNDatabase();
             NetworkModel nm = new NetworkModel();
-
-            nm.transactions = context.transaction.AsEnumerable();
+            nm.transactions = context.transaction.Where(x => x.isEncrypted || x.isSent).AsEnumerable();
 
             return View(nm);
         }
 
-        public ActionResult About()
+        public ActionResult Send(int? id)
         {
-            ViewBag.Message = "Your application description page.";
+            MNDatabase context = new MNDatabase();
 
-            return View();
-        }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            transaction transaction = context.transaction.Find(id);
+            if (transaction == null)
+            {
+                return HttpNotFound();
+            }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            transaction.isSent = true;
 
-            return View();
+            context.SaveChanges();
+
+            NetworkModel nm = new NetworkModel();
+            nm.transactions = context.transaction.Where(x => x.isEncrypted || x.isSent).AsEnumerable();
+
+
+            return PartialView("_TransactionPartial", nm.transactions);
         }
 
         public ActionResult EntireDatabase()
