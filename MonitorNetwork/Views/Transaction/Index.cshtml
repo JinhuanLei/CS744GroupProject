@@ -39,7 +39,14 @@
             @(Html.DisplayFor(modelItem => item.account.accountFirstName)) @(Html.DisplayFor(modelItem => item.account.accountLastName))
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.store.merchantName)
+            @if(item.storeID.HasValue)
+            {
+                @Html.DisplayFor(modelItem => item.store.merchantName)
+            }
+            else
+            {
+                @: SELF
+            }
         </td>
         <td>
             @(item.isCredit ? "Credit" : "Debit")
@@ -48,9 +55,6 @@
             $@Html.DisplayFor(modelItem => item.amount)
         </td>
         <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.transactionID }) |*@
-            @*@Html.ActionLink("Details", "Details", new { id=item.transactionID }) |*@
-            @*@Html.ActionLink("Delete", "Delete", new { id=item.transactionID })*@
             @if (!item.isEncrypted) {
                 @Html.ActionLink("Encrypt", "Encrypt", new { id = item.transactionID });
             } else

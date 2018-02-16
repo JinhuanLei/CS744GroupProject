@@ -85,7 +85,7 @@
                     });
                     var stringBytes = System.Text.Encoding.UTF8.GetString(encryptTool.Encrypt(stringify));
 
-                    @(stringBytes.Length <= 70 ? stringBytes : stringBytes.Substring(0, 70) + "...");
+                    @(stringBytes.Length <= 70 ? stringBytes : stringBytes.Substring(0, 80) + "...");
                 }
              }
         </td>

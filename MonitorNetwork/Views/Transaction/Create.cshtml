@@ -24,8 +24,8 @@
 
         <div class="form-group">
             <div class="col-md-10 col-md-offset-2">
-                Credit @Html.RadioButton("isCredit", "true", true, new { id="isCredit" })
-                Debit @Html.RadioButton("isCredit", "false")
+                Credit @Html.RadioButton("isCredit", "true", true, new { id="isCredit", onclick="removeSelf()" })
+                Debit @Html.RadioButton("isCredit", "false", new { onclick = "addSelf()" })
                 @Html.ValidationMessageFor(model => model.isCredit, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,3 +57,23 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script>
+    function removeSelf() {
+        $("#storeID option[id='self']").remove();
+    }
+
+    function addSelf() {
+        var option = document.createElement("option");
+        option.text = "SELF";
+        option.id = "self"
+        option.value = "";
+        var select = document.getElementById("storeID");
+        select.appendChild(option)
+    }
+
+    @if (Model != null && !Model.isCredit)
+    {
+         @: addSelf();
+    }
+</script>
