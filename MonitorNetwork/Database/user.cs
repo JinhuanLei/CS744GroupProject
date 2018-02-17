@@ -43,6 +43,6 @@ namespace MonitorNetwork.Database
         [StringLength(45)]
         public string answer3 { get; set; }
 
-        public short isBlocked { get; set; }
+        public bool isBlocked { get; set; }
     }
 }

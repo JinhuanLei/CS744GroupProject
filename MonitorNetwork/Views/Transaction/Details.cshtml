@@ -1,0 +1,91 @@
+﻿@model MonitorNetwork.Database.transaction
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>transaction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.account.accountFirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.account.accountFirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.store.storeIP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.store.storeIP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.timeOfTransaction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.timeOfTransaction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.timeOfResponse)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.timeOfResponse)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isCredit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isCredit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isEncrypted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isEncrypted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isSent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isSent)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.transactionID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
