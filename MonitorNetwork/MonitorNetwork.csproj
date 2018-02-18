@@ -200,6 +200,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\code.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -218,6 +219,7 @@
     <Content Include="Views\Transaction\Edit.cshtml" />
     <Content Include="Views\Transaction\Index.cshtml" />
     <Content Include="Views\Home\_TransactionPartial.cshtml" />
+    <Content Include="Views\Home\ViewPage1.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
