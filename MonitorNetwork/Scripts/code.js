@@ -196,7 +196,9 @@ var path = new Array("S1", "R1", "R11");
 var highlightNextEle = function () {
     if (i < path.length) {
         cy.$('#' + path[i]).addClass('highlighted');
-
+        if ((i + 1) != path.length) {
+            cy.$('#' + path[i] + path[i + 1]).addClass('highlighted');
+        }
         i++;
         flag = setTimeout(highlightNextEle, 1000);
     }
