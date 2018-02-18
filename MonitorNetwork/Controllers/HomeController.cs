@@ -55,10 +55,10 @@ namespace MonitorNetwork.Controllers
             edb.accounts = context.account.AsEnumerable();
             edb.creditcards = context.creditcard.AsEnumerable();
             edb.relays = context.relay.AsEnumerable();
-            edb.relayconnectionweights = context.relayconnectionweight.AsEnumerable();
             edb.stores = context.store.AsEnumerable();
             edb.transaction = context.transaction.AsEnumerable();
             edb.user = context.user.AsEnumerable();
+            edb.connections = context.connections.AsEnumerable();
 
             return View(edb);
         }

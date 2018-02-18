@@ -77,7 +77,6 @@
             <th>Replay IP</th>
             <th>Relay Status</th>
             <th>Processing Center</th>
-            <th>Connected Relay IPs</th>
         </tr>
     </thead>
     <tbody>
@@ -87,7 +86,6 @@
                 <td>@relay.relayIP</td>
                 <td>@(relay.status ? "Active" : "Inactive")</td>
                 <td>@(relay.isProcessingCenter ? "*" : "")</td>
-                <td>@string.Join(", ", relay.relayconnectionweight.Select(x => x.relay1.relayIP).Concat(relay.relayconnectionweight1.Select(x => x.relay.relayIP)))</td>
             </tr>
         }
     </tbody>
@@ -97,21 +95,29 @@
 <table style="border: 1px solid black">
     <thead>
         <tr>
-            <th colspan="3">Relay Connection Weight</th>
+            <th colspan="3">Connections</th>
         </tr>
         <tr>
-            <th>Relay 1</th>
-            <th>Relay 2</th>
+            <th>Connection IP 1</th>
+            <th>Connection IP 2</th>
             <th>Weight</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (MonitorNetwork.Database.relayconnectionweight relayconnectionweight in Model.relayconnectionweights)
+        @foreach (MonitorNetwork.Database.connections connection in Model.connections)
         {
             <tr>
-                <td>@relayconnectionweight.relay.relayIP</td>
-                <td>@relayconnectionweight.relay1.relayIP</td>
-                <td>@relayconnectionweight.weight</td>
+                <td>
+                @if (connection.relay == null) {
+                    @connection.store.storeIP;
+                }
+                else
+                {
+                    @connection.relay.relayIP;
+                }
+                </td>
+                <td>@connection.relay1.relayIP</td>
+                <td>@connection.weight</td>
             </tr>
         }
     </tbody>
@@ -126,8 +132,6 @@
         <tr>
             <th>Store IP</th>
             <th>Merchant Name</th>
-            <th>Relays</th>
-            <th>Store Transaction Times</th>
         </tr>
     </thead>
     <tbody>
@@ -136,8 +140,6 @@
             <tr>
                 <td>@store.storeIP</td>
                 <td>@store.merchantName</td>
-                <td>@string.Join(", ", store.relay.Select(x => x.relayIP))</td>
-                <td>@string.Join(", ", store.transaction.Select(x => x.timeOfTransaction))</td>
             </tr>
         }
     </tbody>
