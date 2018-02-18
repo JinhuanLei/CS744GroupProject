@@ -3,4 +3,87 @@
 <script>
 	var connections = JSON.stringify(@Model.connections);
 	console.log(connections);
+
+	var text = '{"connections":[' +
+		'{"connID": "1", "storeID": "1", "relayID": "NULL", "destRelayID": "1", "weight": "2", "active": "True" },' +
+
+		'{"connID": "2", "storeID": "2", "relayID": "NULL", "destRelayID": "1", "weight": "3", "active": "True" },' +
+
+		'{"connID": "3", "storeID": "NULL", "relayID": "1", "destRelayID": "2", "weight": "1", "active": "False" },' +
+
+		'{ "connID": "4", "storeID": "NULL", "relayID": "1", "destRelayID": "3", "weight": "4", "active": "True" },' +
+
+		'{ "connID": "5", "storeID": "NULL", "relayID": "2", "destRelayID": "3", "weight": "1", "active": "True" }, ' +
+
+		'{ "connID": "6", "storeID": "NULL", "relayID": "2", "destRelayID": "4", "weight": "3", "active": "True" },' +
+
+		'{ "connID": "7", "storeID": "NULL", "relayID": "3", "destRelayID": "4", "weight": "1", "active": "True" } ]}'
+
+	obj = JSON.parse(text);
+	var list = [];
+
+	function startPath(s1) {
+		storeToRelay(s1);
+		for (var i = 0; i < list.length; i++) {
+			document.write(list[i] + " ");
+		}
+		return list;
+	}
+
+	function storeToRelay(s1) {
+		var next = obj.connections[0];
+
+		if (next.storeID != s1 || next.active == "False") {
+			for (var i = 0; i < obj.connections.length; i++) {
+				if (obj.connections[i].storeID == s1 && obj.connections[i].active == "True") {
+					next = obj.connections[i]
+				}
+			}
+		}
+		if (next.storeID == s1) {
+			list.push("s" + s1);
+
+		}
+		else {
+			document.write("Store does not exist!");
+
+			return 0;
+		}
+		for (var i = 0; i < obj.connections.length; i++) {
+			if (obj.connections[i].weight <= next.weight && obj.connections[i].storeID == s1) {
+				next = obj.connections[i];
+
+			}
+
+		}
+		list.push("r" + next.destRelayID);
+		relayToRelay(next.destRelayID);
+	}
+
+	function relayToRelay(r1) {
+		var next = obj.connections[0];
+
+		if (next.relayID != r1 || next.active == "False") {
+			for (var i = 0; i < obj.connections.length; i++) {
+				if (obj.connections[i].relayID == r1 && obj.connections[i].active == "True") {
+					next = obj.connections[i]
+				}
+			}
+		}
+		for (var i = 0; i < obj.connections.length; i++) {
+			if (obj.connections[i].weight <= next.weight && obj.connections[i].relayID == r1) {
+				next = obj.connections[i];
+
+			}
+
+
+		}
+		list.push("r" + next.destRelayID);
+		//Will need to change this to our real processing center ID
+		if (next.destRelayID != 4) {
+			relayToRelay(next.destRelayID);
+		}
+	}
+	//Give storeID to function startPath() to create the path to the processing center
+	startPath(1);
 </script>
