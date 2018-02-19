@@ -66,14 +66,14 @@
 	function storeToRelay(s1) {
 		var next = obj.connections[0];
 
-		if (next.storeID != s1 || next.active == "False") {
+		if (next.storeID !== s1 || !next.active) {
 			for (var i = 0; i < obj.connections.length; i++) {
-				if (obj.connections[i].storeID == s1 && obj.connections[i].active == "True") {
+				if (obj.connections[i].storeID === s1 && obj.connections[i].active) {
 					next = obj.connections[i]
 				}
 			}
 		}
-		if (next.storeID == s1) {
+		if (next.storeID === s1) {
 			list.push("S" + s1);
 
 		}
@@ -83,7 +83,7 @@
 			return 0;
 		}
 		for (var i = 0; i < obj.connections.length; i++) {
-			if (obj.connections[i].weight <= next.weight && obj.connections[i].storeID == s1) {
+			if (obj.connections[i].weight <= next.weight && obj.connections[i].storeID === s1) {
 				next = obj.connections[i];
 
 			}
@@ -96,15 +96,15 @@
 	function relayToRelay(r1) {
 		var next = obj.connections[0];
 
-		if (next.relayID != r1 || next.active == "False") {
+		if (next.relayID !== r1 || !next.active) {
 			for (var i = 0; i < obj.connections.length; i++) {
-				if (obj.connections[i].relayID == r1 && obj.connections[i].active == "True") {
+				if (obj.connections[i].relayID === r1 && obj.connections[i].active) {
 					next = obj.connections[i]
 				}
 			}
 		}
 		for (var i = 0; i < obj.connections.length; i++) {
-			if (obj.connections[i].weight <= next.weight && obj.connections[i].relayID == r1) {
+			if (obj.connections[i].weight <= next.weight && obj.connections[i].relayID === r1) {
 				next = obj.connections[i];
 
 			}
@@ -113,7 +113,7 @@
 		}
 		list.push("R" + next.destRelayID);
 		//Will need to change this to our real processing center ID
-		if (next.destRelayID != 11) {
+		if (next.destRelayID !== 11) {
 			relayToRelay(next.destRelayID);
 		}
 	}
