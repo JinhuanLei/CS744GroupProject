@@ -13,12 +13,18 @@ var cy = cytoscape({
         .selector("node[id>='S1']")
         .css({
             'label': 'data(label)',
-            'shape': 'triangle'
+            'shape': 'triangle',
+        })
+        .selector("node[id<'S1']")
+        .css({
+            'label': 'data(label)',
+            'background-color': '#000000',
         })
         .selector("node[id='R11']")
         .css({
             'label': 'data(label)',
-            'shape': 'rectangle'
+            'shape': 'rectangle',
+            'background-color': '#FFF000'
         })
         .selector('edge')
         .css({
