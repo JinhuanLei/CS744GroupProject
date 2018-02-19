@@ -1,4 +1,3 @@
-var flag;
 var cy = cytoscape({
     container: document.getElementById('cy'),
 
@@ -10,6 +9,16 @@ var cy = cytoscape({
         .css({
             // 'content': 'data(id)',
             'label': 'data(label)'
+        })
+        .selector("node[id>='S1']")
+        .css({
+            'label': 'data(label)',
+            'shape': 'triangle'
+        })
+        .selector("node[id='R11']")
+        .css({
+            'label': 'data(label)',
+            'shape': 'rectangle'
         })
         .selector('edge')
         .css({
@@ -163,7 +172,7 @@ var cy = cytoscape({
 
 
     layout: {
-        name: 'breadthfirst',
+        name: 'cose',
         // directed: true,
         roots: '#R11',
         padding: 30
@@ -183,9 +192,9 @@ var cy = cytoscape({
 
 // cy.autolock( true );
 cy.userZoomingEnabled(false);
-var bfs = cy.elements().dfs('#S1', function () { }, true);
-var i = 0;
-var path = new Array("S1", "R1", "R11");
+//var bfs = cy.elements().dfs('#S1', function () { }, true);
+//var i = 0;
+//var path = new Array("S1", "R1", "R11");
 // var highlightNextEle = function(){
 //     if( i <bfs.path.length ){
 //         bfs.path[i].addClass('highlighted');
@@ -193,17 +202,17 @@ var path = new Array("S1", "R1", "R11");
 //         i++;
 //         flag=setTimeout(highlightNextEle, 1000);
 //     }
-var highlightNextEle = function () {
+var flag;
+var i = 0;
+function highlightNextEle(path) {
     if (i < path.length) {
         cy.$('#' + path[i]).addClass('highlighted');
         if ((i + 1) != path.length) {
             cy.$('#' + path[i] + path[i + 1]).addClass('highlighted');
         }
         i++;
-        flag = setTimeout(highlightNextEle, 1000);
+        flag = setTimeout(highlightNextEle, 1000, path);
     }
-
-
 };
 
 

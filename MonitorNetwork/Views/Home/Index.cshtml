@@ -12,7 +12,7 @@
 </div>
 
 <script>
-    function sendTransaction(transactionId) {
+    function sendTransaction(transactionId, storeId) {
         $.ajax({
             type: "GET",
             url: '/Home/Send?id=' + transactionId,
@@ -21,12 +21,12 @@
                 $('#transactions').html(data);
             }
         });
+
+        moveTransaction(storeId);
     }
 </script>
 
 <script>
-	@*var connections = JSON.stringify(@Model.connections);*@
-	//console.log(connections);
 
 	var text = '{"connections":[' +
 		'{"connID": "1", "storeID": "1", "relayID": "NULL", "destRelayID": "1", "weight": "2", "active": "True" },' +
@@ -43,19 +43,23 @@
 
 		'{ "connID": "7", "storeID": "NULL", "relayID": "3", "destRelayID": "4", "weight": "1", "active": "True" } ]}'
 
-    //obj = JSON.parse(text);
         @{
 
             string stringify = Newtonsoft.Json.JsonConvert.SerializeObject(Model.connections);
         }
     obj = { "connections":@Html.Raw(stringify) }
-	var list = [];
+    var list = [];
+
+    function moveTransaction(startID) {
+        var pathToMove = startPath(startID);
+        highlightNextEle(pathToMove);
+    }
 
 	function startPath(s1) {
 		storeToRelay(s1);
-		for (var i = 0; i < list.length; i++) {
-			document.write(list[i] + " ");
-		}
+		//for (var i = 0; i < list.length; i++) {
+		//	document.write(list[i] + " ");
+		//}
 		return list;
 	}
 
@@ -70,11 +74,11 @@
 			}
 		}
 		if (next.storeID == s1) {
-			list.push("s" + s1);
+			list.push("S" + s1);
 
 		}
 		else {
-			document.write("Store does not exist!");
+			console.log("Store does not exist!");
 
 			return 0;
 		}
@@ -85,7 +89,7 @@
 			}
 
 		}
-		list.push("r" + next.destRelayID);
+		list.push("R" + next.destRelayID);
 		relayToRelay(next.destRelayID);
 	}
 
@@ -107,12 +111,12 @@
 
 
 		}
-		list.push("r" + next.destRelayID);
+		list.push("R" + next.destRelayID);
 		//Will need to change this to our real processing center ID
-		if (next.destRelayID != 4) {
+		if (next.destRelayID != 11) {
 			relayToRelay(next.destRelayID);
 		}
 	}
 	//Give storeID to function startPath() to create the path to the processing center
-	startPath(1);
+	//startPath(1);
 </script>
