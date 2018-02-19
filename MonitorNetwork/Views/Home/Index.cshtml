@@ -1,8 +1,32 @@
 ﻿@model MonitorNetwork.Models.NetworkModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div id="cy" class="col-md-8 col-md-offset-3" style=" z-index: 0; overflow: hidden; width: 800px; height: 800px; "></div>
+
+
+<div id="transactions">
+    @Html.Partial("_TransactionPartial", Model.transactions)
+</div>
 
 <script>
-	var connections = JSON.stringify(@Model.connections);
-	console.log(connections);
+    function sendTransaction(transactionId) {
+        $.ajax({
+            type: "GET",
+            url: '/Home/Send?id=' + transactionId,
+            dataType: 'html',
+            success: function (data) {
+                $('#transactions').html(data);
+            }
+        });
+    }
+</script>
+
+<script>
+	@*var connections = JSON.stringify(@Model.connections);*@
+	//console.log(connections);
 
 	var text = '{"connections":[' +
 		'{"connID": "1", "storeID": "1", "relayID": "NULL", "destRelayID": "1", "weight": "2", "active": "True" },' +
@@ -19,7 +43,12 @@
 
 		'{ "connID": "7", "storeID": "NULL", "relayID": "3", "destRelayID": "4", "weight": "1", "active": "True" } ]}'
 
-	obj = JSON.parse(text);
+    //obj = JSON.parse(text);
+        @{
+
+            string stringify = Newtonsoft.Json.JsonConvert.SerializeObject(Model.connections);
+        }
+    obj = { "connections":@Html.Raw(stringify) }
 	var list = [];
 
 	function startPath(s1) {

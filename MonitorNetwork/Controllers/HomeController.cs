@@ -18,6 +18,17 @@ namespace MonitorNetwork.Controllers
             NetworkModel nm = new NetworkModel();
             nm.transactions = context.transaction.Where(x => x.isEncrypted || x.isSent).AsEnumerable();
 
+            nm.connections = (from conn in context.connections
+                             select new Connections
+                             {
+                                 connID = conn.connID,
+                                 storeID = conn.storeID,
+                                 relayID = conn.relayID,
+                                 destRelayID = conn.destRelayID,
+                                 weight = conn.weight,
+                                 active = conn.active
+                             }).ToList();
+
             return View(nm);
         }
 
