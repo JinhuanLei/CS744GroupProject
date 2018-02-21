@@ -95,12 +95,12 @@ namespace MonitorNetwork.Test
         {
             string query = "INSERT INTO relay(relayIP,status,isProcessingCenter) VALUES('192.168.1.2','1','1')";
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -116,12 +116,12 @@ namespace MonitorNetwork.Test
         {
             string query = "INSERT INTO relayConnectionWeightID(weight,relay1,relay2) VALUES('5','1','2')";
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -138,12 +138,12 @@ namespace MonitorNetwork.Test
         {
             string query = "INSERT INTO store(storeIP,merchantName) VALUES('42.13.145.135','Kwik Trip')";
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -159,12 +159,12 @@ namespace MonitorNetwork.Test
         {
             string query = "INSERT INTO storetorelay(storeID,relayID) VALUES('1','2')";
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -180,12 +180,12 @@ namespace MonitorNetwork.Test
         {
             string query = "INSERT INTO transaction(timeOfTransaction,timeOfResponse,amount,inCredit,status,storeID,accountID) VALUES('2018-01-28 12:30:28','2018-01-28 12:30:28','20','1','1','1','1')";
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -201,12 +201,12 @@ namespace MonitorNetwork.Test
         {
             string query = "INSERT INTO user(username,password,security1,answer1,security2,answer2,security3,answer3) VALUES('jdoe','jdoe123','Father's name?','Max Doe','Mother's name?','Smile Doe','GF's name','Cindy')";
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -223,12 +223,12 @@ namespace MonitorNetwork.Test
             string query = "Update account set balance=10000 where accountID=8";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -245,12 +245,12 @@ namespace MonitorNetwork.Test
             string query = "Update creditcard set accID=2 where cardID=8";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -268,12 +268,12 @@ namespace MonitorNetwork.Test
             string query = "Update relay set isProcessingCenter=1 where relayID=1";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -290,12 +290,12 @@ namespace MonitorNetwork.Test
             string query = "Update relayconnectionweight set relay2=3 where relayconnectionweightID=1";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -315,12 +315,12 @@ namespace MonitorNetwork.Test
             string query = "Update store set merchantName='Toppers' where storeID=1";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -337,12 +337,12 @@ namespace MonitorNetwork.Test
             string query = "Update storetorelay set relayID='3' where storeID=1";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -359,12 +359,12 @@ namespace MonitorNetwork.Test
             string query = "Update transaction set amount=2000 where transactionID=1000000001";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -427,34 +427,12 @@ namespace MonitorNetwork.Test
             string query = "DELETE FROM user WHERE userID= 1 ";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
-
-                cmd.ExecuteNonQuery();
-                cnn.Close();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        [TestMethod]
-        public void TestDeleteUser()
-        {
-            string query = "DELETE FROM user WHERE userID= 1 ";
-            //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
-
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
-
-            try
-            {
-                cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -493,12 +471,12 @@ namespace MonitorNetwork.Test
             string query = "DELETE FROM storetorelay WHERE storeID= 1 ";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -515,12 +493,12 @@ namespace MonitorNetwork.Test
             string query = "DELETE FROM store WHERE storeID= 1 ";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -537,12 +515,12 @@ namespace MonitorNetwork.Test
             string query = "DELETE FROM relayconnectionweight WHERE relayconnectionweightID= 1 ";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -559,12 +537,12 @@ namespace MonitorNetwork.Test
             string query = "DELETE FROM relay WHERE relayID= 1 ";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();
@@ -581,12 +559,12 @@ namespace MonitorNetwork.Test
             string query = "DELETE FROM creditcard WHERE creditcardID= 1 ";
             //INSERT INTO account (accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance) VALUES('Jane','Zhou','1234 La St.','6084334881','3000','5000')
 
-            MySqlConnection cnn = new MySqlConnection(myConnectionString);
+            SqlConnection cnn = new SqlConnection(myConnectionString);
 
             try
             {
                 cnn.Open();
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
+                SqlCommand cmd = new SqlCommand(query, cnn);
 
                 cmd.ExecuteNonQuery();
                 cnn.Close();

@@ -78,14 +78,14 @@
             @{
                 if(item.isEncrypted)
                 {
-                    string stringify = Newtonsoft.Json.JsonConvert.SerializeObject(item, Formatting.Indented,
+                    @*string stringify = Newtonsoft.Json.JsonConvert.SerializeObject(item, Formatting.Indented,
                     new JsonSerializerSettings
                     {
                         ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                     });
                     var stringBytes = System.Text.Encoding.UTF8.GetString(encryptTool.Encrypt(stringify));
 
-                    @(stringBytes.Length <= 70 ? stringBytes : stringBytes.Substring(0, 80) + "...");
+                    @(stringBytes.Length <= 70 ? stringBytes : stringBytes.Substring(0, 80) + "...");*@
                 }
              }
         </td>

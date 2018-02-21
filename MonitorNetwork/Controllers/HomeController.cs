@@ -19,15 +19,63 @@ namespace MonitorNetwork.Controllers
             nm.transactions = context.transaction.Where(x => x.isEncrypted || x.isSent).AsEnumerable();
 
             nm.connections = (from conn in context.connections
-                             select new Connections
-                             {
-                                 connID = conn.connID,
-                                 storeID = conn.storeID,
-                                 relayID = conn.relayID,
-                                 destRelayID = conn.destRelayID,
-                                 weight = conn.weight,
-                                 active = conn.active
-                             }).ToList();
+                              select new Connections
+                              {
+                                  connID = conn.connID,
+                                  storeID = conn.storeID,
+                                  relayID = conn.relayID,
+                                  destRelayID = conn.destRelayID,
+                                  weight = conn.weight,
+                                  active = conn.active
+                              }).ToList();
+
+            nm.relays = (from relay in context.relay
+                         select new Relays
+                         {
+                             relayID = relay.relayID,
+                             relayIP = relay.relayIP,
+                             status = relay.status,
+                             isProcessingCenter = relay.isProcessingCenter
+                         }).ToList();
+
+            nm.stores = (from store in context.store
+                         select new Stores
+                         {
+                             storeID = store.storeID,
+                             storeIP = store.storeIP,
+                             merchantName = store.merchantName
+                         }).ToList();
+
+            nm.cytoscapeNodes = (from relay in context.relay
+                        select new CytoscapeData
+                        {
+                            data = new CytoscapeNode()
+                            {
+                                id = "R" + relay.relayID,
+                                label = relay.relayIP.Substring(8)
+                            }
+                        })
+                        .Concat(from store in context.store
+                                select new CytoscapeData
+                                {
+                                    data = new CytoscapeNode()
+                                    {
+                                        id = "S" + store.storeID,
+                                        label = store.storeIP.Substring(8)
+                                    }
+                                }).ToList();
+
+            nm.cytoscapeEdges = (from conn in context.connections
+                                 select new CytoscapeData
+                                 {
+                                     data = new CytoscapeEdge()
+                                     {
+                                         id = conn.relayID.HasValue ? "R" + conn.relayID + "R" + conn.destRelayID : "S" + conn.storeID + "R" + conn.destRelayID,
+                                         weight = conn.weight,
+                                         source = conn.relayID.HasValue ? "R" + conn.relayID : "S" + conn.storeID,
+                                         target = "R" + conn.destRelayID
+                                     }
+                                 }).ToList();
 
             return View(nm);
         }
