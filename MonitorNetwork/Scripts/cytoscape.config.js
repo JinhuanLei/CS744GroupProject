@@ -81,12 +81,12 @@ var cy = cytoscape({
     },
 
 
-    layout: {
-        name: 'cose',
+ //   layout: {
+  //      name: 'cose',
         // directed: true,
-        roots: '#R11',
-        padding: 30
-    },
+   //     roots: '#R11',
+  //      padding: 30
+  //  },
     // layout: {
     //     name: 'cose',
     //     // directed: true,
@@ -99,7 +99,17 @@ var cy = cytoscape({
 
 });
 
+var layout = cy.elements().layout({
+    name: 'cose',
+    roots: '#R11'
+    //randomized: true,
+    // nodeDimensionsIncludeLabels: true,
+    // root: '#R11',
+    // animate: false,
+    // removed:false
+});
 
+layout.run();
 // cy.autolock( true );
 cy.userZoomingEnabled(false);
 //var bfs = cy.elements().dfs('#S1', function () { }, true);
