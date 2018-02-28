@@ -1,31 +1,44 @@
-﻿@{
+﻿@model MonitorNetwork.Models.NetworkModel
+@{
     ViewBag.Title = "Home Page";
+
+}
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.8/cytoscape.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-qtip/2.7.0/cytoscape-qtip.js"></script>
+    <script src="~/Scripts/cytoscape.config.js"></script>
+    <script src="~/Scripts/graph.findpath.js"></script>
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+<div id="cy" style=" z-index: 0; overflow: hidden; width: 800px; height: 700px; margin: 0 auto; "></div>
+
+<script>
+
+    @{
+        string connections = Newtonsoft.Json.JsonConvert.SerializeObject(Model.connections);
+        string relays = Newtonsoft.Json.JsonConvert.SerializeObject(Model.relays);
+        string stores = Newtonsoft.Json.JsonConvert.SerializeObject(Model.stores);
+        string nodes = Newtonsoft.Json.JsonConvert.SerializeObject(Model.cytoscapeNodes);
+        string edges = Newtonsoft.Json.JsonConvert.SerializeObject(Model.cytoscapeEdges);
+    }
+    var connections = @Html.Raw(connections)
+    var relays = @Html.Raw(relays)
+    var stores = @Html.Raw(stores)
+
+    var cytoscapeNodes = @Html.Raw(nodes)
+    var cytoscapeEdges = @Html.Raw(edges)
+
+    function moveTransaction(startID) {
+        var pathToMove = startPath(startID);
+        highlightNextEle(pathToMove);
+    }
+
+</script>
+
+<div id="transactions">
+    @Html.Partial("_TransactionPartial", Model.transactions)
 </div>

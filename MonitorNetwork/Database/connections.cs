@@ -6,19 +6,25 @@ namespace MonitorNetwork.Database
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("relayconnectionweight")]
-    public partial class relayconnectionweight
+    public partial class connections
     {
-        public int relayConnectionWeightID { get; set; }
+        [Key]
+        public int connID { get; set; }
+
+        public int? storeID { get; set; }
+
+        public int? relayID { get; set; }
+
+        public int destRelayID { get; set; }
 
         public int weight { get; set; }
 
-        public int relayID1 { get; set; }
-
-        public int relayID2 { get; set; }
+        public bool active { get; set; }
 
         public virtual relay relay { get; set; }
 
         public virtual relay relay1 { get; set; }
+
+        public virtual store store { get; set; }
     }
 }
