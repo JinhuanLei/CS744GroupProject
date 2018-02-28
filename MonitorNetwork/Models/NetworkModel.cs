@@ -10,7 +10,7 @@ namespace MonitorNetwork.Models
 {
     public class NetworkModel
     {
-        public IEnumerable<transaction> transactions { get; set; }
+        public IList<transaction> transactions { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public IList<Connections> connections { get; set; }

@@ -15,11 +15,11 @@ namespace MonitorNetwork.Controllers
         private MNDatabase db = new MNDatabase();
 
         // GET: Transaction
-        public ActionResult Index()
-        {
-            var transaction = db.transaction.Include(t => t.account).Include(t => t.store);
-            return View(transaction.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    var transaction = db.transaction.Include(t => t.account).Include(t => t.store);
+        //    return View(transaction.ToList());
+        //}
 
         // GET: Transaction/Create
         public ActionResult Create()
@@ -36,13 +36,13 @@ namespace MonitorNetwork.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create([Bind(Include = "transactionID,timeOfTransaction,timeOfResponse,amount,isCredit,status,isEncrypted,isSent,storeID,accountID")] transaction transaction)
+        public ActionResult Create([Bind(Include = "transactionID,timeOfTransaction,timeOfResponse,amount,isCredit,status,isEncrypted,isSent,storeID,accountID,isSelf")] transaction transaction)
         {
             if (ModelState.IsValid)
             {
                 db.transaction.Add(transaction);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             var accountInfo = from acct in db.account
@@ -53,24 +53,24 @@ namespace MonitorNetwork.Controllers
             return View(transaction);
         }
 
-        public ActionResult Encrypt(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            transaction transaction = db.transaction.Find(id);
-            if (transaction == null)
-            {
-                return HttpNotFound();
-            }
+        //public ActionResult Encrypt(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    transaction transaction = db.transaction.Find(id);
+        //    if (transaction == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
 
-            transaction.isEncrypted = true;
+        //    transaction.isEncrypted = true;
 
-            db.SaveChanges();
+        //    db.SaveChanges();
 
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
 
         #region Unused features
 

@@ -14,7 +14,7 @@
 }
 
 
-<div id="cy" style=" z-index: 0; overflow: hidden; width: 800px; height: 800px; margin: 0 auto; "></div>
+<div id="cy" style=" z-index: 0; overflow: hidden; width: 800px; height: 700px; margin: 0 auto; "></div>
 
 <script>
 
@@ -42,18 +42,3 @@
 <div id="transactions">
     @Html.Partial("_TransactionPartial", Model.transactions)
 </div>
-
-<script>
-    function sendTransaction(transactionId, storeId) {
-        $.ajax({
-            type: "GET",
-            url: '/Home/Send?id=' + transactionId,
-            dataType: 'html',
-            success: function (data) {
-                $('#transactions').html(data);
-            }
-        });
-
-        moveTransaction(storeId);
-    }
-</script>

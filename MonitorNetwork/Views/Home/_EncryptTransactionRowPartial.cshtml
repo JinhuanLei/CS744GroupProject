@@ -1,0 +1,19 @@
+﻿@model MonitorNetwork.Database.transaction
+
+<td>
+    @Html.DisplayFor(modelItem => Model.transactionID)
+</td>
+<td colspan="5">
+    (Encrypted)
+</td>
+<td>
+    @if (Model.isSent)
+    {
+        @: Sent
+    }
+    else
+    {
+        <a href="javascript:void(0)" onclick="sendTransaction(@Model.transactionID, @Model.storeID)">Encrypt And Send</a>
+    }
+</td>
+
