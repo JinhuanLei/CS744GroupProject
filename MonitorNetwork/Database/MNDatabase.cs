@@ -55,6 +55,11 @@ namespace MonitorNetwork.Database
                 .HasForeignKey(e => e.destRelayID)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<store>()
+                .HasMany(e => e.transaction)
+                .WithRequired(e => e.store)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<transaction>()
                 .Property(e => e.timeOfTransaction)
                 .HasPrecision(0);
