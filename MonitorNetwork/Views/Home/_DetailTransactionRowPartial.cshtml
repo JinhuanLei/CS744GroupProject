@@ -7,7 +7,7 @@
     @(Html.DisplayFor(modelItem => Model.account.accountFirstName)) @(Html.DisplayFor(modelItem => Model.account.accountLastName))
 </td>
 <td>
-    @Html.DisplayFor(modelItem => Model.store.merchantName)
+    @Html.DisplayFor(modelItem => Model.store.merchantName) (@Model.store.storeIP.Substring(8))
 </td>
 <td>
     @(Model.isCredit ? "Credit" : "Debit")
