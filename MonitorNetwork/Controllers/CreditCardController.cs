@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MonitorNetwork.BLL;
 using MonitorNetwork.Database;
 
 namespace MonitorNetwork.Controllers
@@ -21,25 +22,13 @@ namespace MonitorNetwork.Controllers
             return View(creditcard.ToList());
         }
 
-        // GET: CreditCard/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            creditcard creditcard = db.creditcard.Find(id);
-            if (creditcard == null)
-            {
-                return HttpNotFound();
-            }
-            return View(creditcard);
-        }
-
         // GET: CreditCard/Create
         public ActionResult Create()
         {
+            GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
             ViewBag.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname");
+            ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
+
             return View();
         }
 
@@ -55,8 +44,11 @@ namespace MonitorNetwork.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
 
             ViewBag.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditcard.accountID);
+            ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
+
             return View(creditcard);
         }
 
@@ -92,27 +84,56 @@ namespace MonitorNetwork.Controllers
             return View(creditcard);
         }
 
-        // GET: CreditCard/Delete/5
+        [HttpPost]
+        public ActionResult DeleteCheckAccount(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            creditcard creditcard = db.creditcard.Find(id);
+
+            if (creditcard == null)
+            {
+                return HttpNotFound();
+            }
+
+            account creditCardAccount = creditcard.account;
+
+            if (creditCardAccount.creditcard.Count == 1)
+            {
+                return Json(true);
+            }
+
+            return Json(false);
+        }
+
+        // POST: CreditCard/Delete/5
+        [HttpPost]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             creditcard creditcard = db.creditcard.Find(id);
+
             if (creditcard == null)
             {
                 return HttpNotFound();
             }
-            return View(creditcard);
-        }
 
-        // POST: CreditCard/Delete/5
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            creditcard creditcard = db.creditcard.Find(id);
+            account creditCardAccount = creditcard.account;
+
             db.creditcard.Remove(creditcard);
+
+            if(creditCardAccount.creditcard.Count == 0)
+            {
+                db.account.Remove(creditCardAccount);
+            }
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -1,0 +1,67 @@
+﻿@model MonitorNetwork.Database.account
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>account</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.accountFirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.accountFirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.accountLastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.accountLastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.phoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.phoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.spendingLimit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.spendingLimit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.balance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.balance)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.accountID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
