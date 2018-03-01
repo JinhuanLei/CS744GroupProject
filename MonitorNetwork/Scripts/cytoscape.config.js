@@ -102,14 +102,77 @@ var cy = cytoscape({
 var layout = cy.elements().layout({
     name: 'cose',
     roots: '#R11'
-    //randomized: true,
-    // nodeDimensionsIncludeLabels: true,
-    // root: '#R11',
-    // animate: false,
-    // removed:false
+});
+layout.run();
+cy.on('mouseover', 'node', function (event) {
+    cy.elements("node[id>='S1']").qtip({
+        content: 'node IP',
+        show: {
+            event: event.type,
+            // ready: true,
+            solo: true
+        },
+        hide: {
+            event: 'mouseout unfocus'
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 16,
+                height: 8
+            }
+        }
+    }, event);
+
+
+    cy.elements("node[id<'S1']").qtip({
+        content: 'relay IP',
+        show: {
+            event: event.type,
+            // ready: true,
+            solo: true
+        },
+        hide: {
+            event: 'mouseout unfocus'
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 16,
+                height: 8
+            }
+        }
+    }, event);
+
 });
 
-layout.run();
+
+cy.on('click', 'node', function (evt) {
+   
+    var nodeid = evt.target.id();
+    var id = (Number)(nodeid.substring(1));
+    //alert(evt.target.id() + "  " + id);
+    for (var x = 0; x < relays.length; x++) {
+      //  alert(relays[x].relayID + "  " + id);
+        if (relays[x].relayID == id && relays[x].isProcessingCenter==false) {
+           
+    relays[x].status = (relays[x].status == true ? false : true);
+        }
+    }
+    console.log($(relays)); 
+    })
+
+
+cy.on('click', 'edge', function (evt) {
+    alert(evt.target.id());
+    for (x in connections) {
+        if (x.connID == evt.target.id()) {
+            x.active = (x.active == true ? false : true);
+        }
+    }
+    console.log($(connections)); 
+})
+
 // cy.autolock( true );
 cy.userZoomingEnabled(false);
 //var bfs = cy.elements().dfs('#S1', function () { }, true);
