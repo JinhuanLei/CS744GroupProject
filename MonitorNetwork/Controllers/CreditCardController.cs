@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MonitorNetwork.BLL;
 using MonitorNetwork.Database;
+using MonitorNetwork.Models;
 
 namespace MonitorNetwork.Controllers
 {
@@ -25,7 +26,7 @@ namespace MonitorNetwork.Controllers
         // GET: CreditCard/Create
         public ActionResult Create()
         {
-            GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
+           GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
             ViewBag.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname");
             ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
 
@@ -36,20 +37,20 @@ namespace MonitorNetwork.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create([Bind(Include = "cardID,cardNumber,expirationDate,securityCode,customerFirstName,customerLastName,accountID")] creditcard creditcard)
+        public ActionResult Create(CreditCardAndAccountViewModel creditCardAndAccount)
         {
             if (ModelState.IsValid)
             {
-                db.creditcard.Add(creditcard);
+                db.creditcard.Add(creditCardAndAccount.creditcard);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
 
-            ViewBag.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditcard.accountID);
+            ViewBag.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditCardAndAccount.creditcard.accountID);
             ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
 
-            return View(creditcard);
+            return View(creditCardAndAccount);
         }
 
         // GET: CreditCard/Edit/5

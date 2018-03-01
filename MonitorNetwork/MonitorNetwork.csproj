@@ -232,7 +232,6 @@
     <Content Include="Views\CreditCard\_ExistingAccountPartial.cshtml" />
     <Content Include="Views\CreditCard\_CreditCardFieldsPartial.cshtml" />
     <Content Include="Views\Account\Create.cshtml" />
-    <Content Include="Views\Account\Delete.cshtml" />
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />

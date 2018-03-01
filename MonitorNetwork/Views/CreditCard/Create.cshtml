@@ -1,4 +1,4 @@
-﻿@model MonitorNetwork.Database.creditcard
+﻿@model MonitorNetwork.Models.CreditCardAndAccountViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -20,8 +20,8 @@
 
     <div class="form-group">
         <div class="col-md-10 col-md-offset-2">
-            Add Existing Account @Html.RadioButton("chooseAccount", "true", true, new { onclick = "disableSelf()" })
-            Create Account @Html.RadioButton("chooseAccount", "false", new { onclick = "enableSelf()" })
+            Add Existing Account @Html.RadioButton("chooseAccount", "true", true, new { onclick = "showExisting()" })
+            Create Account @Html.RadioButton("chooseAccount", "false", new { onclick = "showNew()" })
         </div>
     </div>
 
@@ -30,13 +30,42 @@
         <div id="existingAccount">
             @Html.Partial("_ExistingAccountPartial")
         </div>
-        <div id="newAccount">
-
+        <div id="newAccount" style="display: none;">
+            <h4>Account</h4>
+            <hr />
+            @Html.Partial("~/Views/Account/_AccountFieldsPartial.cshtml")
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
         </div>
     </div>
 </div>
+    @Html.HiddenFor(x => x.existing)
 }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script>
+    function showExisting() {
+        $("#existingAccount").show();
+        $("#newAccount").hide();
+        $("#existing").val(true);
+    }
+
+    function showNew() {
+        $("#existingAccount").hide();
+        $("#newAccount").show();
+        $("#existing").val(false);
+    }
+
+    @if(Model != null && !Model.existing)
+    {
+        @:document.getElementById("existingAccount").style = "display: none";
+    } else {
+        @:document.getElementById("newAccount").style = "display: none";
+    }
+</script>

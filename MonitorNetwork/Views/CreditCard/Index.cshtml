@@ -8,7 +8,7 @@
 <h2>Credit Cards</h2>
 
 <p>
-    @Html.ActionLink("Add Credit Card", "Create")
+    @Html.ActionLink("Create New Credit Card", "Create")
 </p>
 <table class="table">
     <tr>
@@ -49,7 +49,7 @@
             @String.Format("{0:0000 0000 0000 0000}", Int64.Parse(item.cardNumber))
         </td>
         <td>
-            @item.expirationDate.ToString("MM/dd/yyyy")
+            @Html.DisplayFor(modelItem => item.expirationDate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.securityCode)

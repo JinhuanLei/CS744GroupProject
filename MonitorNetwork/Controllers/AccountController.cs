@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MonitorNetwork.BLL;
 using MonitorNetwork.Database;
+using MonitorNetwork.Models;
 
 namespace MonitorNetwork.Views
 {
@@ -38,6 +40,9 @@ namespace MonitorNetwork.Views
         // GET: accounts/Create
         public ActionResult Create()
         {
+            GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
+            ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
+
             return View();
         }
 
@@ -45,17 +50,20 @@ namespace MonitorNetwork.Views
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "accountID,accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance")] account account)
+        public ActionResult Create(CreditCardAndAccountViewModel creditCardAndAccount)
         {
             if (ModelState.IsValid)
             {
-                db.account.Add(account);
+                creditCardAndAccount.account.creditcard.Add(creditCardAndAccount.creditcard);
+                db.account.Add(creditCardAndAccount.account);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(account);
+            GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
+            ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
+
+            return View(creditCardAndAccount);
         }
 
         // GET: accounts/Edit/5
@@ -77,7 +85,6 @@ namespace MonitorNetwork.Views
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "accountID,accountFirstName,accountLastName,address,phoneNumber,spendingLimit,balance")] account account)
         {
             if (ModelState.IsValid)
@@ -89,24 +96,8 @@ namespace MonitorNetwork.Views
             return View(account);
         }
 
-        // GET: accounts/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            account account = db.account.Find(id);
-            if (account == null)
-            {
-                return HttpNotFound();
-            }
-            return View(account);
-        }
-
         // POST: accounts/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             account account = db.account.Find(id);

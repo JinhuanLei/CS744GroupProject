@@ -17,6 +17,7 @@ namespace MonitorNetwork.Database
         public string cardNumber { get; set; }
 
         [Column(TypeName = "datetime2")]
+        [DisplayFormat(DataFormatString = "{0:MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime expirationDate { get; set; }
 
         public int securityCode { get; set; }

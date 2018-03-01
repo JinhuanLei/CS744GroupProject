@@ -1,10 +1,10 @@
-﻿@model MonitorNetwork.Database.creditcard
+﻿@model MonitorNetwork.Models.CreditCardAndAccountViewModel
 
 <div class="form-group">
     @Html.Label("Account Holder", htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
         @Html.DropDownList("accountID", null, htmlAttributes: new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.accountID, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(model => model.creditcard.accountID, "", new { @class = "text-danger" })
     </div>
 </div>
 

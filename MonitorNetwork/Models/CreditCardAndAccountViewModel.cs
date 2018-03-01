@@ -10,5 +10,7 @@ namespace MonitorNetwork.Models
     {
         public creditcard creditcard { get; set; }
         public account account { get; set; }
+
+        public bool existing { get; set; }
     }
 }
