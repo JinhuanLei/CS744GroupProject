@@ -12,13 +12,57 @@ namespace MonitorNetwork.Controllers
 {
     public class HomeController : Controller
     {
+        private MNDatabase db = new MNDatabase();
+
         public ActionResult Index()
         {
-            MNDatabase context = new MNDatabase();
             NetworkModel nm = new NetworkModel();
-            nm.transactions = context.transaction.Where(x => x.isEncrypted || x.isSent).AsEnumerable();
+            nm.transactions = db.transaction.ToList();
 
-            nm.connections = (from conn in context.connections
+            SetupJavascriptData(nm);
+
+            return View(nm);
+        }
+
+        public ActionResult EncryptThenSend(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            transaction transaction = db.transaction.Find(id);
+            if (transaction == null)
+            {
+                return HttpNotFound();
+            }
+
+            transaction.isEncrypted = true;
+            transaction.isSent = true;
+
+            db.SaveChanges();
+
+            return PartialView("_EncryptTransactionRowPartial", transaction);
+        }
+
+        public ActionResult EntireDatabase()
+        {
+            EntireDatabase edb = new EntireDatabase();
+
+            edb.accounts = db.account.AsEnumerable();
+            edb.creditcards = db.creditcard.AsEnumerable();
+            edb.relays = db.relay.AsEnumerable();
+            edb.stores = db.store.AsEnumerable();
+            edb.transaction = db.transaction.AsEnumerable();
+            edb.user = db.user.AsEnumerable();
+            edb.connections = db.connections.AsEnumerable();
+
+            return View(edb);
+        }
+
+        public void SetupJavascriptData(NetworkModel nm)
+        {
+                
+            nm.connections = (from conn in db.connections
                               select new Connections
                               {
                                   connID = conn.connID,
@@ -29,7 +73,7 @@ namespace MonitorNetwork.Controllers
                                   active = conn.active
                               }).ToList();
 
-            nm.relays = (from relay in context.relay
+            nm.relays = (from relay in db.relay
                          select new Relays
                          {
                              relayID = relay.relayID,
@@ -38,7 +82,7 @@ namespace MonitorNetwork.Controllers
                              isProcessingCenter = relay.isProcessingCenter
                          }).ToList();
 
-            nm.stores = (from store in context.store
+            nm.stores = (from store in db.store
                          select new Stores
                          {
                              storeID = store.storeID,
@@ -46,16 +90,16 @@ namespace MonitorNetwork.Controllers
                              merchantName = store.merchantName
                          }).ToList();
 
-            nm.cytoscapeNodes = (from relay in context.relay
-                        select new CytoscapeData
-                        {
-                            data = new CytoscapeNode()
-                            {
-                                id = "R" + relay.relayID,
-                                label = relay.relayIP.Substring(8)
-                            }
-                        })
-                        .Concat(from store in context.store
+            nm.cytoscapeNodes = (from relay in db.relay
+                                 select new CytoscapeData
+                                 {
+                                     data = new CytoscapeNode()
+                                     {
+                                         id = "R" + relay.relayID,
+                                         label = relay.relayIP.Substring(8)
+                                     }
+                                 })
+                        .Concat(from store in db.store
                                 select new CytoscapeData
                                 {
                                     data = new CytoscapeNode()
@@ -65,7 +109,7 @@ namespace MonitorNetwork.Controllers
                                     }
                                 }).ToList();
 
-            nm.cytoscapeEdges = (from conn in context.connections
+            nm.cytoscapeEdges = (from conn in db.connections
                                  select new CytoscapeData
                                  {
                                      data = new CytoscapeEdge()
@@ -76,50 +120,6 @@ namespace MonitorNetwork.Controllers
                                          target = "R" + conn.destRelayID
                                      }
                                  }).ToList();
-
-            return View(nm);
-        }
-
-        public ActionResult Send(int? id)
-        {
-            MNDatabase context = new MNDatabase();
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            transaction transaction = context.transaction.Find(id);
-            if (transaction == null)
-            {
-                return HttpNotFound();
-            }
-
-            transaction.isSent = true;
-
-            context.SaveChanges();
-
-            NetworkModel nm = new NetworkModel();
-            nm.transactions = context.transaction.Where(x => x.isEncrypted || x.isSent).AsEnumerable();
-
-
-            return PartialView("_TransactionPartial", nm.transactions);
-        }
-
-        public ActionResult EntireDatabase()
-        {
-            MNDatabase context = new MNDatabase();
-
-            EntireDatabase edb = new EntireDatabase();
-
-            edb.accounts = context.account.AsEnumerable();
-            edb.creditcards = context.creditcard.AsEnumerable();
-            edb.relays = context.relay.AsEnumerable();
-            edb.stores = context.store.AsEnumerable();
-            edb.transaction = context.transaction.AsEnumerable();
-            edb.user = context.user.AsEnumerable();
-            edb.connections = context.connections.AsEnumerable();
-
-            return View(edb);
         }
     }
 }

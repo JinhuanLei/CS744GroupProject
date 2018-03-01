@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MonitorNetwork.Database.transaction>
+﻿@*@model IEnumerable<MonitorNetwork.Database.transaction>
 
 @{
     ViewBag.Title = "Transactions";
@@ -25,6 +25,9 @@
             Credit/Debit
         </th>
         <th>
+            SELF
+        </th>
+        <th>
             Amount
         </th>
         <th></th>
@@ -39,17 +42,16 @@
             @(Html.DisplayFor(modelItem => item.account.accountFirstName)) @(Html.DisplayFor(modelItem => item.account.accountLastName))
         </td>
         <td>
-            @if(item.storeID.HasValue)
-            {
-                @Html.DisplayFor(modelItem => item.store.merchantName)
-            }
-            else
-            {
-                @: SELF
-            }
+            @Html.DisplayFor(modelItem => item.store.merchantName)
         </td>
         <td>
             @(item.isCredit ? "Credit" : "Debit")
+        </td>
+        <td>
+            @if (!item.isCredit && item.isSelf)
+            {
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            }
         </td>
         <td>
             $@Html.DisplayFor(modelItem => item.amount)
@@ -65,4 +67,4 @@
     </tr>
 }
 
-</table>
+</table>*@
