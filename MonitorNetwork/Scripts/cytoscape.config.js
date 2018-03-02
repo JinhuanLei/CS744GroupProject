@@ -165,9 +165,25 @@ cy.on('click', 'node', function (evt) {
 
 cy.on('click', 'edge', function (evt) {
     alert(evt.target.id());
-    for (x in connections) {
-        if (x.connID == evt.target.id()) {
-            x.active = (x.active == true ? false : true);
+    var edgeid = evt.target.id();
+    var start = "";
+    var dest = "";
+    var arr = edgeid.split("R");
+    if (edgeid[0] == "R") {
+        start = arr[1];
+        dest = arr[2];
+        for (var x = 0; x < connections.length; x++) {
+            if (connections[x].relayID == start && connections[x].destRelayID == dest) {
+                connections[x].active = (connections[x].active == true ? false : true);
+            }
+        }
+    } else {
+        start = arr[0].substring(1);
+        dest = arr[1];
+        for (var x = 0; x < connections.length; x++) {
+            if (connections[x].storeID == start && connections[x].destRelayID == dest) {
+                connections[x].active = (connections[x].active == true ? false : true);
+            }
         }
     }
     console.log($(connections)); 
@@ -181,26 +197,37 @@ function gotoNextNode(path) {
 }
 
 var flag;
-
-function highlightNextEle(path1, index, state) {
-    console.log("origin:" + path1);
+var i = 0;
+var state1 = [];
+//function highlightNextEle(path) {
+//    if (i < path.length) {
+//        cy.$('#' + path[i]).addClass('highlighted');
+//        if ((i + 1) != path.length) {
+//            cy.$('#' + path[i] + path[i + 1]).addClass('highlighted');
+//        }
+//        i++;
+//        flag = setTimeout(highlightNextEle, 1000, path);
+//    }
+//};
+function highlightNextEle(path1) {
+    console.log("origin:"+path1);
     var path = parseArr(path1);
-    console.log("after:" + path1);
-    if (index < path.length) {
-        console.log(state.length);
-        if (state.length != 0) {
-            for (var x = 0; x < state.length; x++) {
-                cy.$('#' + state[x]).removeClass('highlighted');
+    console.log("after:"+path1);
+    if (i < path.length) {
+        console.log(state1.length);
+        if (state1.length != 0) {
+            for (var x = 0; x < state1.length; x++) {
+                cy.$('#' + state1[x]).removeClass('highlighted');
             }
-            state = [];
+            state1 = [];
         }
 
-        cy.$('#' + path[index]).addClass('highlighted');
-        var ite = path[index];
-        state.push(ite);
+        cy.$('#' + path[i]).addClass('highlighted');
+        var ite = path[i];
+        state1.push(ite);
 
-        index++;
-        flag = setTimeout(highlightNextEle, 1000, path1, index, state);
+        i++;
+        flag = setTimeout(highlightNextEle, 1000,path1);
     }
 }
 
@@ -220,5 +247,9 @@ function parseArr(arr) {
         return arr;
     }
 }
+
+
+
+
 
 
