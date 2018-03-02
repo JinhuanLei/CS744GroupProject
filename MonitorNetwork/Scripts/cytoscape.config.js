@@ -203,16 +203,56 @@ cy.userZoomingEnabled(false);
 //     }
 var flag;
 var i = 0;
-function highlightNextEle(path) {
+var state1 = [];
+//function highlightNextEle(path) {
+//    if (i < path.length) {
+//        cy.$('#' + path[i]).addClass('highlighted');
+//        if ((i + 1) != path.length) {
+//            cy.$('#' + path[i] + path[i + 1]).addClass('highlighted');
+//        }
+//        i++;
+//        flag = setTimeout(highlightNextEle, 1000, path);
+//    }
+//};
+var highlightNextEle = function () {
+    var path = parseArr(path1);
     if (i < path.length) {
-        cy.$('#' + path[i]).addClass('highlighted');
-        if ((i + 1) != path.length) {
-            cy.$('#' + path[i] + path[i + 1]).addClass('highlighted');
+        console.log(state1.length);
+        if (state1.length != 0) {
+            for (var x = 0; x < state1.length; x++) {
+                cy.$('#' + state1[x]).removeClass('highlighted');
+            }
+            state1 = [];
         }
+
+        cy.$('#' + path[i]).addClass('highlighted');
+        var ite = path[i];
+        state1.push(ite);
+
         i++;
-        flag = setTimeout(highlightNextEle, 1000, path);
+        flag = setTimeout(highlightNextEle, 1000);
     }
 };
+
+
+function parseArr(arr) {
+    if (arr.length >= 2) {
+        var newarr = [];
+        for (var x = 0; x < arr.length; x++) {
+            newarr.push(arr[x]);
+            if (x + 1 != arr.length) {
+                newarr.push(arr[x] + arr[x + 1]);
+            }
+        }
+        return newarr;
+    }
+    else {
+        return arr;
+    }
+}
+
+
+
 
 
 
