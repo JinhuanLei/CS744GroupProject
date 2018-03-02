@@ -1,105 +1,63 @@
-﻿@model IEnumerable<MonitorNetwork.Database.transaction>
-@using MonitorNetwork.BLL;
-@using Newtonsoft.Json;
-@{ 
-    SimpleAES encryptTool = new SimpleAES();
-}
+﻿@model IList<MonitorNetwork.Database.transaction>
+
+<div>
+    <h3 style="display: inline-block;">Transactions</h3>
+
+    <p style="display: inline-block; float: right; margin: 30px 0 5px 0;">
+        @Html.ActionLink("Create New Transaction", "Create", "Transaction")
+    </p>
+</div>
+
 <table class="table">
     <tr>
-        @*<th>
+        <th>
+            Transaction ID
+        </th>
+        <th>
             Account
         </th>
         <th>
             Merchant Name
         </th>
         <th>
-            Time of Transaction
+            Credit/Debit
         </th>
         <th>
-            Time of Response
+            SELF
         </th>
         <th>
             Amount
         </th>
-        <th>
-            Credit/Debit
-        </th>
-        <th>
-            Accepted/Rejected
-        </th>*@
-        <th>
-            Transaction ID
-        </th>
-        <th>
-            Encrypted Data
-        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        @*<td>
-            @(Html.DisplayFor(modelItem => item.account.accountFirstName)) @(Html.DisplayFor(modelItem => item.account.accountLastName))
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.store.merchantName)
-        </td>
-        <td>
-            @if(item.timeOfTransaction.HasValue)
-            {
-                @item.timeOfTransaction.Value.ToString("MMM dd, yyyy HH:mm");
-            }
-        </td>
-        <td>
-            @if(item.timeOfResponse.HasValue)
-            {
-                @item.timeOfResponse.Value.ToString("MMM dd, yyyy HH:mm");
-            }
-        </td>
-        <td>
-            $@Html.DisplayFor(modelItem => item.amount)
-        </td>
-        <td>
-            @(item.isCredit ? "Credit" : "Debit")
-        </td>
-        <td>
-            @if (item.timeOfResponse.HasValue)
-            {
-                @(item.status ? "Approved" : "Declined")
-            } else
-            {
-                @: Unprocessed
-            }
-        </td>*@
-        <td>
-            @Html.DisplayFor(modelItem => item.transactionID)
-        </td>
-        <td>
-            @{
-                if(item.isEncrypted)
-                {
-                    @*string stringify = Newtonsoft.Json.JsonConvert.SerializeObject(item, Formatting.Indented,
-                    new JsonSerializerSettings
-                    {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                    });
-                    var stringBytes = System.Text.Encoding.UTF8.GetString(encryptTool.Encrypt(stringify));
-
-                    @(stringBytes.Length <= 70 ? stringBytes : stringBytes.Substring(0, 80) + "...");*@
-                }
-             }
-        </td>
-        <td>
-            @if (item.isSent)
-            {
-                @: Sent
-            }
-            else
-            {
-                <a href="javascript:void(0)" onclick="sendTransaction(@item.transactionID, @item.storeID)">Send</a>
-            }
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.Reverse())
+    {
+        <tr id="transactionRow@(item.transactionID)">
+        @if (item.isEncrypted)
+         {
+            @Html.Partial("_EncryptTransactionRowPartial", item)
+         }
+         else
+         {
+            @Html.Partial("_DetailTransactionRowPartial", item)
+         }
+        </tr>
+    }
 
 </table>
+
+<script>
+    function sendTransaction(transactionId, storeId) {
+        $.ajax({
+            type: "GET",
+            url: '/Home/EncryptThenSend?id=' + transactionId,
+            dataType: 'html',
+            success: function (data) {
+                $('#transactionRow' + transactionId).html(data);
+            }
+        });
+
+        moveTransaction(storeId);
+    }
+</script>
