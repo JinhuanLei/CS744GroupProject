@@ -214,8 +214,10 @@ var state1 = [];
 //        flag = setTimeout(highlightNextEle, 1000, path);
 //    }
 //};
-var highlightNextEle = function () {
+function highlightNextEle(path1) {
+    console.log("origin:"+path1);
     var path = parseArr(path1);
+    console.log("after:"+path1);
     if (i < path.length) {
         console.log(state1.length);
         if (state1.length != 0) {
@@ -230,9 +232,9 @@ var highlightNextEle = function () {
         state1.push(ite);
 
         i++;
-        flag = setTimeout(highlightNextEle, 1000);
+        flag = setTimeout(highlightNextEle, 1000,path1);
     }
-};
+}
 
 
 function parseArr(arr) {
