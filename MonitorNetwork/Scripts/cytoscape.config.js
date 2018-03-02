@@ -165,9 +165,25 @@ cy.on('click', 'node', function (evt) {
 
 cy.on('click', 'edge', function (evt) {
     alert(evt.target.id());
-    for (x in connections) {
-        if (x.connID == evt.target.id()) {
-            x.active = (x.active == true ? false : true);
+    var edgeid = evt.target.id();
+    var start = "";
+    var dest = "";
+    var arr = edgeid.split("R");
+    if (edgeid[0] == "R") {
+        start = arr[1];
+        dest = arr[2];
+        for (var x = 0; x < connections.length; x++) {
+            if (connections[x].relayID == start && connections[x].destRelayID == dest) {
+                connections[x].active = (connections[x].active == true ? false : true);
+            }
+        }
+    } else {
+        start = arr[0].substring(1);
+        dest = arr[1];
+        for (var x = 0; x < connections.length; x++) {
+            if (connections[x].storeID == start && connections[x].destRelayID == dest) {
+                connections[x].active = (connections[x].active == true ? false : true);
+            }
         }
     }
     console.log($(connections)); 
