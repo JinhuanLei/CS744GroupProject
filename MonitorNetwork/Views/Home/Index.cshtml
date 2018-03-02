@@ -24,13 +24,49 @@
         string nodes = Newtonsoft.Json.JsonConvert.SerializeObject(Model.cytoscapeNodes);
         string edges = Newtonsoft.Json.JsonConvert.SerializeObject(Model.cytoscapeEdges);
     }
-    var connections = @Html.Raw(connections)
-    var relays = @Html.Raw(relays)
-    var stores = @Html.Raw(stores)
+    var connections = @Html.Raw(connections);
+    var relays = @Html.Raw(relays);
+    var stores = @Html.Raw(stores);
 
-    var cytoscapeNodes = @Html.Raw(nodes)
-    var cytoscapeEdges = @Html.Raw(edges)
+    var cytoscapeNodes = @Html.Raw(nodes);
+    var cytoscapeEdges = @Html.Raw(edges);
 
+    var processingCenterId = relays.find(function (relay) {
+        return relay.isProcessingCenter;
+    });
+
+    var nodeQueues = [{ id: "r1", queue: [{ transactionID: 100001, toProcCenter = true, storeId: "s1" }] }];
+    var isTransmitting = false;
+
+
+    function transmitTransactions() {
+        return new Promise(function (resolve, reject) {
+
+            while (!nodeQueuesEmpty()) {
+                var animations = [];
+                nodeQueues.forEach(function (nodeQueue) {
+                    if (nodeQueue.queue.length > 0) {
+                        var transactionToMove = nodeQueue.queue.shift();
+                        var path;
+                        if (transactionToMove.toProcCenter) {
+                            path = startPath(nodeQueue.id, processingCenterId);
+                        } else {
+                            path = startPath(nodeQueue.id, transactionToMove.storeId);
+                        }
+                        animations.push(path);
+                    }
+                });
+
+            }
+        });
+    }
+
+    function nodeQueuesEmpty() {
+        return nodeQueues.every(function (nodeQueue) {
+            return nodeQueue.queue.length == 0;
+        });
+    }
+    
     function moveTransaction(startID) {
         var pathToMove = startPath(startID);
         highlightNextEle(pathToMove);
