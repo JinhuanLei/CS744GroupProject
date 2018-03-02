@@ -27,7 +27,8 @@ namespace MonitorNetwork.Controllers
         public ActionResult Create()
         {
            GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
-            ViewBag.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname");
+            ViewBag.creditcard = new object();
+            ViewBag.creditcard.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname");
             ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
 
             return View();
@@ -39,15 +40,32 @@ namespace MonitorNetwork.Controllers
         [HttpPost]
         public ActionResult Create(CreditCardAndAccountViewModel creditCardAndAccount)
         {
+            if (creditCardAndAccount.existing)
+            {
+                foreach (var key in ModelState.Keys.Where(x => x.StartsWith("account.")))
+                {
+                    ModelState[key].Errors.Clear();
+                }
+            }
+
             if (ModelState.IsValid)
             {
-                db.creditcard.Add(creditCardAndAccount.creditcard);
+                if(creditCardAndAccount.existing)
+                {
+                    db.creditcard.Add(creditCardAndAccount.creditcard);
+                } else
+                {
+                    creditCardAndAccount.account.creditcard.Add(creditCardAndAccount.creditcard);
+                    db.creditcard.Add(creditCardAndAccount.creditcard);
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
 
-            ViewBag.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditCardAndAccount.creditcard.accountID);
+            ViewBag.creditcard = new object();
+            ViewBag.creditcard.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditCardAndAccount.creditcard.accountID);
             ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
 
             return View(creditCardAndAccount);
