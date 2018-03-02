@@ -49,15 +49,15 @@
 
 <script>
     function sendTransaction(transactionId, storeId) {
-        $.ajax({
-            type: "GET",
-            url: '/Home/EncryptThenSend?id=' + transactionId,
-            dataType: 'html',
-            success: function (data) {
-                $('#transactionRow' + transactionId).html(data);
-            }
-        });
+        //$.ajax({
+        //    type: "GET",
+        //    url: '/Home/EncryptThenSend?id=' + transactionId,
+        //    dataType: 'html',
+        //    success: function (data) {
+        //        $('#transactionRow' + transactionId).html(data);
+        //    }
+        //});
 
-        moveTransaction(storeId);
+        addTransaction(transactionId, storeId);
     }
 </script>

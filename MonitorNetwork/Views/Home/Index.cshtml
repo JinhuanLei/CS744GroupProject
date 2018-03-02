@@ -35,28 +35,40 @@
         return relay.isProcessingCenter;
     });
 
-    var nodeQueues = [{ id: "r1", queue: [{ transactionID: 100001, toProcCenter = true, storeId: "s1" }] }];
-    var isTransmitting = false;
+    //var nodeQueues = [{ id: "r1", queue: [{ transactionId: 100001, toProcCenter = true, storeId: "s1" }] }];
+    var nodeQueues = [];
 
+    function constructNodeQueues() {
+        relays.forEach(function (relay) {
+            nodeQueues.push({ id: "r" + relay.relayID, queue: [] });
+        });
 
-    function transmitTransactions() {
+        stores.forEach(function (store) {
+            nodeQueues.push({ id: "s" + store.storeID, queue: [] });
+        });
+    }
+
+    constructNodeQueues();
+
+    var funcMoveTransactions;
+
+    function moveTransactions() {
         return new Promise(function (resolve, reject) {
 
             while (!nodeQueuesEmpty()) {
-                var animations = [];
                 nodeQueues.forEach(function (nodeQueue) {
                     if (nodeQueue.queue.length > 0) {
                         var transactionToMove = nodeQueue.queue.shift();
                         var path;
                         if (transactionToMove.toProcCenter) {
-                            path = startPath(nodeQueue.id, processingCenterId);
+                            path = startPath(nodeQueue.id, processingCenterId, true);
                         } else {
-                            path = startPath(nodeQueue.id, transactionToMove.storeId);
+                            path = startPath(nodeQueue.id, transactionToMove.storeId, false);
                         }
-                        animations.push(path);
+                        // TODO: extra logic to condense path info to just next element not whole path.
+                        hightlightNextEle(path);
                     }
                 });
-
             }
         });
     }
@@ -67,9 +79,16 @@
         });
     }
     
-    function moveTransaction(startID) {
-        var pathToMove = startPath(startID);
-        highlightNextEle(pathToMove);
+    function addTransaction(transactionId, storeId) {
+        var transaction = { transactionId: transactionId, toProcCenter: true, storeId: storeId };
+
+        var store = nodeQueues.find(function (nodeQueue) {
+            return nodeQueue.id == "s" + storeId;
+        });
+
+        store.queue.push(transaction);
+
+        funcMoveTransactions = moveTransactions();
     }
 
 </script>
