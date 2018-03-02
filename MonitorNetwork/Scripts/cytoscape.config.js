@@ -175,28 +175,50 @@ cy.on('click', 'edge', function (evt) {
 
 // cy.autolock( true );
 cy.userZoomingEnabled(false);
-//var bfs = cy.elements().dfs('#S1', function () { }, true);
-//var i = 0;
-//var path = new Array("S1", "R1", "R11");
-// var highlightNextEle = function(){
-//     if( i <bfs.path.length ){
-//         bfs.path[i].addClass('highlighted');
-//
-//         i++;
-//         flag=setTimeout(highlightNextEle, 1000);
-//     }
-var flag;
-var i = 0;
-function highlightNextEle(path) {
-    if (i < path.length) {
-        cy.$('#' + path[i]).addClass('highlighted');
-        if ((i + 1) != path.length) {
-            cy.$('#' + path[i] + path[i + 1]).addClass('highlighted');
-        }
-        i++;
-        flag = setTimeout(highlightNextEle, 1000, path);
-    }
-};
 
+function gotoNextNode(path) {
+    highlightNextEle(path, 0, []);
+}
+
+var flag;
+
+function highlightNextEle(path1, index, state) {
+    console.log("origin:" + path1);
+    var path = parseArr(path1);
+    console.log("after:" + path1);
+    if (index < path.length) {
+        console.log(state.length);
+        if (state.length != 0) {
+            for (var x = 0; x < state.length; x++) {
+                cy.$('#' + state[x]).removeClass('highlighted');
+            }
+            state = [];
+        }
+
+        cy.$('#' + path[index]).addClass('highlighted');
+        var ite = path[index];
+        state.push(ite);
+
+        index++;
+        flag = setTimeout(highlightNextEle, 1000, path1, index, state);
+    }
+}
+
+
+function parseArr(arr) {
+    if (arr.length >= 2) {
+        var newarr = [];
+        for (var x = 0; x < arr.length; x++) {
+            newarr.push(arr[x]);
+            if (x + 1 != arr.length) {
+                newarr.push(arr[x] + arr[x + 1]);
+            }
+        }
+        return newarr;
+    }
+    else {
+        return arr;
+    }
+}
 
 
