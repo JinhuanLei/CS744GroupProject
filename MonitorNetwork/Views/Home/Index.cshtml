@@ -31,9 +31,9 @@
     var cytoscapeNodes = @Html.Raw(nodes);
     var cytoscapeEdges = @Html.Raw(edges);
 
-    var processingCenterId = relays.find(function (relay) {
+    var processingCenterId = "r" + relays.find(function (relay) {
         return relay.isProcessingCenter;
-    });
+    }).relayID;
 
     //var nodeQueues = [{ id: "r1", queue: [{ transactionId: 100001, toProcCenter = true, storeId: "s1" }] }];
     var nodeQueues = [];
