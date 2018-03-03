@@ -1,4 +1,6 @@
-﻿function Graph() {
+﻿/// Source: https://stackoverflow.com/questions/32527026/shortest-path-in-javascript
+
+function Graph() {
     var neighbors = this.neighbors = {}; // Key = vertex, value = array of neighbors.
 
     this.addEdge = function (u, v) {
