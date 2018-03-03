@@ -90,8 +90,17 @@ var layout = cy.elements().layout({
 });
 layout.run();
 cy.on('mouseover', 'node', function (event) {
-    cy.elements("node[id>='s1']").qtip({
-        content: 'node IP',
+
+    var nodeId = event.target.id();
+    var transactionIds = [];
+    nodeQueues[nodeId].forEach(function (queueTransaction) {
+        transactionIds.push(queueTransaction.transactionId)
+    });
+    var queueStr = transactionIds.join(", ");
+
+    cy.elements("node[id^='s']").qtip({
+        //content: 'node IP',
+        content: nodeId + " " + queueStr,
         show: {
             event: event.type,
             // ready: true,
@@ -110,8 +119,9 @@ cy.on('mouseover', 'node', function (event) {
     }, event);
 
 
-    cy.elements("node[id<'s1']").qtip({
-        content: 'relay IP',
+    cy.elements("node[id^='r']").qtip({
+        //content: 'relay IP',
+        content: nodeId + queueStr,
         show: {
             event: event.type,
             // ready: true,
@@ -176,63 +186,6 @@ cy.on('click', 'edge', function (evt) {
 
 // cy.autolock( true );
 cy.userZoomingEnabled(false);
-
-function gotoNextNode(path) {
-    highlightNextEle(path);
-}
-
-var flag;
-var i = 0;
-var state1 = [];
-//function highlightNextEle(path) {
-//    if (i < path.length) {
-//        cy.$('#' + path[i]).addClass('highlighted');
-//        if ((i + 1) != path.length) {
-//            cy.$('#' + path[i] + path[i + 1]).addClass('highlighted');
-//        }
-//        i++;
-//        flag = setTimeout(highlightNextEle, 1000, path);
-//    }
-//};
-function highlightNextEle(path1) {
-    console.log("origin:"+path1);
-    var path = parseArr(path1);
-    console.log("after:"+path1);
-    if (i < path.length) {
-        console.log(state1.length);
-        if (state1.length != 0) {
-            for (var x = 0; x < state1.length; x++) {
-                cy.$('#' + state1[x]).removeClass('highlighted');
-            }
-            state1 = [];
-        }
-
-        cy.$('#' + path[i]).addClass('highlighted');
-        var ite = path[i];
-        state1.push(ite);
-
-        i++;
-        flag = setTimeout(highlightNextEle, 1000,path1);
-    }
-}
-
-
-function parseArr(arr) {
-    if (arr.length >= 2) {
-        var newarr = [];
-        for (var x = 0; x < arr.length; x++) {
-            newarr.push(arr[x]);
-            if (x + 1 != arr.length) {
-                newarr.push(arr[x] + arr[x + 1]);
-            }
-        }
-        return newarr;
-    }
-    else {
-        return arr;
-    }
-}
-
 
 
 

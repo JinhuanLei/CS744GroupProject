@@ -9,11 +9,21 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
     <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-qtip/2.7.0/cytoscape-qtip.js"></script>
     <script src="~/Scripts/cytoscape.config.js"></script>
-    <script src="~/Scripts/algorithm.js"></script>
+    <script src="~/Scripts/graph.findpath.js"></script>
+
+    <script src="~/Scripts/move.transaction.js"></script>
 }
 
 
 <div id="cy" style=" z-index: 0; overflow: hidden; width: 800px; height: 700px; margin: 0 auto; "></div>
+
+<div class="col-md-6 col-md-offset-3">
+
+    <button class="btn btn-default" type="submit" onclick="startFlow()">Start</button>
+
+    <button class="btn btn-default" type="submit" onclick="stopFlow()">Stop</button>
+
+</div>
 
 <script>
 
@@ -35,61 +45,20 @@
         return relay.isProcessingCenter;
     }).relayID;
 
-    //var nodeQueues = [{ id: "r1", queue: [{ transactionId: 100001, toProcCenter = true, storeId: "s1" }] }];
-    var nodeQueues = [];
+    //var nodeQueues = { "r1" : [{ transactionId: 100001, toProcCenter = true, storeId: "s1" }] };
+    var nodeQueues = {};
 
     function constructNodeQueues() {
         relays.forEach(function (relay) {
-            nodeQueues.push({ id: "r" + relay.relayID, queue: [] });
+            nodeQueues["r" + relay.relayID] = [];
         });
 
         stores.forEach(function (store) {
-            nodeQueues.push({ id: "s" + store.storeID, queue: [] });
+            nodeQueues["s" + store.storeID] = [];
         });
     }
 
     constructNodeQueues();
-
-    var funcMoveTransactions;
-
-    function moveTransactions() {
-        return new Promise(function (resolve, reject) {
-
-            while (!nodeQueuesEmpty()) {
-                nodeQueues.forEach(function (nodeQueue) {
-                    if (nodeQueue.queue.length > 0) {
-                        var transactionToMove = nodeQueue.queue.shift();
-                        var path;
-                        if (transactionToMove.toProcCenter) {
-                            path = startPath(nodeQueue.id, processingCenterId, true);
-                        } else {
-                            path = startPath(nodeQueue.id, transactionToMove.storeId, false);
-                        }
-                        // TODO: extra logic to condense path info to just next element not whole path.
-                        gotoNextNode(path);
-                    }
-                });
-            }
-        });
-    }
-
-    function nodeQueuesEmpty() {
-        return nodeQueues.every(function (nodeQueue) {
-            return nodeQueue.queue.length == 0;
-        });
-    }
-    
-    function addTransaction(transactionId, storeId) {
-        var transaction = { transactionId: transactionId, toProcCenter: true, storeId: storeId };
-
-        var store = nodeQueues.find(function (nodeQueue) {
-            return nodeQueue.id == "s" + storeId;
-        });
-
-        store.queue.push(transaction);
-
-        funcMoveTransactions = moveTransactions();
-    }
 
 </script>
 
