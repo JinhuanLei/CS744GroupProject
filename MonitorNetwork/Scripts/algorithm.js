@@ -4,7 +4,7 @@ var destType;
 
 function startPath(s, d) {
 	var counter = 0;
-	for (var j = 0; j < connections.length + 200; j++) {
+	for (var j = 0; j < 200; j++) {
 		adj[j] = [];
 	}
 	for (var i = 0; i < connections.length; i++) {
@@ -36,10 +36,10 @@ function startPath(s, d) {
 	else if (d.substring(0, 1) == "r") {
 		dest = Math.round(d.substring(1, d.length)) + 100;
 	}
-
+	console.log(adj);
 	list = isReachable(source, dest);
 
-	document.write(list);
+	//document.write(list);
 
 	return list;
 }
@@ -58,6 +58,10 @@ function isReachable(s, d) {
 	var queue = [];
 	var path = [];
 
+	if (s == d) {
+		path.push(destType + ((d)-100));
+		return path;
+	}
 	// Mark the current node as visited and enqueue it
 	visited[s] = true;
 	queue.push(s);
