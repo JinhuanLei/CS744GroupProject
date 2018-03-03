@@ -95,7 +95,7 @@ namespace MonitorNetwork.Controllers
                                  {
                                      data = new CytoscapeNode()
                                      {
-                                         id = "R" + relay.relayID,
+                                         id = "r" + relay.relayID,
                                          label = relay.relayIP.Substring(8)
                                      }
                                  })
@@ -104,7 +104,7 @@ namespace MonitorNetwork.Controllers
                                 {
                                     data = new CytoscapeNode()
                                     {
-                                        id = "S" + store.storeID,
+                                        id = "s" + store.storeID,
                                         label = store.storeIP.Substring(8)
                                     }
                                 }).ToList();
@@ -114,10 +114,10 @@ namespace MonitorNetwork.Controllers
                                  {
                                      data = new CytoscapeEdge()
                                      {
-                                         id = conn.relayID.HasValue ? "R" + conn.relayID + "R" + conn.destRelayID : "S" + conn.storeID + "R" + conn.destRelayID,
+                                         id = conn.relayID.HasValue ? "s" + conn.relayID + "r" + conn.destRelayID : "s" + conn.storeID + "r" + conn.destRelayID,
                                          weight = conn.weight,
-                                         source = conn.relayID.HasValue ? "R" + conn.relayID : "S" + conn.storeID,
-                                         target = "R" + conn.destRelayID
+                                         source = conn.relayID.HasValue ? "r" + conn.relayID : "s" + conn.storeID,
+                                         target = "r" + conn.destRelayID
                                      }
                                  }).ToList();
         }

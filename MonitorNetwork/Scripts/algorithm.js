@@ -2,7 +2,7 @@
 
 
 function startPath(s, d, toProc) {
-    return ["s16", "r6", "r9", "r11"];
+    return ["s7", "r3", "r5", "r11"];
 }
 
 //function startPath(s, d, toProc) {

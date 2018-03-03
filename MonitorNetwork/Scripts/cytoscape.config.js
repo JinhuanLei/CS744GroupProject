@@ -10,17 +10,17 @@ var cy = cytoscape({
             // 'content': 'data(id)',
             'label': 'data(label)'
         })
-        .selector("node[id>='S1']")
+        .selector("node[id>='s1']")
         .css({
             'label': 'data(label)',
             'shape': 'triangle',
         })
-        .selector("node[id<'S1']")
+        .selector("node[id<'s1']")
         .css({
             'label': 'data(label)',
             'background-color': '#000000',
         })
-        .selector("node[id='R11']")
+        .selector("node[id='r11']")
         .css({
             'label': 'data(label)',
             'shape': 'rectangle',
@@ -63,34 +63,19 @@ var cy = cytoscape({
 
         nodes: cytoscapeNodes,
         edges: cytoscapeEdges
-
-        //nodes: [
-        //    { data: { id: 'S1', label: '192.168.0.7' } },
-        //    { data: { id: 'S2', label: '192.168.0.8' } },
-        //    { data: { id: 'S3', label: '192.168.0.9' } },
-        //    { data: { id: 'S4', label: '192.168.0.10' } },
-        //    { data: { id: 'R11', label: '192.168.1.11' } }
-        //],
-        //edges: [
-        //    { data: { id: 'S1R1', weight: 2, source: 'S1', target: 'R1' } },
-        //    { data: { id: 'R6R7', weight: 10, source: 'R6', target: 'R7' } },
-        //    { data: { id: 'R7R10', weight: 4, source: 'R7', target: 'R10' } },
-        //    { data: { id: 'R10R11', weight: 1, source: 'R10', target: 'R11' } }
-
-        //]
     },
 
 
  //   layout: {
   //      name: 'cose',
         // directed: true,
-   //     roots: '#R11',
+   //     roots: '#r11',
   //      padding: 30
   //  },
     // layout: {
     //     name: 'cose',
     //     // directed: true,
-    //     roots: '#R11',
+    //     roots: '#r11',
     //     padding: 30
     // },
     // layout: {
@@ -101,11 +86,11 @@ var cy = cytoscape({
 
 var layout = cy.elements().layout({
     name: 'cose',
-    roots: '#R11'
+    roots: '#r11'
 });
 layout.run();
 cy.on('mouseover', 'node', function (event) {
-    cy.elements("node[id>='S1']").qtip({
+    cy.elements("node[id>='s1']").qtip({
         content: 'node IP',
         show: {
             event: event.type,
@@ -125,7 +110,7 @@ cy.on('mouseover', 'node', function (event) {
     }, event);
 
 
-    cy.elements("node[id<'S1']").qtip({
+    cy.elements("node[id<'s1']").qtip({
         content: 'relay IP',
         show: {
             event: event.type,
@@ -168,8 +153,8 @@ cy.on('click', 'edge', function (evt) {
     var edgeid = evt.target.id();
     var start = "";
     var dest = "";
-    var arr = edgeid.split("R");
-    if (edgeid[0] == "R") {
+    var arr = edgeid.split("r");
+    if (edgeid[0] == "r") {
         start = arr[1];
         dest = arr[2];
         for (var x = 0; x < connections.length; x++) {
@@ -193,7 +178,7 @@ cy.on('click', 'edge', function (evt) {
 cy.userZoomingEnabled(false);
 
 function gotoNextNode(path) {
-    highlightNextEle(path, 0, []);
+    highlightNextEle(path);
 }
 
 var flag;
