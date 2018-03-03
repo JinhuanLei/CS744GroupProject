@@ -37,7 +37,7 @@ function startPath(s, d) {
 	}
 	var source;
 	var dest;
-]	sourceType = s.substring(0, 1);
+	sourceType = s.substring(0, 1);
 	destType = d.substring(0, 1);
 	if (sourceType == "s") {
 		source = s.substring(1, s.length);
