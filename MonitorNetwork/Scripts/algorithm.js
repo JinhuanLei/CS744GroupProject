@@ -10,28 +10,12 @@ function startPath(s, d) {
 	for (var i = 0; i < connections.length; i++) {
 
 		if (connections[i].storeID != null) {
-			if (connections[i].destRelayID < 10) {
-				addEdge(connections[i].storeID, 10 + connections[i].destRelayID)
-			}
-			else {
-				addEdge(connections[i].storeID, 1 + connections[i].destRelayID)
-			}
+				addEdge(connections[i].storeID, 100 + Math.round(connections[i].destRelayID))	
 		}
 		else {
-			if (connections[i].relayID < 10) {
-				var value1 = 10 + connections[i].relayID;
-			}
-			else {
-				var value1 = 1 + connections[i].relayID;
-
-			}
-			if (connections[i].destRelayID < 10) {
-				var value2 = 10 + connections[i].destRelayID;
-			}
-			else {
-				var value2 = 1 + connections[i].destRelayID;
-			}
-
+			var value1 = 100 + Math.round(connections[i].relayID);
+			var value2 = 100 + Math.round(connections[i].destRelayID);
+			
 			addEdge(value1, value2)
 		}
 	}
@@ -81,7 +65,7 @@ function isReachable(s, d) {
 		path.push("s" + s);
 	}
 	else if (sourceType == "r") {
-		path.push("r" + (s - 100));
+		path.push("r" + (Math.round(s) - 100));
 	}
 
 	while (queue.length > 0) {
@@ -101,12 +85,12 @@ function isReachable(s, d) {
 					path.push("s" + n);
 				}
 				else if (destType == "r") {
-					path.push("r" + (n - 100));
+					path.push("r" + (Math.round(n) - 100));
 				}
 
 				for (var k = 0; k < path.length; k++) {
 					if (path[k] > 100) {
-						path[k] = "r" + (path[k] - 100);
+						path[k] = "r" + (Math.round(path[k]) - 100);
 					}
 				}
 				
