@@ -10,12 +10,12 @@ var cy = cytoscape({
             // 'content': 'data(id)',
             'label': 'data(label)'
         })
-        .selector("node[id>='s1']")
+        .selector("node[id^='s']")
         .css({
             'label': 'data(label)',
             'shape': 'triangle',
         })
-        .selector("node[id<'s1']")
+        .selector("node[id^='r']")
         .css({
             'label': 'data(label)',
             'background-color': '#000000',
