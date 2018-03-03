@@ -9,7 +9,7 @@ function startPath(s, d) {
 	}
 	for (var i = 0; i < connections.length; i++) {
 
-		if (connections[i].storeID != "NULL") {
+		if (connections[i].storeID != null) {
 			if (connections[i].destRelayID < 10) {
 				addEdge(connections[i].storeID, 10 + connections[i].destRelayID)
 			}
