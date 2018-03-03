@@ -104,6 +104,7 @@ var layout = cy.elements().layout({
     roots: '#R11'
 });
 layout.run();
+console.log(cytoscapeNodes);
 cy.on('mouseover', 'node', function (event) {
     cy.elements("node[id>='S1']").qtip({
         content: 'node IP',
@@ -204,18 +205,10 @@ cy.userZoomingEnabled(false);
 var flag;
 var i = 0;
 var state1 = [];
-//function highlightNextEle(path) {
-//    if (i < path.length) {
-//        cy.$('#' + path[i]).addClass('highlighted');
-//        if ((i + 1) != path.length) {
-//            cy.$('#' + path[i] + path[i + 1]).addClass('highlighted');
-//        }
-//        i++;
-//        flag = setTimeout(highlightNextEle, 1000, path);
-//    }
-//};
+var temppath;
 function highlightNextEle(path1) {
-    console.log("origin:"+path1);
+    console.log("origin:" + path1);
+    temppath = path1;
     var path = parseArr(path1);
     console.log("after:"+path1);
     if (i < path.length) {
@@ -254,7 +247,14 @@ function parseArr(arr) {
 }
 
 
+function stopFlow() {
+    clearTimeout(flag);
+}
 
+function startFlow() {
+    highlightNextEle(temppath);
+
+}
 
 
 
