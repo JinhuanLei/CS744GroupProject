@@ -15,7 +15,6 @@ function startPath(s, d) {
 			}
 			else {
 				addEdge(obj.connections[i].storeID, 1 + obj.connections[i].destRelayID)
-
 			}
 		}
 		else {
@@ -38,9 +37,7 @@ function startPath(s, d) {
 	}
 	var source;
 	var dest;
-
-	//console.log(adj)
-	sourceType = s.substring(0, 1);
+]	sourceType = s.substring(0, 1);
 	destType = d.substring(0, 1);
 	if (sourceType == "s") {
 		source = s.substring(1, s.length);
@@ -56,10 +53,7 @@ function startPath(s, d) {
 		dest = Math.round(d.substring(1, d.length)) + 100;
 	}
 
-	console.log("source = " + source);
-	console.log("dest = " + dest);
 	list = isReachable(source, dest);
-
 
 	document.write(list);
 
@@ -83,7 +77,6 @@ function isReachable(s, d) {
 	// Mark the current node as visited and enqueue it
 	visited[s] = true;
 	queue.push(s);
-	console.log(queue);
 	if (sourceType == "s") {
 		path.push("s" + s);
 	}
@@ -92,56 +85,41 @@ function isReachable(s, d) {
 	}
 
 	while (queue.length > 0) {
-		console.log("queue before popping s: " + queue);
 		s = queue.pop();
 		if (queue.length > 0 && destType == "s") {
 			path.pop();
 		}
 
-
-		console.log("s " + s);
-		console.log("queue after popping s: " + queue);
-
 		var n;
 
 		for (var i = 0; i < adj[s].length; i++) {
 			n = adj[s][i];
-			console.log("n = " + n + " and d = " + d);
 			if (d == n) {
 				console.log("FINISHED!");
-				console.log("QUEUE: " + queue)
-				console.log(" n " + n);
+				
 				if (destType == "s") {
 					path.push("s" + n);
 				}
 				else if (destType == "r") {
 					path.push("r" + (n - 100));
 				}
-				console.log(path);
 
 				for (var k = 0; k < path.length; k++) {
 					if (path[k] > 100) {
 						path[k] = "r" + (path[k] - 100);
-						console.log("Path[k] " + path[k]);
 					}
 				}
-
-
-				//console.log(path);
+				
 				return path;
 			}
 
 			if (!visited[n]) {
 				visited[n] = true;
-				console.log(queue);
 				if (n) {
 					queue.push(n);
-					console.log(" n " + n);
 				}
 				if (n > 100) {
-					console.log("NNNN" + n);
 					path.push(n);
-					//console.log(path);
 				}
 			}
 		}
