@@ -1,65 +1,66 @@
 ﻿var adj = []; //Adjacency List
+var sourceType;
+var destType;
 
-
-function startPath(s, d, toProc) {
+function startPath(s, d) {
 	var counter = 0;
 	for (var j = 0; j < obj.connections.length + 200; j++) {
 		adj[j] = [];
 	}
 	for (var i = 0; i < obj.connections.length; i++) {
 
-
-		if (obj.connections[i].active === "True") {
-			console.log(i + " " + obj.connections[i].active);
-			if (obj.connections[i].storeID != "NULL") {
-				if (obj.connections[i].destRelayID < 10) {
-					addEdge(obj.connections[i].storeID, 10 + obj.connections[i].destRelayID)
-				}
-				else {
-					addEdge(obj.connections[i].storeID, 1 + obj.connections[i].destRelayID)
-
-				}
+		if (obj.connections[i].storeID != "NULL") {
+			if (obj.connections[i].destRelayID < 10) {
+				addEdge(obj.connections[i].storeID, 10 + obj.connections[i].destRelayID)
 			}
 			else {
-				if (obj.connections[i].relayID < 10) {
-					var value1 = 10 + obj.connections[i].relayID;
-				}
-				else {
-					var value1 = 1 + obj.connections[i].relayID;
+				addEdge(obj.connections[i].storeID, 1 + obj.connections[i].destRelayID)
 
-				}
-				if (obj.connections[i].destRelayID < 10) {
-					var value2 = 10 + obj.connections[i].destRelayID;
-				}
-				else {
-					var value2 = 1 + obj.connections[i].destRelayID;
-				}
-
-				addEdge(value1, value2)
 			}
 		}
-
-	}
-	if (toProc) {
-		console.log(adj);
-		if (d < 10) {
-
-			list = isReachable(s, 100 + d + "", toProc);
-		}
 		else {
-			console.log("d = " + (100 + d));
-			list = isReachable(s, 100 + d + "", toProc);
+			if (obj.connections[i].relayID < 10) {
+				var value1 = 10 + obj.connections[i].relayID;
+			}
+			else {
+				var value1 = 1 + obj.connections[i].relayID;
 
+			}
+			if (obj.connections[i].destRelayID < 10) {
+				var value2 = 10 + obj.connections[i].destRelayID;
+			}
+			else {
+				var value2 = 1 + obj.connections[i].destRelayID;
+			}
+
+			addEdge(value1, value2)
 		}
 	}
-	else {
-		if (s < 10) {
-			list = isReachable(s + 100 + "", d, toProc);
-		}
-		else {
-			list = isReachable(s + 1 + "", d, toProc);
-		}
+	var source;
+	var dest;
+
+	//console.log(adj)
+	sourceType = s.substring(0, 1);
+	destType = d.substring(0, 1);
+	if (sourceType == "s") {
+		source = s.substring(1, s.length);
 	}
+	else if (sourceType == "r") {
+		source = Math.round(s.substring(1, s.length)) + 100;
+	}
+
+	if (d.substring(0, 1) == "s") {
+		dest = d.substring(1, d.length);
+	}
+	else if (d.substring(0, 1) == "r") {
+		dest = Math.round(d.substring(1, d.length)) + 100;
+	}
+
+	console.log("source = " + source);
+	console.log("dest = " + dest);
+	list = isReachable(source, dest);
+
+
 	document.write(list);
 
 	return list;
@@ -70,35 +71,34 @@ function addEdge(v, w) {
 	adj[v][w] = w;
 
 	adj[w][v] = v;
-
-	//adj[w].fill([v]);   
-
 }
 
 //prints BFS traversal from a given source s
-function isReachable(s, d, toProc) {
+function isReachable(s, d) {
 	var temp = [];
 	var visited = [];
 	var queue = [];
 	var path = [];
-	var popped = false;
 
 	// Mark the current node as visited and enqueue it
 	visited[s] = true;
 	queue.push(s);
-	if (toProc) {
+	console.log(queue);
+	if (sourceType == "s") {
 		path.push("s" + s);
 	}
-	else {
+	else if (sourceType == "r") {
 		path.push("r" + (s - 100));
 	}
 
 	while (queue.length > 0) {
 		console.log("queue before popping s: " + queue);
 		s = queue.pop();
+		if (queue.length > 0 && destType == "s") {
+			path.pop();
+		}
 
 
-		//path.pop();
 		console.log("s " + s);
 		console.log("queue after popping s: " + queue);
 
@@ -111,10 +111,10 @@ function isReachable(s, d, toProc) {
 				console.log("FINISHED!");
 				console.log("QUEUE: " + queue)
 				console.log(" n " + n);
-				if (!toProc) {
+				if (destType == "s") {
 					path.push("s" + n);
 				}
-				else {
+				else if (destType == "r") {
 					path.push("r" + (n - 100));
 				}
 				console.log(path);
@@ -127,21 +127,21 @@ function isReachable(s, d, toProc) {
 				}
 
 
-				console.log(path);
+				//console.log(path);
 				return path;
 			}
 
 			if (!visited[n]) {
 				visited[n] = true;
-				queue.push(n);
-				console.log(" n " + n);
-				if (toProc && n > 100) {
-					path.push(n);
-					console.log(path);
+				console.log(queue);
+				if (n) {
+					queue.push(n);
+					console.log(" n " + n);
 				}
-				else if (!toProc && n) {
+				if (n > 100) {
+					console.log("NNNN" + n);
 					path.push(n);
-					console.log(path);
+					//console.log(path);
 				}
 			}
 		}
