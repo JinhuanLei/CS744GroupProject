@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<!-- This code is for demonstration purposes only.  You should not hotlink to Github, Rawgit, or files from the Cytoscape.js documentation in your production apps. -->
+<html>
+<head>
+
+    <meta charset=utf-8 />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+    <title>Animated BFS</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.8/cytoscape.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-qtip/2.7.0/cytoscape-qtip.js"></script>
+</head>
+<body>
+    <div class="row">
+
+        <div id="cy" class="col-md-8 col-md-offset-3" style=" z-index: 0; overflow: hidden; width: 800px; height: 800px; "></div>
+
+        <div class="col-md-6 col-md-offset-3">
+
+            <button class="btn btn-default" type="submit" onclick="startFlow()">Start</button>
+
+            <button class="btn btn-default" type="submit" onclick="stopFlow()">Stop</button>
+
+
+            <button class="btn btn-default" type="submit" onclick="ChangeNode()">ChangeNode</button>
+            <button class="btn btn-default" type="submit" onclick="ChangeEdge()">ChangeEdge</button>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="code.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script>
+
+        function stopFlow() {
+            clearTimeout(flag);
+        }
+
+        function startFlow() {
+            highlightNextEle();
+
+        }
+        function ChangeNode() {
+            cy.$('#R11').classes('newStyle');
+        }
+        function ChangeEdge() {
+
+            cy.$('#R1R11').classes('newStyle');
+        }
+
+        cy.$('#R11').qtip({
+            content: 'Hello!',
+            position: {
+                my: 'top center',
+                at: 'bottom center'
+            },
+            style: {
+                classes: 'qtip-bootstrap',
+                tip: {
+                    width: 16,
+                    height: 8
+                }
+            }
+        });
+
+    </script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

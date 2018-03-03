@@ -156,13 +156,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BLL\SimpleAES.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Database\account.cs" />
     <Compile Include="Database\connections.cs" />
     <Compile Include="Database\creditcard.cs" />
     <Compile Include="Database\MNDatabase.cs" />
     <Compile Include="Database\relay.cs" />
-    <Compile Include="Database\relayconnectionweight.cs" />
     <Compile Include="Database\store.cs" />
     <Compile Include="Database\transaction.cs" />
     <Compile Include="Database\user.cs" />
@@ -172,6 +172,7 @@
     <Compile Include="Models\NetworkModel.cs" />
     <Compile Include="Models\EntireDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controllers\TransactionController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -189,6 +190,7 @@
     <None Include="Properties\PublishProfiles\Development.pubxml" />
     <None Include="Properties\PublishProfiles\Production.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\graph.findpath.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -199,6 +201,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\cytoscape.config.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -209,10 +212,14 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\EntireDatabase.cshtml" />
+    <Content Include="Views\Transaction\Create.cshtml" />
+    <Content Include="Views\Transaction\Index.cshtml" />
+    <Content Include="Views\Home\_TransactionPartial.cshtml" />
+    <Content Include="Views\Home\ViewPage1.cshtml" />
+    <Content Include="Views\Home\_DetailTransactionRowPartial.cshtml" />
+    <Content Include="Views\Home\_EncryptTransactionRowPartial.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

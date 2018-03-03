@@ -12,8 +12,8 @@ namespace MonitorNetwork.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public store()
         {
+            connections = new HashSet<connections>();
             transaction = new HashSet<transaction>();
-            relay = new HashSet<relay>();
         }
 
         public int storeID { get; set; }
@@ -27,9 +27,9 @@ namespace MonitorNetwork.Database
         public string merchantName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<transaction> transaction { get; set; }
+        public virtual ICollection<connections> connections { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<relay> relay { get; set; }
+        public virtual ICollection<transaction> transaction { get; set; }
     }
 }

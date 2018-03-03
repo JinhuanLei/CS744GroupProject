@@ -13,13 +13,12 @@ namespace MonitorNetwork.Database
         }
 
         public virtual DbSet<account> account { get; set; }
+        public virtual DbSet<connections> connections { get; set; }
         public virtual DbSet<creditcard> creditcard { get; set; }
         public virtual DbSet<relay> relay { get; set; }
-        public virtual DbSet<relayconnectionweight> relayconnectionweight { get; set; }
         public virtual DbSet<store> store { get; set; }
         public virtual DbSet<transaction> transaction { get; set; }
         public virtual DbSet<user> user { get; set; }
-        public virtual DbSet<connections> connections { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -46,21 +45,20 @@ namespace MonitorNetwork.Database
                 .HasPrecision(0);
 
             modelBuilder.Entity<relay>()
-                .HasMany(e => e.relayconnectionweight)
-                .WithRequired(e => e.relay)
-                .HasForeignKey(e => e.relayID1)
-                .WillCascadeOnDelete(false);
+                .HasMany(e => e.connections)
+                .WithOptional(e => e.relay)
+                .HasForeignKey(e => e.relayID);
 
             modelBuilder.Entity<relay>()
-                .HasMany(e => e.relayconnectionweight1)
+                .HasMany(e => e.connections1)
                 .WithRequired(e => e.relay1)
-                .HasForeignKey(e => e.relayID2)
+                .HasForeignKey(e => e.destRelayID)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<relay>()
-                .HasMany(e => e.store)
-                .WithMany(e => e.relay)
-                .Map(m => m.ToTable("storetorelay").MapLeftKey("relayID").MapRightKey("storeID"));
+            modelBuilder.Entity<store>()
+                .HasMany(e => e.transaction)
+                .WithRequired(e => e.store)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<transaction>()
                 .Property(e => e.timeOfTransaction)

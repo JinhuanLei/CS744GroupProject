@@ -5,50 +5,121 @@ using System.Web;
 using System.Web.Mvc;
 using MonitorNetwork.Database;
 using MonitorNetwork.Models;
+using MonitorNetwork.BLL;
+using System.Net;
 
 namespace MonitorNetwork.Controllers
 {
     public class HomeController : Controller
     {
+        private MNDatabase db = new MNDatabase();
+
         public ActionResult Index()
         {
-			MNDatabase context = new MNDatabase();
-			NetworkModel nm = new NetworkModel();
-			nm.transactions = context.transaction.ToList();
-			nm.connections = context.connections.ToList();
-			nm.relays = context.relay.ToList();
-			return View(nm);
+            NetworkModel nm = new NetworkModel();
+            nm.transactions = db.transaction.ToList();
+
+            SetupJavascriptData(nm);
+
+            return View(nm);
         }
 
-        public ActionResult About()
+        public ActionResult EncryptThenSend(int? id)
         {
-            ViewBag.Message = "Your application description page.";
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            transaction transaction = db.transaction.Find(id);
+            if (transaction == null)
+            {
+                return HttpNotFound();
+            }
 
-            return View();
-        }
+            transaction.isEncrypted = true;
+            transaction.isSent = true;
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            db.SaveChanges();
 
-            return View();
+            return PartialView("_EncryptTransactionRowPartial", transaction);
         }
 
         public ActionResult EntireDatabase()
         {
-            MNDatabase context = new MNDatabase();
-
             EntireDatabase edb = new EntireDatabase();
 
-            edb.accounts = context.account.AsEnumerable();
-            edb.creditcards = context.creditcard.AsEnumerable();
-            edb.relays = context.relay.AsEnumerable();
-            edb.relayconnectionweights = context.relayconnectionweight.AsEnumerable();
-            edb.stores = context.store.AsEnumerable();
-            edb.transaction = context.transaction.AsEnumerable();
-            edb.user = context.user.AsEnumerable();
+            edb.accounts = db.account.AsEnumerable();
+            edb.creditcards = db.creditcard.AsEnumerable();
+            edb.relays = db.relay.AsEnumerable();
+            edb.stores = db.store.AsEnumerable();
+            edb.transaction = db.transaction.AsEnumerable();
+            edb.user = db.user.AsEnumerable();
+            edb.connections = db.connections.AsEnumerable();
 
             return View(edb);
+        }
+
+        public void SetupJavascriptData(NetworkModel nm)
+        {
+                
+            nm.connections = (from conn in db.connections
+                              select new Connections
+                              {
+                                  connID = conn.connID,
+                                  storeID = conn.storeID,
+                                  relayID = conn.relayID,
+                                  destRelayID = conn.destRelayID,
+                                  weight = conn.weight,
+                                  active = conn.active
+                              }).ToList();
+
+            nm.relays = (from relay in db.relay
+                         select new Relays
+                         {
+                             relayID = relay.relayID,
+                             relayIP = relay.relayIP,
+                             status = relay.status,
+                             isProcessingCenter = relay.isProcessingCenter
+                         }).ToList();
+
+            nm.stores = (from store in db.store
+                         select new Stores
+                         {
+                             storeID = store.storeID,
+                             storeIP = store.storeIP,
+                             merchantName = store.merchantName
+                         }).ToList();
+
+            nm.cytoscapeNodes = (from relay in db.relay
+                                 select new CytoscapeData
+                                 {
+                                     data = new CytoscapeNode()
+                                     {
+                                         id = "R" + relay.relayID,
+                                         label = relay.relayIP.Substring(8)
+                                     }
+                                 })
+                        .Concat(from store in db.store
+                                select new CytoscapeData
+                                {
+                                    data = new CytoscapeNode()
+                                    {
+                                        id = "S" + store.storeID,
+                                        label = store.storeIP.Substring(8)
+                                    }
+                                }).ToList();
+
+            nm.cytoscapeEdges = (from conn in db.connections
+                                 select new CytoscapeData
+                                 {
+                                     data = new CytoscapeEdge()
+                                     {
+                                         id = conn.relayID.HasValue ? "R" + conn.relayID + "R" + conn.destRelayID : "S" + conn.storeID + "R" + conn.destRelayID,
+                                         weight = conn.weight,
+                                         source = conn.relayID.HasValue ? "R" + conn.relayID : "S" + conn.storeID,
+                                         target = "R" + conn.destRelayID
+                                     }
+                                 }).ToList();
         }
     }
 }

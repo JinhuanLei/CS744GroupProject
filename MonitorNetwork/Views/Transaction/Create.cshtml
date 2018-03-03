@@ -1,0 +1,83 @@
+﻿@model MonitorNetwork.Database.transaction
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{    
+<div class="form-horizontal">
+    <h4>Transaction</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.Label("Account", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("accountID", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.accountID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Merchant Name", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("storeID", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.storeID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-2">
+            Credit @Html.RadioButton("isCredit", "true", true, new { id = "isCredit", onclick = "disableSelf()" })
+            Debit @Html.RadioButton("isCredit", "false", new { onclick = "enableSelf()" })
+            @Html.ValidationMessageFor(model => model.isCredit, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("SELF", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10" style="padding-top: 7px;">
+            @Html.CheckBoxFor(model => model.isSelf, new { disabled = "disabled" })
+            @Html.ValidationMessageFor(model => model.isSelf, "", new { @class = "text-danger"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.amount, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Home")
+</div>
+
+<script>
+    function disableSelf() {
+        document.getElementById("isSelf").disabled = true;
+        document.getElementById("isSelf").checked = false;
+    }
+
+    function enableSelf() {
+        document.getElementById("isSelf").disabled = false;
+    }
+
+    @if (Model != null && !Model.isCredit)
+    {
+         @: enableSelf();
+    }
+</script>

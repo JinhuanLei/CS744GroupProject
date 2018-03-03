@@ -12,9 +12,8 @@ namespace MonitorNetwork.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public relay()
         {
-            relayconnectionweight = new HashSet<relayconnectionweight>();
-            relayconnectionweight1 = new HashSet<relayconnectionweight>();
-            store = new HashSet<store>();
+            connections = new HashSet<connections>();
+            connections1 = new HashSet<connections>();
         }
 
         public int relayID { get; set; }
@@ -28,12 +27,9 @@ namespace MonitorNetwork.Database
         public bool isProcessingCenter { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<relayconnectionweight> relayconnectionweight { get; set; }
+        public virtual ICollection<connections> connections { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<relayconnectionweight> relayconnectionweight1 { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<store> store { get; set; }
+        public virtual ICollection<connections> connections1 { get; set; }
     }
 }
