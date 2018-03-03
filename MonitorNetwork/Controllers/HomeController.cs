@@ -114,7 +114,7 @@ namespace MonitorNetwork.Controllers
                                  {
                                      data = new CytoscapeEdge()
                                      {
-                                         id = conn.relayID.HasValue ? "s" + conn.relayID + "r" + conn.destRelayID : "s" + conn.storeID + "r" + conn.destRelayID,
+                                         id = conn.relayID.HasValue ? "r" + conn.relayID + "r" + conn.destRelayID : "s" + conn.storeID + "r" + conn.destRelayID,
                                          weight = conn.weight,
                                          source = conn.relayID.HasValue ? "r" + conn.relayID : "s" + conn.storeID,
                                          target = "r" + conn.destRelayID
