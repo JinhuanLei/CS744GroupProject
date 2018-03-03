@@ -4,32 +4,32 @@ var destType;
 
 function startPath(s, d) {
 	var counter = 0;
-	for (var j = 0; j < obj.connections.length + 200; j++) {
+	for (var j = 0; j < connections.length + 200; j++) {
 		adj[j] = [];
 	}
-	for (var i = 0; i < obj.connections.length; i++) {
+	for (var i = 0; i < connections.length; i++) {
 
-		if (obj.connections[i].storeID != "NULL") {
-			if (obj.connections[i].destRelayID < 10) {
-				addEdge(obj.connections[i].storeID, 10 + obj.connections[i].destRelayID)
+		if (connections[i].storeID != "NULL") {
+			if (connections[i].destRelayID < 10) {
+				addEdge(connections[i].storeID, 10 + connections[i].destRelayID)
 			}
 			else {
-				addEdge(obj.connections[i].storeID, 1 + obj.connections[i].destRelayID)
+				addEdge(connections[i].storeID, 1 + connections[i].destRelayID)
 			}
 		}
 		else {
-			if (obj.connections[i].relayID < 10) {
-				var value1 = 10 + obj.connections[i].relayID;
+			if (connections[i].relayID < 10) {
+				var value1 = 10 + connections[i].relayID;
 			}
 			else {
-				var value1 = 1 + obj.connections[i].relayID;
+				var value1 = 1 + connections[i].relayID;
 
 			}
-			if (obj.connections[i].destRelayID < 10) {
-				var value2 = 10 + obj.connections[i].destRelayID;
+			if (connections[i].destRelayID < 10) {
+				var value2 = 10 + connections[i].destRelayID;
 			}
 			else {
-				var value2 = 1 + obj.connections[i].destRelayID;
+				var value2 = 1 + connections[i].destRelayID;
 			}
 
 			addEdge(value1, value2)
