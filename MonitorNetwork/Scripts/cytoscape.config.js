@@ -45,8 +45,8 @@ var cy = cytoscape({
         })
         .selector('.newStyle')
         .css({
-            'background-color': '#000000',
-            'line-color': '#000000',
+            'background-color': '#8080ff',
+            'line-color': '#8080ff',
             'target-arrow-color': '#61bffc',
             'transition-property': 'background-color, line-color, target-arrow-color',
             'transition-duration': '0.5s'
@@ -99,6 +99,11 @@ var cy = cytoscape({
 
 });
 
+function getIpAdress(storeID) {
+
+}
+
+
 var layout = cy.elements().layout({
     name: 'cose',
     roots: '#R11'
@@ -107,7 +112,7 @@ layout.run();
 console.log(cytoscapeNodes);
 cy.on('mouseover', 'node', function (event) {
     cy.elements("node[id>='S1']").qtip({
-        content: 'node IP',
+        content: "233",
         show: {
             event: event.type,
             // ready: true,
@@ -147,9 +152,18 @@ cy.on('mouseover', 'node', function (event) {
 
 });
 
+function changestyle(evt,type) {
+    if (cy.$("#" + evt.target.id()).hasClass('newStyle') == false) {
+        cy.$("#" + evt.target.id()).classes('newStyle');
+    }
+    else {
+        cy.$("#" + evt.target.id()).classes(type);
+    }
+}
+
 
 cy.on('click', 'node', function (evt) {
-   
+    changestyle(evt,"node");
     var nodeid = evt.target.id();
     var id = (Number)(nodeid.substring(1));
     //alert(evt.target.id() + "  " + id);
@@ -165,7 +179,8 @@ cy.on('click', 'node', function (evt) {
 
 
 cy.on('click', 'edge', function (evt) {
-    alert(evt.target.id());
+    changestyle(evt,"edge");
+    //alert(evt.target.id());
     var edgeid = evt.target.id();
     var start = "";
     var dest = "";
