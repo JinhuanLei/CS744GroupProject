@@ -27,8 +27,7 @@ namespace MonitorNetwork.Controllers
         public ActionResult Create()
         {
            GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
-            ViewBag.creditcard = new object();
-            ViewBag.creditcard.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname");
+            ViewBag.creditcard = new { accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname") };
             ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
 
             return View();
@@ -56,7 +55,7 @@ namespace MonitorNetwork.Controllers
                 } else
                 {
                     creditCardAndAccount.account.creditcard.Add(creditCardAndAccount.creditcard);
-                    db.creditcard.Add(creditCardAndAccount.creditcard);
+                    db.account.Add(creditCardAndAccount.account);
                 }
 
                 db.SaveChanges();
@@ -64,8 +63,7 @@ namespace MonitorNetwork.Controllers
             }
             GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
 
-            ViewBag.creditcard = new object();
-            ViewBag.creditcard.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditCardAndAccount.creditcard.accountID);
+            ViewBag.creditcard = new { accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditCardAndAccount.creditcard.accountID) };
             ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
 
             return View(creditCardAndAccount);
@@ -83,7 +81,6 @@ namespace MonitorNetwork.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.accountID = new SelectList((from acct in db.account select new {accountID=acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditcard.accountID);
             return View(creditcard);
         }
 
@@ -99,7 +96,6 @@ namespace MonitorNetwork.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditcard.accountID);
             return View(creditcard);
         }
 
