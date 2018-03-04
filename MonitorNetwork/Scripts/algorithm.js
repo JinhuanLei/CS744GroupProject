@@ -1,24 +1,22 @@
 ﻿var adj = []; //Adjacency List
 var sourceType;
 var destType;
-var path = [];
+
 function startPath(s, d) {
 	var counter = 0;
 	for (var j = 0; j < 200; j++) {
 		adj[j] = [];
 	}
-	path = [];
 	for (var i = 0; i < connections.length; i++) {
-		if (connections[i].active) {
-			if (connections[i].storeID != null) {
-				addEdge(connections[i].storeID, 100 + Math.round(connections[i].destRelayID))
-			}
-			else {
-				var value1 = 100 + Math.round(connections[i].relayID);
-				var value2 = 100 + Math.round(connections[i].destRelayID);
 
-				addEdge(value1, value2)
-			}
+		if (connections[i].storeID != null) {
+			addEdge(connections[i].storeID, 100 + Math.round(connections[i].destRelayID))
+		}
+		else {
+			var value1 = 100 + Math.round(connections[i].relayID);
+			var value2 = 100 + Math.round(connections[i].destRelayID);
+
+			addEdge(value1, value2)
 		}
 	}
 	var source;
@@ -38,18 +36,12 @@ function startPath(s, d) {
 	else if (d.substring(0, 1) == "r") {
 		dest = Math.round(d.substring(1, d.length)) + 100;
 	}
-	if (destType == "s") {
-		checkForPath(dest, source);
-		return path.reverse();
-	}
-
-	checkForPath(source, dest);
-
-
+	console.log(adj);
+	list = isReachable(source, dest);
 
 	//document.write(list);
-	console.log(path);
-	return path;
+
+	return list;
 }
 
 //Function to add an edge into the graph
@@ -60,69 +52,66 @@ function addEdge(v, w) {
 }
 
 //prints BFS traversal from a given source s
-function isReachable(s, d, visited, parent) {
+function isReachable(s, d) {
 	var temp = [];
+	var visited = [];
 	var queue = [];
-
-
-	//console.log(visited);
-
+	var path = [];
 
 	if (s == d) {
-		return true;
+		path.push(destType + ((d) - 100));
+		return path;
+	}
+	// Mark the current node as visited and enqueue it
+	visited[s] = true;
+	queue.push(s);
+	if (sourceType == "s") {
+		path.push("s" + s);
+	}
+	else if (sourceType == "r") {
+		path.push("r" + (Math.round(s) - 100));
 	}
 
-	visited[s] = true;
-
-	for (var i = 0; i < adj[s].length; i++) {
-		if (!visited[i]) {
-			parent[i] = s;
-
-			if (isReachable(i, d, visited, parent)) {
-				return true;
-			}
+	while (queue.length > 0) {
+		s = queue.pop();
+		if (queue.length > 0 && destType == "s") {
+			path.pop();
 		}
 
+		var n;
+
+		for (var i = 0; i < adj[s].length; i++) {
+			n = adj[s][i];
+			if (d == n) {
+				console.log("FINISHED!");
+
+				if (destType == "s") {
+					path.push("s" + n);
+				}
+				else if (destType == "r") {
+					path.push("r" + (Math.round(n) - 100));
+				}
+
+				for (var k = 0; k < path.length; k++) {
+					if (path[k] > 100) {
+						path[k] = "r" + (Math.round(path[k]) - 100);
+					}
+				}
+
+				return path;
+			}
+
+			if (!visited[n]) {
+				visited[n] = true;
+				if (n) {
+					queue.push(n);
+				}
+				if (n > 100) {
+					path.push(n);
+				}
+			}
+		}
 	}
 
 	return false;
-}
-
-function checkForPath(s, d) {
-
-	visited = [];
-	parent = [];
-
-	for (var i = 0; i < 200; i++) {
-		visited[i] = "";
-		parent[i] = "";
-	}
-
-	if (isReachable(s, d, visited, parent)) {
-		console.log("Path: ");
-		printPath(s, d, parent);
-		return path;
-	}
-	else {
-		return false;
-	}
-}
-
-function printPath(s, d, parent) {
-	if (d == s) {
-		console.log("s" + s + " ");
-		path.push("s" + s);
-
-		return;
-	}
-
-	printPath(s, parent[d], parent);
-	//console.log(parent);
-	if (d > 100) {
-		console.log("r" + (Math.round(d) - 100) + "");
-		path.push("r" + (Math.round(d) - 100) + "")
-	}
-	else if (sourceType == "s") {
-	}
-
 }
