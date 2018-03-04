@@ -1,62 +1,84 @@
-﻿var connectionPath = [];
+﻿/// Source: https://stackoverflow.com/questions/32527026/shortest-path-in-javascript
 
-function startPath(s1) {
-    storeToRelay(s1);
+function Graph() {
+    var neighbors = this.neighbors = {}; // Key = vertex, value = array of neighbors.
 
-    return connectionPath;
+    this.addEdge = function (u, v) {
+        if (neighbors[u] === undefined) {  // Add the edge u -> v.
+            neighbors[u] = [];
+        }
+        neighbors[u].push(v);
+        if (neighbors[v] === undefined) {  // Also add the edge v -> u in order
+            neighbors[v] = [];             // to implement an undirected graph.
+        }                                  // For a directed graph, delete
+        neighbors[v].push(u);              // these four lines.
+    };
+
+    return this;
 }
 
-function storeToRelay(s1) {
-    var next = connections[0];
-
-    if (next.storeID !== s1 || !next.active) {
-        for (var i = 0; i < connections.length; i++) {
-            if (connections[i].storeID === s1 && connections[i].active) {
-                next = connections[i]
+function findPath(source, target) {
+    var graph = constructGraph();
+    if (source === target) {   // Delete these four lines if
+        console.log(source);  // you want to look for a cycle
+        return;               // when the source is equal to
+    }                         // the target.
+    var queue = [source],
+        visited = { source: true },
+        predecessor = {},
+        tail = 0;
+    while (tail < queue.length) {
+        var u = queue[tail++],  // Pop a vertex off the queue.
+            neighbors = graph.neighbors[u];
+        for (var i = 0; i < neighbors.length; ++i) {
+            var v = neighbors[i];
+            if (visited[v]) {
+                continue;
             }
+            visited[v] = true;
+            if (v === target) {   // Check if the path is complete.
+                var path = [v];   // If so, backtrack through the path.
+                while (u !== source) {
+                    path.push(u);
+                    u = predecessor[u];
+                }
+                path.push(u);
+                path.reverse();
+                //console.log(path.join(', '));
+                return path;
+            }
+            predecessor[v] = u;
+            queue.push(v);
         }
     }
-    if (next.storeID === s1) {
-        connectionPath.push("S" + s1);
-
-    }
-    else {
-        console.log("Store does not exist!");
-
-        return 0;
-    }
-    for (var i = 0; i < connections.length; i++) {
-        if (connections[i].weight <= next.weight && connections[i].storeID === s1) {
-            next = connections[i];
-
-        }
-
-    }
-    connectionPath.push("R" + next.destRelayID);
-    relayToRelay(next.destRelayID);
+    console.log('there is no path from ' + source + ' to ' + target);
 }
 
-function relayToRelay(r1) {
-    var next = connections[0];
+function constructGraph() {
+    var graph = new Graph();
 
-    if (next.relayID !== r1 || !next.active) {
-        for (var i = 0; i < connections.length; i++) {
-            if (connections[i].relayID === r1 && connections[i].active) {
-                next = connections[i]
+    connections.forEach(function (connection) {
+        if (connection.active) {
+            var source;
+
+            if (isRelayActive(connection.destRelayID)) {
+                if (connection.relayID !== null && isRelayActive(connection.relayID)) {
+                    graph.addEdge("r" + connection.relayID, "r" + connection.destRelayID);
+                } else {
+                    graph.addEdge("s" + connection.storeID, "r" + connection.destRelayID);
+                }
             }
         }
-    }
-    for (var i = 0; i < connections.length; i++) {
-        if (connections[i].weight <= next.weight && connections[i].relayID === r1) {
-            next = connections[i];
+    });
 
+    return graph;
+}
+
+function isRelayActive(relayId) {
+    return relays.some(function (relay) {
+        if (relay.relayID === relayId && relay.status) {
+            return true;
         }
-
-
-    }
-    connectionPath.push("R" + next.destRelayID);
-    //Will need to change this to our real processing center ID
-    if (next.destRelayID !== 11) {
-        relayToRelay(next.destRelayID);
-    }
+        return false;
+    });
 }

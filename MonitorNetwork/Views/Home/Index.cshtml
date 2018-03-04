@@ -7,14 +7,23 @@
 {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.8/cytoscape.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-qtip/2.7.0/cytoscape-qtip.js"></script>
     <script src="~/Scripts/cytoscape.config.js"></script>
     <script src="~/Scripts/graph.findpath.js"></script>
+
+    <script src="~/Scripts/move.transaction.js"></script>
 }
 
 
 <div id="cy" style=" z-index: 0; overflow: hidden; width: 800px; height: 700px; margin: 0 auto; "></div>
+
+<div class="col-md-6 col-md-offset-3">
+
+    <button class="btn btn-default" type="submit" onclick="startFlow()">Start</button>
+
+    <button class="btn btn-default" type="submit" onclick="stopFlow()">Stop</button>
+
+</div>
 
 <script>
 
@@ -25,17 +34,31 @@
         string nodes = Newtonsoft.Json.JsonConvert.SerializeObject(Model.cytoscapeNodes);
         string edges = Newtonsoft.Json.JsonConvert.SerializeObject(Model.cytoscapeEdges);
     }
-    var connections = @Html.Raw(connections)
-    var relays = @Html.Raw(relays)
-    var stores = @Html.Raw(stores)
+    var connections = @Html.Raw(connections);
+    var relays = @Html.Raw(relays);
+    var stores = @Html.Raw(stores);
 
-    var cytoscapeNodes = @Html.Raw(nodes)
-    var cytoscapeEdges = @Html.Raw(edges)
+    var cytoscapeNodes = @Html.Raw(nodes);
+    var cytoscapeEdges = @Html.Raw(edges);
 
-    function moveTransaction(startID) {
-        var pathToMove = startPath(startID);
-        highlightNextEle(pathToMove);
+    var processingCenterId = "r" + relays.find(function (relay) {
+        return relay.isProcessingCenter;
+    }).relayID;
+
+    //var nodeQueues = { "r1" : [{ transactionId: 100001, toProcCenter = true, storeId: "s1" }] };
+    var nodeQueues = {};
+
+    function constructNodeQueues() {
+        relays.forEach(function (relay) {
+            nodeQueues["r" + relay.relayID] = [];
+        });
+
+        stores.forEach(function (store) {
+            nodeQueues["s" + store.storeID] = [];
+        });
     }
+
+    constructNodeQueues();
 
 </script>
 

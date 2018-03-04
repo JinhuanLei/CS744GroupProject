@@ -10,17 +10,17 @@ var cy = cytoscape({
             // 'content': 'data(id)',
             'label': 'data(label)'
         })
-        .selector("node[id>='S1']")
+        .selector("node[id^='s']")
         .css({
             'label': 'data(label)',
-            'shape': 'triangle',
+            'shape': 'triangle'
         })
-        .selector("node[id<'S1']")
+        .selector("node[id^='r']")
         .css({
             'label': 'data(label)',
-            'background-color': '#000000',
+            'background-color': '#000000'
         })
-        .selector("node[id='R11']")
+        .selector("node[id='r11']")
         .css({
             'label': 'data(label)',
             'shape': 'rectangle',
@@ -63,34 +63,19 @@ var cy = cytoscape({
 
         nodes: cytoscapeNodes,
         edges: cytoscapeEdges
-
-        //nodes: [
-        //    { data: { id: 'S1', label: '192.168.0.7' } },
-        //    { data: { id: 'S2', label: '192.168.0.8' } },
-        //    { data: { id: 'S3', label: '192.168.0.9' } },
-        //    { data: { id: 'S4', label: '192.168.0.10' } },
-        //    { data: { id: 'R11', label: '192.168.1.11' } }
-        //],
-        //edges: [
-        //    { data: { id: 'S1R1', weight: 2, source: 'S1', target: 'R1' } },
-        //    { data: { id: 'R6R7', weight: 10, source: 'R6', target: 'R7' } },
-        //    { data: { id: 'R7R10', weight: 4, source: 'R7', target: 'R10' } },
-        //    { data: { id: 'R10R11', weight: 1, source: 'R10', target: 'R11' } }
-
-        //]
-    },
+    }
 
 
  //   layout: {
   //      name: 'cose',
         // directed: true,
-   //     roots: '#R11',
+   //     roots: '#r11',
   //      padding: 30
   //  },
     // layout: {
     //     name: 'cose',
     //     // directed: true,
-    //     roots: '#R11',
+    //     roots: '#r11',
     //     padding: 30
     // },
     // layout: {
@@ -101,39 +86,109 @@ var cy = cytoscape({
 
 var layout = cy.elements().layout({
     name: 'cose',
-    roots: '#R11'
-    //randomized: true,
-    // nodeDimensionsIncludeLabels: true,
-    // root: '#R11',
-    // animate: false,
-    // removed:false
+    roots: '#r11'
+});
+layout.run();
+cy.on('mouseover', 'node', function (event) {
+
+    var nodeId = event.target.id();
+    var transactionIds = [];
+    nodeQueues[nodeId].forEach(function (queueTransaction) {
+        transactionIds.push(queueTransaction.transactionId);
+    });
+    var queueStr = transactionIds.join(", ");
+
+    cy.elements("node[id^='s']").qtip({
+        //content: 'node IP',
+        content: nodeId + " " + queueStr,
+        show: {
+            event: event.type,
+            // ready: true,
+            solo: true
+        },
+        hide: {
+            event: 'mouseout unfocus'
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 16,
+                height: 8
+            }
+        }
+    }, event);
+
+
+    cy.elements("node[id^='r']").qtip({
+        //content: 'relay IP',
+        content: nodeId + " " + queueStr,
+        show: {
+            event: event.type,
+            // ready: true,
+            solo: true
+        },
+        hide: {
+            event: 'mouseout unfocus'
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 16,
+                height: 8
+            }
+        }
+    }, event);
+
 });
 
-layout.run();
+
+cy.on('click', 'node', function (evt) {
+   
+    var nodeid = evt.target.id();
+    var id = (Number)(nodeid.substring(1));
+    //alert(evt.target.id() + "  " + id);
+    for (var x = 0; x < relays.length; x++) {
+      //  alert(relays[x].relayID + "  " + id);
+        if (relays[x].relayID === id && relays[x].isProcessingCenter === false) {
+            relays[x].status = (relays[x].status === true ? false : true);
+        }
+    }
+    console.log($(relays)); 
+    })
+
+
+cy.on('click', 'edge', function (evt) {
+    alert(evt.target.id());
+    var edgeid = evt.target.id();
+    var start = "";
+    var dest = "";
+    var arr = edgeid.split("r");
+    var connection;
+    if (edgeid[0] === "r") {
+        start = arr[1];
+        dest = arr[2];
+        connection = connections.find(function (connection) {
+            return connection.relayID === start && connection.destRelayID === dest;
+        });
+
+        
+    } else {
+        start = arr[0].substring(1);
+        dest = arr[1];
+
+        connection = connections.find(function (connection) {
+            return connection.storeID === start && connection.destRelayID === dest;
+        });
+    }
+    connection.active = !connection.active;
+
+    console.log($(connections)); 
+})
+
 // cy.autolock( true );
 cy.userZoomingEnabled(false);
-//var bfs = cy.elements().dfs('#S1', function () { }, true);
-//var i = 0;
-//var path = new Array("S1", "R1", "R11");
-// var highlightNextEle = function(){
-//     if( i <bfs.path.length ){
-//         bfs.path[i].addClass('highlighted');
-//
-//         i++;
-//         flag=setTimeout(highlightNextEle, 1000);
-//     }
-var flag;
-var i = 0;
-function highlightNextEle(path) {
-    if (i < path.length) {
-        cy.$('#' + path[i]).addClass('highlighted');
-        if ((i + 1) != path.length) {
-            cy.$('#' + path[i] + path[i + 1]).addClass('highlighted');
-        }
-        i++;
-        flag = setTimeout(highlightNextEle, 1000, path);
-    }
-};
+
+
 
 
 
