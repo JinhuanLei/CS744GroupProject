@@ -13,12 +13,12 @@ var cy = cytoscape({
         .selector("node[id^='s']")
         .css({
             'label': 'data(label)',
-            'shape': 'triangle',
+            'shape': 'triangle'
         })
         .selector("node[id^='r']")
         .css({
             'label': 'data(label)',
-            'background-color': '#000000',
+            'background-color': '#000000'
         })
         .selector("node[id='r11']")
         .css({
@@ -63,7 +63,7 @@ var cy = cytoscape({
 
         nodes: cytoscapeNodes,
         edges: cytoscapeEdges
-    },
+    }
 
 
  //   layout: {
@@ -94,7 +94,7 @@ cy.on('mouseover', 'node', function (event) {
     var nodeId = event.target.id();
     var transactionIds = [];
     nodeQueues[nodeId].forEach(function (queueTransaction) {
-        transactionIds.push(queueTransaction.transactionId)
+        transactionIds.push(queueTransaction.transactionId);
     });
     var queueStr = transactionIds.join(", ");
 
@@ -121,7 +121,7 @@ cy.on('mouseover', 'node', function (event) {
 
     cy.elements("node[id^='r']").qtip({
         //content: 'relay IP',
-        content: nodeId + queueStr,
+        content: nodeId + " " + queueStr,
         show: {
             event: event.type,
             // ready: true,
@@ -149,9 +149,8 @@ cy.on('click', 'node', function (evt) {
     //alert(evt.target.id() + "  " + id);
     for (var x = 0; x < relays.length; x++) {
       //  alert(relays[x].relayID + "  " + id);
-        if (relays[x].relayID == id && relays[x].isProcessingCenter==false) {
-           
-    relays[x].status = (relays[x].status == true ? false : true);
+        if (relays[x].relayID === id && relays[x].isProcessingCenter === false) {
+            relays[x].status = (relays[x].status === true ? false : true);
         }
     }
     console.log($(relays)); 
@@ -164,23 +163,25 @@ cy.on('click', 'edge', function (evt) {
     var start = "";
     var dest = "";
     var arr = edgeid.split("r");
-    if (edgeid[0] == "r") {
+    var connection;
+    if (edgeid[0] === "r") {
         start = arr[1];
         dest = arr[2];
-        for (var x = 0; x < connections.length; x++) {
-            if (connections[x].relayID == start && connections[x].destRelayID == dest) {
-                connections[x].active = (connections[x].active == true ? false : true);
-            }
-        }
+        connection = connections.find(function (connection) {
+            return connection.relayID === start && connection.destRelayID === dest;
+        });
+
+        
     } else {
         start = arr[0].substring(1);
         dest = arr[1];
-        for (var x = 0; x < connections.length; x++) {
-            if (connections[x].storeID == start && connections[x].destRelayID == dest) {
-                connections[x].active = (connections[x].active == true ? false : true);
-            }
-        }
+
+        connection = connections.find(function (connection) {
+            return connection.storeID === start && connection.destRelayID === dest;
+        });
     }
+    connection.active = !connection.active;
+
     console.log($(connections)); 
 })
 

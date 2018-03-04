@@ -19,7 +19,7 @@ function Graph() {
 
 function findPath(source, target) {
     var graph = constructGraph();
-    if (source == target) {   // Delete these four lines if
+    if (source === target) {   // Delete these four lines if
         console.log(source);  // you want to look for a cycle
         return;               // when the source is equal to
     }                         // the target.
