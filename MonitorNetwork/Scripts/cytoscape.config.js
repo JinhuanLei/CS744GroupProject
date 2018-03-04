@@ -99,9 +99,33 @@ var cy = cytoscape({
 
 });
 
-function getIpAdress(storeID) {
-
+function getStoreIpAdress(storeID) {
+    console.log(storeID);
+    var nodeid = storeID;
+    var id = (Number)(nodeid.substring(1));
+    //alert(evt.target.id() + "  " + id);
+    for (var x = 0; x < stores.length; x++) {
+        //  alert(relays[x].relayID + "  " + id);
+        if (stores[x].storeID == id) {
+            
+            return stores[x].storeIP;
+        }
+    }
 }
+function getRelayIpAdress(relayID) {
+    console.log(relayID);
+    var nodeid = relayID;
+    var id = (Number)(nodeid.substring(1));
+    //alert(evt.target.id() + "  " + id);
+    for (var x = 0; x < relays.length; x++) {
+        //  alert(relays[x].relayID + "  " + id);
+        if (relays[x].relayID == id) {
+            return relays[x].relayIP;
+        }
+    }
+}
+console.log(stores);
+console.log(relays);
 
 
 var layout = cy.elements().layout({
@@ -110,54 +134,90 @@ var layout = cy.elements().layout({
 });
 layout.run();
 console.log(cytoscapeNodes);
-cy.on('mouseover', 'node', function (event) {
-    cy.elements("node[id>='S1']").qtip({
-        content: "233",
-        show: {
-            event: event.type,
-            // ready: true,
-            solo: true
-        },
-        hide: {
-            event: 'mouseout unfocus'
-        },
-        style: {
-            classes: 'qtip-bootstrap',
-            tip: {
-                width: 16,
-                height: 8
-            }
+
+cy.nodes().qtip({
+    content: function () {
+        return '192.168.' + this.data('label')
+    },
+    position: {
+        my: 'top center',
+        at: 'bottom center'
+    },
+    style: {
+        classes: 'qtip-bootstrap',
+        tip: {
+            width: 16,
+            height: 8
         }
-    }, event);
-
-
-    cy.elements("node[id<'S1']").qtip({
-        content: 'relay IP',
-        show: {
-            event: event.type,
-            // ready: true,
-            solo: true
-        },
-        hide: {
-            event: 'mouseout unfocus'
-        },
-        style: {
-            classes: 'qtip-bootstrap',
-            tip: {
-                width: 16,
-                height: 8
-            }
+    },
+    show: {
+        event: 'mouseover',
+        solo: true,
+        effect: function (offset) {
+            $(this).slideDown(100); // "this" refers to the tooltip
         }
-    }, event);
-
+        
+    },
+    hide: {
+        event: 'mouseout unfocus'
+    }
 });
+    //cy.on('mouseover', 'node', function (event) {
+    //    cy.elements("node[id>='S1']").qtip({
+    //        //content: getStoreIpAdress(event.target.id()),
+    //        content: function () { return getStoreIpAdress(event.target.id()) },
+    //        show: {
+    //            event: event.type,
+    //            //event: 'mouseover',
+    //            //ready: true,
+    //            solo: true
+    //        },
+    //        hide: {
+    //            event: 'mouseout unfocus'
+    //        },
+    //        style: {
+    //            classes: 'qtip-bootstrap',
+    //            tip: {
+    //                width: 16,
+    //                height: 8
+    //            }
+    //        }
+    //    }, event);
 
-function changestyle(evt,type) {
+    //    cy.elements("node[id<'S1']").qtip({
+    //        //content: getRelayIpAdress(event.target.id()),
+    //        content: function () { return getRelayIpAdress(event.target.id()) },
+    //        show: {
+    //            event: event.type,
+    //            //event: 'mouseover'
+    //            //ready: true,
+    //            solo: true
+    //        },
+    //        hide: {
+    //            event: 'mouseout unfocus'
+    //        },
+    //        style: {
+    //            classes: 'qtip-bootstrap',
+    //            tip: {
+    //                width: 16,
+    //                height: 8
+    //            }
+    //        }
+    //    }, event);
+    //});
+
+
+
+function changestyle(evt, type) {
+    if (evt.target.id() != "R11") {
+
+    
     if (cy.$("#" + evt.target.id()).hasClass('newStyle') == false) {
         cy.$("#" + evt.target.id()).classes('newStyle');
     }
     else {
         cy.$("#" + evt.target.id()).classes(type);
+        }
     }
 }
 
