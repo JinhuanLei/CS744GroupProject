@@ -33,7 +33,7 @@ var cy = cytoscape({
             'width': 4,
             'line-color': '#ddd',
             'target-arrow-color': '#ddd',
-            'label': 'data(label)'
+            'label': 'data(weight)'
         })
         .selector('.highlighted')
         .css({
