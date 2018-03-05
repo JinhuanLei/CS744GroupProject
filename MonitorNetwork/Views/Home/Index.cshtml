@@ -10,7 +10,7 @@
     <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-qtip/2.7.0/cytoscape-qtip.js"></script>
     <script src="~/Scripts/cytoscape.config.js"></script>
     <script src="~/Scripts/graph.findpath.js"></script>
-
+    <script src="~/Scripts/graph.start.stop.js"></script>
     <script src="~/Scripts/move.transaction.js"></script>
 }
 
@@ -19,9 +19,9 @@
 
 <div class="col-md-2 col-md-offset-10">
 
-    <button class="btn btn-default" type="submit" onclick="startFlow()">Start</button>
+    <button id="resumeFlowBtn"class="btn btn-default" type="submit" onclick="resumeFlow()" disabled="Disabled">Resume</button>
 
-    <button class="btn btn-default" type="submit" onclick="stopFlow()">Stop</button>
+    <button id="stopFlowBtn" class="btn btn-default" type="submit" onclick="stopFlow()">Stop</button>
 
 </div>
 
@@ -45,16 +45,23 @@
         return relay.isProcessingCenter;
     }).relayID;
 
-    //var nodeQueues = { "r1" : [{ transactionId: 100001, toProcCenter = true, storeId: "s1" }] };
-    var nodeQueues = {};
+    var elementQueues = {};
 
     function constructNodeQueues() {
         relays.forEach(function (relay) {
-            nodeQueues["r" + relay.relayID] = [];
+            elementQueues["r" + relay.relayID] = [];
         });
 
         stores.forEach(function (store) {
-            nodeQueues["s" + store.storeID] = [];
+            elementQueues["s" + store.storeID] = [];
+        });
+
+        connections.forEach(function (connection) {
+            if (connection.relayID === null) {
+                elementQueues["s" + connection.storeID + "r" + connection.destRelayID] = [];
+            } else {
+                elementQueues["r" + connection.relayID + "r" + connection.destRelayID] = [];
+            }
         });
     }
 

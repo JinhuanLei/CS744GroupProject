@@ -146,24 +146,25 @@ cy.nodes().qtip({
         var nodeId = this.data('id');
         var label = this.data('label');
         var transactionIds = [];
-            nodeQueues[nodeId].forEach(function (queueTransaction) {
-        transactionIds.push(queueTransaction.transactionId);
-    });
-            var queueStr = transactionIds.join(", ");
-            if (nodeId[0] == "r") {
-                return '192.168.' + this.data('label') + '\n'+'Queue:' + queueStr
-            } else {
-                var merchantName;
-                stores.forEach(function (t, number, ts) {
-                    console.log(t.storeID + "   " + nodeId.substring(1));
-                    console.log(t.storeID == nodeId.substring(1));
-                    if (t.storeID==nodeId.substring(1)) {
+        elementQueues[nodeId].forEach(function (queueTransaction) {
+            transactionIds.push(queueTransaction.transactionId);
+        });
+
+        var queueStr = transactionIds.join(", ");
+        if (nodeId[0] == "r") {
+            return '192.168.' + this.data('label') + '\n'+'Queue:' + queueStr
+        } else {
+            var merchantName;
+            stores.forEach(function (t, number, ts) {
+                console.log(t.storeID + "   " + nodeId.substring(1));
+                console.log(t.storeID == nodeId.substring(1));
+                if (t.storeID==nodeId.substring(1)) {
                       
-                        merchantName = t.merchantName;
-                    }
-                });
-                  return merchantName + ':192.168.' + label + '\n' + 'Queue:' + queueStr
-            }
+                    merchantName = t.merchantName;
+                }
+            });
+                return merchantName + ':192.168.' + label + '\n' + 'Queue:' + queueStr
+        }
     
     },
     position: {
