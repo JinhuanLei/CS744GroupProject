@@ -217,7 +217,7 @@ cy.on('click', 'edge', function (evt) {
         start = arr[1];
         dest = arr[2];
         connection = connections.find(function (connection) {
-            return connection.relayID === start && connection.destRelayID === dest;
+            return connection.relayID == start && connection.destRelayID == dest;
         });
 
         
@@ -226,7 +226,7 @@ cy.on('click', 'edge', function (evt) {
         dest = arr[1];
 
         connection = connections.find(function (connection) {
-            return connection.storeID === start && connection.destRelayID === dest;
+            return connection.storeID == start && connection.destRelayID == dest;
         });
     }
     connection.active = !connection.active;

@@ -27,7 +27,7 @@ function sendToNode(fromNode, toNode, transaction) {
     //temppath = path1;
 
     if (fromNode !== null) {
-        cy.$('#' + fromNode + toNode).removeClass('highlighted');
+        highlightConnection(fromNode, toNode, false);
     }
 
     cy.$('#' + toNode).addClass('highlighted');
@@ -37,6 +37,11 @@ function sendToNode(fromNode, toNode, transaction) {
     if (!hasReachedDestination(toNode, transaction)) {
 
         var path = getPath(toNode, transaction);
+
+        if (path === null) {
+            delete timeouts[transaction.transactionId];
+            return;
+        }
 
         var nodeTimeout = setTimeout(sendToConnection, 1000, path[0], path[1], transaction);
 
@@ -54,7 +59,7 @@ function sendToConnection(fromNode, toNode, transaction) {
 
     cy.$('#' + fromNode).removeClass('highlighted');
 
-    cy.$('#' + fromNode + toNode).addClass('highlighted');
+    highlightConnection(fromNode, toNode, true);
 
     nodeQueues[fromNode].shift();
 
@@ -74,9 +79,9 @@ function hasReachedDestination(currentNode, transaction) {
 
 function getPath(currentNode, transaction) {
     if (transaction.toProcCenter) {
-        return findPath(currentNode, processingCenterId);
+        return findPath(currentNode, processingCenterId, true);
     } else {
-        return findPath(currentNode, transaction.storeId);
+        return findPath(currentNode, transaction.storeId, false);
     }
 }
 
@@ -91,4 +96,24 @@ function startFlow() {
         var timeoutData = timeouts[transactionId];
         timeoutData.sendFunc(timeoutData.fromNode, timeoutData.toNode, timeoutData.transaction);
     });
+}
+
+function highlightConnection(nodeId1, nodeId2, highlight) {
+    var highlightNodeId;
+
+    for (var i = 0; i < cytoscapeEdges.length; i++) {
+        if ((cytoscapeEdges[i].data.source === nodeId1 && cytoscapeEdges[i].data.target === nodeId2) ||
+            (cytoscapeEdges[i].data.source === nodeId2 && cytoscapeEdges[i].data.target === nodeId1)) {
+            highlightNodeId = cytoscapeEdges[i].data.source + cytoscapeEdges[i].data.target;
+        }
+    }
+    if (highlightNodeId === undefined) {
+        console.log("Could not find edge in graph for " + nodeId1 + " " + nodeId2);
+        return;
+    }
+    if (highlight) {
+        cy.$('#' + highlightNodeId).addClass('highlighted');
+    } else {
+        cy.$('#' + highlightNodeId).removeClass('highlighted');
+    }
 }

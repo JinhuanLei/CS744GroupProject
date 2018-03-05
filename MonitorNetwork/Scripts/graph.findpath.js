@@ -3,7 +3,7 @@
 function Graph() {
     var neighbors = this.neighbors = {}; // Key = vertex, value = array of neighbors.
 
-    this.addEdge = function (u, v) {
+    this.addBiEdge = function (u, v) {
         if (neighbors[u] === undefined) {  // Add the edge u -> v.
             neighbors[u] = [];
         }
@@ -14,11 +14,24 @@ function Graph() {
         neighbors[v].push(u);              // these four lines.
     };
 
+    this.addUniEdge = function (u, v) {
+        if (neighbors[u] === undefined) {  // Add the edge u -> v.
+            neighbors[u] = [];
+        }
+        neighbors[u].push(v);
+    }
+
+    this.addNode = function (u) {
+        if (neighbors[u] === undefined) {
+            neighbors[u] = [];
+        }
+    }
+
     return this;
 }
 
-function findPath(source, target) {
-    var graph = constructGraph();
+function findPath(source, target, toProcCenter) {
+    var graph = constructGraph(toProcCenter);
     if (source === target) {   // Delete these four lines if
         console.log(source);  // you want to look for a cycle
         return;               // when the source is equal to
@@ -52,10 +65,20 @@ function findPath(source, target) {
         }
     }
     console.log('there is no path from ' + source + ' to ' + target);
+    return null;
 }
 
-function constructGraph() {
+function constructGraph(toProcCenter) {
     var graph = new Graph();
+
+
+    relays.forEach(function (relay) {
+        graph.addNode("r" + relay.relayID);
+    });
+
+    stores.forEach(function (store) {
+        graph.addNode("s" + store.storeID);
+    });
 
     connections.forEach(function (connection) {
         if (connection.active) {
@@ -63,9 +86,13 @@ function constructGraph() {
 
             if (isRelayActive(connection.destRelayID)) {
                 if (connection.relayID !== null && isRelayActive(connection.relayID)) {
-                    graph.addEdge("r" + connection.relayID, "r" + connection.destRelayID);
+                    graph.addBiEdge("r" + connection.relayID, "r" + connection.destRelayID);
                 } else {
-                    graph.addEdge("s" + connection.storeID, "r" + connection.destRelayID);
+                    if (toProcCenter) {
+                        graph.addUniEdge("s" + connection.storeID, "r" + connection.destRelayID);
+                    } else {
+                        graph.addUniEdge("r" + connection.storeID, "s" + connection.destRelayID);
+                    }
                 }
             }
         }
