@@ -22,6 +22,20 @@
     $@Html.DisplayFor(modelItem => Model.amount)
 </td>
 <td>
+    @if(Model.status.HasValue)
+    {
+        if (Model.status.Value) {
+            @:Approved
+        } else {
+            @:Declined
+        }; 
+    }
+    else
+    {
+        @:Unprocessed
+    }
+</td>
+<td>
     @if (Model.isSent)
     {
         @: Sent

@@ -21,7 +21,7 @@ namespace MonitorNetwork.Database
 
         public bool isCredit { get; set; }
 
-        public bool status { get; set; }
+        public bool? status { get; set; }
 
         public bool isEncrypted { get; set; }
 
