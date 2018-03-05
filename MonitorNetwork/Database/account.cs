@@ -19,11 +19,11 @@ namespace MonitorNetwork.Database
         public int accountID { get; set; }
 
         [Required]
-        [StringLength(45)]
+        [StringLength(15, MinimumLength = 2, ErrorMessage = "Invalid name length.")]
         public string accountFirstName { get; set; }
 
         [Required]
-        [StringLength(45)]
+        [StringLength(15, MinimumLength = 2, ErrorMessage = "Invalid name length.")]
         public string accountLastName { get; set; }
 
         [Required]
@@ -32,8 +32,10 @@ namespace MonitorNetwork.Database
 
         [Required]
         [StringLength(45)]
+        [RegularExpression(@"^\(([0-9]{3})\)[ ]([0-9]{3})[-]([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
         public string phoneNumber { get; set; }
 
+        [Range(0, 25000, ErrorMessage = "Please enter a value between 0 to 25000")]
         public decimal spendingLimit { get; set; }
 
         public decimal balance { get; set; }

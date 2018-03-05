@@ -45,7 +45,7 @@
             @Html.DisplayFor(modelItem => item.address)
         </td>
         <td>
-            @String.Format("{0:000-000-0000}", Int64.Parse(item.phoneNumber))
+            @Html.DisplayFor(modelItem => item.phoneNumber)
         </td>
         <td>
             $@Html.DisplayFor(modelItem => item.spendingLimit)

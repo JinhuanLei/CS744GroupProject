@@ -20,14 +20,15 @@ namespace MonitorNetwork.Database
         [DisplayFormat(DataFormatString = "{0:MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime expirationDate { get; set; }
 
+        [Range(100, 999, ErrorMessage = "Please enter a value between 100 to 999")]
         public int securityCode { get; set; }
 
         [Required]
-        [StringLength(45)]
+        [StringLength(15, MinimumLength = 2, ErrorMessage = "Invalid name length.")]
         public string customerFirstName { get; set; }
 
         [Required]
-        [StringLength(45)]
+        [StringLength(15, MinimumLength = 2, ErrorMessage = "Invalid name length.")]
         public string customerLastName { get; set; }
 
         public int accountID { get; set; }

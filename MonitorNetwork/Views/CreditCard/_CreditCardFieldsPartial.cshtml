@@ -12,7 +12,7 @@
 <div class="form-group">
     @Html.Label("Expiration Date", htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.creditcard.expirationDate, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.creditcard.expirationDate, new { htmlAttributes = new { @class = "form-control", placeholder = "mm/yyyy" } })
         @Html.ValidationMessageFor(model => model.creditcard.expirationDate, "", new { @class = "text-danger" })
     </div>
 </div>
