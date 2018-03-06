@@ -33,7 +33,7 @@ var cy = cytoscape({
             'width': 4,
             'line-color': '#ddd',
             'target-arrow-color': '#ddd',
-            'label': 'data(label)'
+            'label': 'data(weight)'
         })
         .selector('.highlighted')
         .css({
@@ -192,8 +192,11 @@ cy.nodes().qtip({
 });
 
 cy.on('click', 'node', function (evt) {
-    changestyle(evt, "node");
     var nodeid = evt.target.id();
+    if (nodeid[0] == "r" && nodeid != "r11") {
+        changestyle(evt, "node");
+    }
+  
     var id = (Number)(nodeid.substring(1));
     //alert(evt.target.id() + "  " + id);
     for (var x = 0; x < relays.length; x++) {
