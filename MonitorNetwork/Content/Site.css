@@ -33,13 +33,6 @@ table {
 }
 
 
-
-.my-legend {
-    position: absolute;
-    left: 200px;
-    top: 550px
-}
-
 .my-legend .legend-title {
     text-align: left;
     margin-bottom: 5px;
