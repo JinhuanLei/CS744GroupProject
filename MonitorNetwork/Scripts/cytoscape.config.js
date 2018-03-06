@@ -85,7 +85,9 @@ var cy = cytoscape({
 });
 
 var layout = cy.elements().layout({
-    name: 'cose',
+    name: 'cose-bilkent',
+    nodeDimensionsIncludeLabels: true,
+   edgeDimensionsIncludeLabels: true,
     roots: '#r11'
 });
 layout.run();

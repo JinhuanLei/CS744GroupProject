@@ -8,12 +8,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.8/cytoscape.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
     <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-qtip/2.7.0/cytoscape-qtip.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-cose-bilkent@4.0.0/cytoscape-cose-bilkent.min.js"></script>
     <script src="~/Scripts/cytoscape.config.js"></script>
     <script src="~/Scripts/graph.findpath.js"></script>
     <script src="~/Scripts/graph.start.stop.js"></script>
     <script src="~/Scripts/move.transaction.js"></script>
 }
-   
+
 
 <div id="cy" style=" z-index: 0; overflow: hidden; width: 800px; height: 700px; margin: 0 auto; "></div>
 <div class='col-md-3 my-legend'>
@@ -30,7 +31,7 @@
 </div>
 <div class="col-md-2 col-md-offset-7">
 
-    <button id="resumeFlowBtn"class="btn btn-default" type="submit" onclick="resumeFlow()" disabled="Disabled">Resume</button>
+    <button id="resumeFlowBtn" class="btn btn-default" type="submit" onclick="resumeFlow()" disabled="Disabled">Resume</button>
 
     <button id="stopFlowBtn" class="btn btn-default" type="submit" onclick="stopFlow()">Stop</button>
 
