@@ -5,6 +5,39 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts
+{
+<script>
+
+    $(document).ready(function () {
+        $("#creditcard_expirationDate").inputmask("99/9999");
+        $("#creditcard_securityCode").inputmask("999");
+        $("#account_spendingLimit").inputmask({ alias: 'currency', removeMaskOnSubmit: true });
+        $("#account_balance").inputmask({ alias: 'currency', removeMaskOnSubmit: true });
+        $("#account_phoneNumber").inputmask({ mask: '(999) 999-9999' });
+    });
+
+    function showExisting() {
+        $("#existingAccount").show();
+        $("#newAccount").hide();
+    }
+
+    function showNew() {
+        $("#existingAccount").hide();
+        $("#newAccount").show();
+    }
+
+    @if(Model != null && !Model.existing)
+    {
+        @:$("#existingAccount").hide();
+    } else {
+        @:$("#newAccount").hide();
+        @:$(".existingAccount").prop("checked", true);
+    }
+</script>
+
+}
+
 <h2>Create</h2>
 
 @using (Html.BeginForm())
@@ -19,8 +52,8 @@
 
         <div class="form-group">
             <div class="col-md-10 col-md-offset-2">
-                Add Existing Account @Html.RadioButton("chooseAccount", "true", true, new { onclick = "showExisting()" })
-                Create Account @Html.RadioButton("chooseAccount", "false", new { onclick = "showNew()" })
+                Add Existing Account @Html.RadioButtonFor(x => x.existing, true, new { @class = "existingAccount", onclick = "showExisting()" })
+                Create Account @Html.RadioButtonFor(x => x.existing, false, new { onclick = "showNew()" })
             </div>
         </div>
         <div id="existingAccount">
@@ -31,7 +64,7 @@
                 </div>
             </div>
         </div>
-        <div id="newAccount" style="display: none;">
+        <div id="newAccount">
             <h4>Account</h4>
             <hr />
             @Html.Partial("~/Views/Account/_AccountFieldsPartial.cshtml")
@@ -42,37 +75,8 @@
             </div>
         </div>
     </div>
-    if (Model == null)
-    {
-        @Html.Hidden("existing", "true");
-    }
-    else
-    {
-        @Html.HiddenFor(x => x.existing);
-    }
 }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-<script>
-    function showExisting() {
-        $("#existingAccount").show();
-        $("#newAccount").hide();
-        $("#existing").val(true);
-    }
-
-    function showNew() {
-        $("#existingAccount").hide();
-        $("#newAccount").show();
-        $("#existing").val(false);
-    }
-
-    @if(Model != null && !Model.existing)
-    {
-        @:document.getElementById("existingAccount").style = "display: none";
-    } else {
-        @:document.getElementById("newAccount").style = "display: none";
-    }
-</script>

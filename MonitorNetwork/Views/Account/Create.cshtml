@@ -5,6 +5,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts
+{
+<script>
+
+    $(document).ready(function () {
+        $("#creditcard_expirationDate").inputmask("99/9999");
+        $("#creditcard_securityCode").inputmask("999");
+        $("#account_spendingLimit").inputmask({ alias: 'currency', removeMaskOnSubmit: true });
+        $("#account_balance").inputmask({ alias: 'currency', removeMaskOnSubmit: true });
+        $("#account_phoneNumber").inputmask({ mask: '(999) 999-9999' });
+    });
+
+</script>
+
+}
+
 <h2>Create</h2>
 
 @using (Html.BeginForm())

@@ -35,7 +35,7 @@
 <div class="form-group">
     @Html.Label("Spending Limit", htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.account.spendingLimit, new { htmlAttributes = new { @class = "form-control", @type = "text" } })
+        @Html.EditorFor(model => model.account.spendingLimit, new { htmlAttributes = new { @class = "form-control", @type = "text", @Value = Model == null ? 0 : Model.account.spendingLimit } })
         @Html.ValidationMessageFor(model => model.account.spendingLimit, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -43,7 +43,7 @@
 <div class="form-group">
     @Html.Label("Balance", htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.account.balance, new { htmlAttributes = new { @class = "form-control", @type = "text" } })
+        @Html.EditorFor(model => model.account.balance, new { htmlAttributes = new { @class = "form-control", @type = "text", @Value = Model == null ? 0 : Model.account.balance } })
         @Html.ValidationMessageFor(model => model.account.balance, "", new { @class = "text-danger" })
     </div>
 </div>
