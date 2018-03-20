@@ -190,7 +190,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\algorithm.js" />
     <Content Include="Scripts\cytoscape-3.2.8.js" />
     <Content Include="Scripts\cytoscape-cose-bilkent-4.0.0.min.js" />
     <Content Include="Scripts\cytoscape-qtip-2.7.0.js" />

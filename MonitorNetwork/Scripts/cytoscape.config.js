@@ -210,7 +210,6 @@ cy.on('click', 'node', function (evt) {
     console.log($(relays)); 
     })
 
-console.log(stores);
 cy.on('click', 'edge', function (evt) {
     //alert(evt.target.id());
     changestyle(evt, "edge");

@@ -1,9 +1,17 @@
 ﻿var graphStopped = false;
 
+
+function toggleFlow() {
+    if (graphStopped) {
+        resumeFlow();
+        $("#flowBtn").html("Stop");
+    } else {
+        stopFlow();
+        $("#flowBtn").html("Resume");
+    }
+}
+
 function stopFlow() {
-    // Enable resume button, disable stop button.
-    $("#resumeFlowBtn").removeAttr('disabled');
-    $("#stopFlowBtn").attr('disabled', 'disabled');
 
     // Stop new transactions from moving on the graph.
     graphStopped = true;
@@ -17,9 +25,6 @@ function stopFlow() {
 }
 
 function resumeFlow() {
-    // Enable stop button, disable resume button.
-    $("#resumeFlowBtn").attr('disabled', 'disabled');
-    $("#stopFlowBtn").removeAttr('disabled');
 
     // Allow new transactions to move on the graph.
     graphStopped = false;
