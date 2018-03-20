@@ -44,6 +44,36 @@ namespace MonitorNetwork.Controllers
             return PartialView("_EncryptTransactionRowPartial", transaction);
         }
 
+        public ActionResult SetRelayStationActive(int relayId, bool isActive)
+        {
+            relay relay = db.relay.Find(relayId);
+            if (relay == null)
+            {
+                return HttpNotFound();
+            }
+
+            relay.isActive = isActive;
+
+            db.SaveChanges();
+
+            return null;
+        }
+
+        public ActionResult SetConnectionActive(int connectionId, bool isActive)
+        {
+            connections connection = db.connections.Find(connectionId);
+            if (connection == null)
+            {
+                return HttpNotFound();
+            }
+
+            connection.isActive = isActive;
+
+            db.SaveChanges();
+
+            return null;
+        }
+
         public ActionResult EntireDatabase()
         {
             EntireDatabase edb = new EntireDatabase();
@@ -70,7 +100,7 @@ namespace MonitorNetwork.Controllers
                                   relayID = conn.relayID,
                                   destRelayID = conn.destRelayID,
                                   weight = conn.weight,
-                                  active = conn.active
+                                  isActive = conn.isActive
                               }).ToList();
 
             nm.relays = (from relay in db.relay
@@ -79,7 +109,7 @@ namespace MonitorNetwork.Controllers
                              relayID = relay.relayID,
                              relayIP = relay.relayIP,
                              queueLimit = relay.queueLimit,
-                             status = relay.status,
+                             isActive = relay.isActive,
                              isProcessingCenter = relay.isProcessingCenter
                          }).ToList();
 

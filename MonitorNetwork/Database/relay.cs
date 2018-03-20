@@ -22,7 +22,7 @@ namespace MonitorNetwork.Database
         [StringLength(15)]
         public string relayIP { get; set; }
 
-        public bool status { get; set; }
+        public bool isActive { get; set; }
 
         public int queueLimit { get; set; }
 

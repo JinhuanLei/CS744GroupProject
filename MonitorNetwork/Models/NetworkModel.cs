@@ -54,14 +54,14 @@ namespace MonitorNetwork.Models
         public int? relayID { get; set; }
         public int destRelayID { get; set; }
         public int weight { get; set; }
-        public bool active { get; set; }
+        public bool isActive { get; set; }
     }
 
     public class Relays
     {
         public int relayID { get; set; }
         public string relayIP { get; set; }
-        public bool status { get; set; }
+        public bool isActive { get; set; }
         public int queueLimit { get; set; }
         public bool isProcessingCenter { get; set; }
     }

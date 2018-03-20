@@ -19,7 +19,7 @@ namespace MonitorNetwork.Database
 
         public int weight { get; set; }
 
-        public bool active { get; set; }
+        public bool isActive { get; set; }
 
         public virtual relay relay { get; set; }
 
