@@ -177,6 +177,7 @@
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Controllers\CreditCardController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BLL\ValidCreditCards.txt">
@@ -267,7 +268,6 @@
     <Content Include="Views\Transaction\Create.cshtml" />
     <Content Include="Views\Transaction\Index.cshtml" />
     <Content Include="Views\Home\_TransactionPartial.cshtml" />
-    <Content Include="Views\Home\ViewPage1.cshtml" />
     <Content Include="Views\Home\_DetailTransactionRowPartial.cshtml" />
     <Content Include="Views\Home\_EncryptTransactionRowPartial.cshtml" />
     <Content Include="Views\CreditCard\_ExistingAccountPartial.cshtml" />
@@ -277,6 +277,10 @@
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\_AccountFieldsPartial.cshtml" />
+    <Content Include="Views\Store\Create.cshtml" />
+    <Content Include="Views\Store\Details.cshtml" />
+    <Content Include="Views\Store\Edit.cshtml" />
+    <Content Include="Views\Store\Index.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

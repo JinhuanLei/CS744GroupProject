@@ -1,0 +1,35 @@
+﻿@model MonitorNetwork.Database.store
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>store</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.storeIP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.storeIP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.merchantName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.merchantName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.storeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
