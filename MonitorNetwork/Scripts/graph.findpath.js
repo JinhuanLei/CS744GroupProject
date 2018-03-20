@@ -81,7 +81,7 @@ function constructGraph(toProcCenter) {
     });
 
     connections.forEach(function (connection) {
-        if (connection.active) {
+        if (connection.isActive) {
             var source;
 
             if (isRelayActive(connection.destRelayID)) {
@@ -103,7 +103,7 @@ function constructGraph(toProcCenter) {
 
 function isRelayActive(relayId) {
     return relays.some(function (relay) {
-        if (relay.relayID === relayId && relay.status) {
+        if (relay.relayID === relayId && relay.isActive) {
             return true;
         }
         return false;

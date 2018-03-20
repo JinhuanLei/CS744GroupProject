@@ -204,7 +204,7 @@ cy.on('click', 'node', function (evt) {
     for (var x = 0; x < relays.length; x++) {
       //  alert(relays[x].relayID + "  " + id);
         if (relays[x].relayID === id && relays[x].isProcessingCenter === false) {
-            relays[x].status = (relays[x].status === true ? false : true);
+            relays[x].isActive = !relays[x].isActive;
         }
     }
     console.log($(relays)); 
@@ -234,7 +234,7 @@ cy.on('click', 'edge', function (evt) {
             return connection.storeID == start && connection.destRelayID == dest;
         });
     }
-    connection.active = !connection.active;
+    connection.isActive = !connection.isActive;
 
     console.log($(connections)); 
 })
