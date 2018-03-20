@@ -78,6 +78,7 @@ namespace MonitorNetwork.Controllers
                          {
                              relayID = relay.relayID,
                              relayIP = relay.relayIP,
+                             queueLimit = relay.queueLimit,
                              status = relay.status,
                              isProcessingCenter = relay.isProcessingCenter
                          }).ToList();

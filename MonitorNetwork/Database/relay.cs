@@ -24,6 +24,8 @@ namespace MonitorNetwork.Database
 
         public bool status { get; set; }
 
+        public int queueLimit { get; set; }
+
         public bool isProcessingCenter { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

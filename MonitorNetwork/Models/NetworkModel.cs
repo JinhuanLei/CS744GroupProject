@@ -62,6 +62,7 @@ namespace MonitorNetwork.Models
         public int relayID { get; set; }
         public string relayIP { get; set; }
         public bool status { get; set; }
+        public int queueLimit { get; set; }
         public bool isProcessingCenter { get; set; }
     }
 
