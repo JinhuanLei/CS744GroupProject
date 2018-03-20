@@ -25,7 +25,8 @@ namespace MonitorNetwork
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/jquery.qtip-2.2.0.min.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/inputmask").Include(
                     //~/Scripts/Inputmask/dependencyLibs/inputmask.dependencyLib.js",  //if not using jquery
@@ -37,6 +38,13 @@ namespace MonitorNetwork
                     "~/Scripts/Inputmask/inputmask.numeric.extensions.min.js",
                     "~/Scripts/Inputmask/inputmask.phone.extensions.min.js",
                     "~/Scripts/Inputmask/phone-codes/phone.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/cytoscape").Include(
+                    "~/Scripts/cytoscape-3.2.8.js",
+                    "~/Scripts/cytoscape-cose-bilkent-4.0.0.min.js",
+                    "~/Scripts/cytoscape-qtip-2.7.0.js",
+                    "~/Scripts/jquery.qtip.2.2.0.min.js"
+                    ));
         }
     }
 }

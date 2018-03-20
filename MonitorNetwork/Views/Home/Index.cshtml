@@ -5,10 +5,7 @@
 }
 @section Scripts
 {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.8/cytoscape.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
-    <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-qtip/2.7.0/cytoscape-qtip.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/cytoscape-cose-bilkent@4.0.0/cytoscape-cose-bilkent.min.js"></script>
+    @Scripts.Render("~/bundles/cytoscape")
     <script src="~/Scripts/cytoscape.config.js"></script>
     <script src="~/Scripts/graph.findpath.js"></script>
     <script src="~/Scripts/graph.start.stop.js"></script>
