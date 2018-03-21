@@ -15,6 +15,7 @@ namespace MonitorNetwork.Database
         public virtual DbSet<account> account { get; set; }
         public virtual DbSet<connections> connections { get; set; }
         public virtual DbSet<creditcard> creditcard { get; set; }
+        public virtual DbSet<region> region { get; set; }
         public virtual DbSet<relay> relay { get; set; }
         public virtual DbSet<store> store { get; set; }
         public virtual DbSet<transaction> transaction { get; set; }
