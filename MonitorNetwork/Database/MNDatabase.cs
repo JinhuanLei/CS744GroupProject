@@ -31,16 +31,6 @@ namespace MonitorNetwork.Database
                 .Property(e => e.balance)
                 .HasPrecision(10, 2);
 
-            modelBuilder.Entity<account>()
-                .HasMany(e => e.creditcard)
-                .WithRequired(e => e.account)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<account>()
-                .HasMany(e => e.transaction)
-                .WithRequired(e => e.account)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<creditcard>()
                 .Property(e => e.expirationDate)
                 .HasPrecision(0);
@@ -54,11 +44,6 @@ namespace MonitorNetwork.Database
                 .HasMany(e => e.connections1)
                 .WithRequired(e => e.relay1)
                 .HasForeignKey(e => e.destRelayID)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<store>()
-                .HasMany(e => e.transaction)
-                .WithRequired(e => e.store)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<transaction>()

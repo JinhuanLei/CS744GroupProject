@@ -11,6 +11,10 @@ namespace MonitorNetwork.Database
     {
         public int transactionID { get; set; }
 
+        public int storeID { get; set; }
+
+        public int cardID { get; set; }
+
         [Column(TypeName = "datetime2")]
         public DateTime? timeOfTransaction { get; set; }
 
@@ -27,13 +31,9 @@ namespace MonitorNetwork.Database
 
         public bool isSent { get; set; }
 
-        public int storeID { get; set; }
-
-        public int accountID { get; set; }
-
         public bool isSelf { get; set; }
 
-        public virtual account account { get; set; }
+        public virtual creditcard creditcard { get; set; }
 
         public virtual store store { get; set; }
     }

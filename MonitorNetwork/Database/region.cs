@@ -9,8 +9,8 @@ namespace MonitorNetwork.Database
     [Table("region")]
     public partial class region
     {
-        public int RegionID { get; set; }
+        public int regionID { get; set; }
 
-        public int? regionNumber { get; set; }
+        public int regionNumber { get; set; }
     }
 }

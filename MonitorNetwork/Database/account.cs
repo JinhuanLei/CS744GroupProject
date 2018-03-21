@@ -13,7 +13,6 @@ namespace MonitorNetwork.Database
         public account()
         {
             creditcard = new HashSet<creditcard>();
-            transaction = new HashSet<transaction>();
         }
 
         public int accountID { get; set; }
@@ -42,8 +41,5 @@ namespace MonitorNetwork.Database
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<creditcard> creditcard { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<transaction> transaction { get; set; }
     }
 }

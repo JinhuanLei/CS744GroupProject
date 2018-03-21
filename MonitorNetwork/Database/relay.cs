@@ -30,7 +30,7 @@ namespace MonitorNetwork.Database
 
         public int? regionNumber { get; set; }
 
-        public bool? isGateway { get; set; }
+        public bool isGateway { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<connections> connections { get; set; }
