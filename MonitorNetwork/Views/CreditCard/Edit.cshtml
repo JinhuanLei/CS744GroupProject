@@ -4,12 +4,22 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Scripts
+{
+    <script>
+
+    $(document).ready(function () {
+        $("#expirationDate").inputmask("99/9999");
+        $("#securityCode").inputmask("999");
+    });
+    </script>
+}
 
 <h2>Edit</h2>
 
 @using (Html.BeginForm())
 {
-   
+
     <div class="form-horizontal">
         <h4>Credit Card</h4>
         <hr />

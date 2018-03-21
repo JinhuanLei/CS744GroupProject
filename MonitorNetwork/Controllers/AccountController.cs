@@ -96,9 +96,32 @@ namespace MonitorNetwork.Views
             return View(account);
         }
 
+        [HttpPost]
+        public ActionResult DeleteCheckAccount(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            account account = db.account.Find(id);
+
+            if (account == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (account.balance > 0)
+            {
+                return Json("NON_ZERO_BALANCE");
+            }
+
+            return Json("DELETE");
+        }
+
         // POST: accounts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        [HttpPost]
+        public ActionResult Delete(int id)
         {
             account account = db.account.Find(id);
             db.account.Remove(account);

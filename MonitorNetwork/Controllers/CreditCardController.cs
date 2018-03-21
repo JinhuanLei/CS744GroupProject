@@ -118,10 +118,14 @@ namespace MonitorNetwork.Controllers
 
             if (creditCardAccount.creditcard.Count == 1)
             {
-                return Json(true);
+                if(creditCardAccount.balance > 0)
+                {
+                    return Json("LAST_CARD_NON_ZERO_BALANCE");
+                }
+                return Json("LAST_CARD");
             }
 
-            return Json(false);
+            return Json("DELETE");
         }
 
         // POST: CreditCard/Delete/5

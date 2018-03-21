@@ -5,10 +5,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts
+{
+    <script>
+
+    $(document).ready(function () {
+        $("#spendingLimit").inputmask({ alias: 'currency', removeMaskOnSubmit: true });
+        $("#balance").inputmask({ alias: 'currency', removeMaskOnSubmit: true });
+        $("#phoneNumber").inputmask({ mask: '(999) 999-9999' });
+    });
+
+    </script>
+
+}
+
 <h2>Edit</h2>
 
 @using (Html.BeginForm())
-{ 
+{
     <div class="form-horizontal">
         <h4>Account</h4>
         <hr />
