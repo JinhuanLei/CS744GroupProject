@@ -18,8 +18,8 @@ function stopFlow() {
 
     // Stop transactions from moving on the graph.
     Object.keys(elementQueues).forEach(function (elementId) {
-        if (elementQueues[elementId].length > 0) {
-            clearTimeout(elementQueues[elementId][0].timeoutObj.timeout);
+        if (elementQueues[elementId].queue.length > 0) {
+            clearTimeout(elementQueues[elementId].queue[0].timeoutObj.timeout);
         }
     });
 }
@@ -32,8 +32,8 @@ function resumeFlow() {
     // Start transactions to move on graph.
     var sendTransactions = []
     Object.keys(elementQueues).forEach(function (elementId) {
-        if (elementQueues[elementId].length > 0 && !elementQueues[elementId][0].destinationReached) {
-            sendTransactions.push(elementQueues[elementId][0]);
+        if (elementQueues[elementId].queue.length > 0 && !elementQueues[elementId].queue[0].destinationReached) {
+            sendTransactions.push(elementQueues[elementId].queue[0]);
         }
     });
 

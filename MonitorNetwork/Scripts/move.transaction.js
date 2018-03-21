@@ -2,7 +2,7 @@
 
 
 //var processingCenterId;
-//var nodeQueues = { "r1" : [{ transactionId: 100001, toProcCenter = true, storeId: "s1", destinationReached: false, timeoutObj : {timeoutObj} }] };
+//var elementQueues = { "r1" : { type: "R", queue: [{ transactionId: 100001, toProcCenter = true, storeId: "s1", destinationReached: false, timeoutObj : {timeoutObj} }], limit : 10 };
 //var connectionQueues = { "s1r1" : { transactionId: 100001, toProcCenter = true, storeId: "s1", timeoutObj : {timeoutObj} } }
 //var timeoutObj = { timeout: func, sendFunc: func, fromNode: "r1", toNode: "s6" }
 
@@ -28,14 +28,14 @@ function sendToNode(fromNode, toNode, transaction) {
     if (fromNode !== null) {
         // Remove transaction from connection;
         var connectionId = findConnectionId(fromNode, toNode);
-        elementQueues[connectionId].shift();
+        elementQueues[connectionId].queue.shift();
 
         // Check if there is another transaction waiting for connection.
-        if (elementQueues[connectionId].length > 0) {
+        if (elementQueues[connectionId].queue.length > 0) {
             // Still transactions waiting on connection.
 
             // Start the next transaction waiting for the connection.
-            var nextTransaction = elementQueues[connectionId].shift();
+            var nextTransaction = elementQueues[connectionId].queue.shift();
             var nextTransactionInQueueTimeout = nextTransaction.timeoutObj;
             nextTransactionInQueueTimeout.sendFunc(nextTransactionInQueueTimeout.fromNode, nextTransactionInQueueTimeout.toNode, nextTransaction);
         } else {
@@ -46,35 +46,50 @@ function sendToNode(fromNode, toNode, transaction) {
 
     cy.$('#' + toNode).addClass('highlighted');
 
-    elementQueues[toNode].push(transaction);
+    elementQueues[toNode].queue.push(transaction);
 
-    if (!hasReachedDestination(toNode, transaction)) {
+    if (!queueIsAtLimit(toNode)) {
 
+        if (!hasReachedDestination(toNode, transaction)) {
+
+            var path = getPath(toNode, transaction);
+
+            if (path === null) {
+                // No path was found to move the transaction to destination.
+                // TODO: FIX BELOW LINE IS BROKEN!!!
+                elementQueues[toNode].queue.timeoutObj.timeout = null;
+                return;
+            }
+
+            if (elementQueues[toNode].queue.length > 1 || graphStopped) {
+                // There are other transactions in the queue before this transaction or the graph has stopped.
+                transaction.timeoutObj = { timeout: null, sendFunc: sendToConnection, fromNode: path[0], toNode: path[1] };
+
+            } else {
+                // There are no transactions in the queue before this transaction and the graph is active.
+
+                // Start timeout to move transaction.
+                var nodeTimeout = setTimeout(sendToConnection, 1000, path[0], path[1], transaction);
+
+                // Add timeouts to transaction for pausing and resuming.
+                transaction.timeoutObj = { timeout: nodeTimeout, sendFunc: sendToConnection, fromNode: path[0], toNode: path[1] };
+            }
+        } else {
+            // Node has reached it's destination.
+
+            transaction.destinationReached = true;
+        }
+    } else {
         var path = getPath(toNode, transaction);
 
         if (path === null) {
             // No path was found to move the transaction to destination.
-            elementQueues[toNode].timeoutObj.timeout = null;
+            // TODO: FIX BELOW LINE IS BROKEN!!!
+            elementQueues[toNode].queue.timeoutObj.timeout = null;
             return;
         }
 
-        if (elementQueues[toNode].length > 1 || graphStopped) {
-            // There are other transactions in the queue before this transaction or the graph has stopped.
-            transaction.timeoutObj = { timeout: null, sendFunc: sendToConnection, fromNode: path[0], toNode: path[1] };
-
-        } else {
-            // There are no transactions in the queue before this transaction and the graph is active.
-
-            // Start timeout to move transaction.
-            var nodeTimeout = setTimeout(sendToConnection, 1000, path[0], path[1], transaction);
-
-            // Add timeouts to transaction for pausing and resuming.
-            transaction.timeoutObj = { timeout: nodeTimeout, sendFunc: sendToConnection, fromNode: path[0], toNode: path[1] };
-        }
-    } else {
-        // Node has reached it's destination.
-
-        transaction.destinationReached = true;
+        transaction.timeoutObj = { timeout: null, sendFunc: sendToConnection, fromNode: path[0], toNode: path[1] };
     }
 }
 
@@ -82,20 +97,14 @@ function sendToConnection(fromNode, toNode, transaction) {
 
     var connectionId = findConnectionId(fromNode, toNode);
     // Check if there is a transaction all ready on the connection.
-    if (elementQueues[connectionId].length <= 0) {
+    if (!queueIsAtLimit(connectionId)) {
         // No transaction on the connection
 
         // Remove transaction from the node the transaction was just at.
-        elementQueues[fromNode].shift();
-
-        if (elementQueues[fromNode].length <= 0) {
-            // No more transaction in the queue
-            // Remove highlighting for node.
-            cy.$('#' + fromNode).removeClass('highlighted');
-        }
+        elementQueues[fromNode].queue.shift();
 
         // Add transaction to connection.
-        elementQueues[connectionId].push(transaction);
+        elementQueues[connectionId].queue.push(transaction);
 
         highlightConnection(fromNode, toNode, true);
 
@@ -104,20 +113,28 @@ function sendToConnection(fromNode, toNode, transaction) {
         // Add timeouts to transaction for pausing and resuming.
         transaction.timeoutObj = { timeout: connectionTimeout, sendFunc: sendToNode, fromNode: fromNode, toNode: toNode };
 
-        if (elementQueues[fromNode].length > 0) {
+        if (elementQueues[fromNode].queue.length > 0) {
             // There is still transactions in the fromNode's queue, start the next one.
-            var nextTransactionInQueueTimeout = elementQueues[fromNode][0].timeoutObj;
-            nextTransactionInQueueTimeout.sendFunc(nextTransactionInQueueTimeout.fromNode, nextTransactionInQueueTimeout.toNode, elementQueues[fromNode][0]);
+            var nextTransactionInQueueTimeout = elementQueues[fromNode].queue[0].timeoutObj;
+            nextTransactionInQueueTimeout.sendFunc(nextTransactionInQueueTimeout.fromNode, nextTransactionInQueueTimeout.toNode, elementQueues[fromNode].queue[0]);
+        } else {
+            // No more transaction in the queue
+            // Remove highlighting for node.
+            cy.$('#' + fromNode).removeClass('highlighted');
         }
 
     } else {
         // Transaction already on connection.
 
         // Add transaction to connection queue.
-        elementQueues[connectionId].push(transaction);
+        elementQueues[connectionId].queue.push(transaction);
 
         transaction.timeoutObj = { timeout: null, sendFunc: sendToConnection, fromNode: fromNode, toNode: toNode };
     }
+}
+
+function queueIsAtLimit(nodeId) {
+    return elementQueues[nodeId].queue.length > elementQueues[nodeId].limit;
 }
 
 function hasReachedDestination(currentNode, transaction) {

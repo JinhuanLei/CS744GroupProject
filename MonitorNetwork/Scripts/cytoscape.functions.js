@@ -77,13 +77,20 @@ function cytoscapeToolTip() {
     var nodeId = this.data('id');
     var label = this.data('label');
     var transactionIds = [];
-    elementQueues[nodeId].forEach(function (queueTransaction) {
-        transactionIds.push(queueTransaction.transactionId);
-    });
+
+    var numberOfTransactionsToShow;
+    if (nodeId[0] == "r") {
+        numberOfTransactionsToShow = Math.min(elementQueues[nodeId].queue.length, elementQueues[nodeId].limit);
+    } else {
+        numberOfTransactionsToShow = elementQueues[nodeId].queue.length;
+    }
+    for (var i = 0; i < numberOfTransactionsToShow; i++) {
+        transactionIds.push(elementQueues[nodeId].queue[i].transactionId);
+    }
 
     var queueStr = transactionIds.join(", ");
     if (nodeId[0] == "r") {
-        return '192.168.' + this.data('label') + '\n' + 'Queue:' + queueStr
+        return '192.168.' + this.data('label') + '\n Limit: ' + elementQueues[nodeId].limit + '\nQueue:' + queueStr
     } else {
         var merchantName;
         stores.forEach(function (t, number, ts) {
@@ -94,7 +101,7 @@ function cytoscapeToolTip() {
                 merchantName = t.merchantName;
             }
         });
-        return merchantName + ':192.168.' + label + '\n' + 'Queue:' + queueStr
+        return merchantName + ':192.168.' + label + '\n Queue:' + queueStr
     }
 
 }

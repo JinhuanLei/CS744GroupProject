@@ -79,18 +79,18 @@
 
     function constructNodeQueues() {
         relays.forEach(function (relay) {
-            elementQueues["r" + relay.relayID] = [];
+            elementQueues["r" + relay.relayID] = { type: "R", queue: [], limit: relay.queueLimit };
         });
 
         stores.forEach(function (store) {
-            elementQueues["s" + store.storeID] = [];
+            elementQueues["s" + store.storeID] = { type: "S", queue: [], limit: -1 };
         });
 
         connections.forEach(function (connection) {
             if (connection.relayID === null) {
-                elementQueues["s" + connection.storeID + "r" + connection.destRelayID] = [];
+                elementQueues["s" + connection.storeID + "r" + connection.destRelayID] = { type: "SR", queue: [], limit: 1 };
             } else {
-                elementQueues["r" + connection.relayID + "r" + connection.destRelayID] = [];
+                elementQueues["r" + connection.relayID + "r" + connection.destRelayID] = { type: "RR", queue: [], limit: 1 };
             }
         });
     }
