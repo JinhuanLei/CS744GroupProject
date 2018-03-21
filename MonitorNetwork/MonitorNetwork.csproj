@@ -193,6 +193,7 @@
     <Content Include="Scripts\cytoscape-3.2.8.js" />
     <Content Include="Scripts\cytoscape-cose-bilkent-4.0.0.min.js" />
     <Content Include="Scripts\cytoscape-qtip-2.7.0.js" />
+    <Content Include="Scripts\cytoscape.functions.js" />
     <Content Include="Scripts\graph.findpath.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

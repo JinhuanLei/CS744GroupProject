@@ -6,10 +6,34 @@
 @section Scripts
 {
     @Scripts.Render("~/bundles/cytoscape")
+    <script src="~/Scripts/cytoscape.functions.js"></script>
     <script src="~/Scripts/cytoscape.config.js"></script>
     <script src="~/Scripts/graph.findpath.js"></script>
     <script src="~/Scripts/graph.start.stop.js"></script>
     <script src="~/Scripts/move.transaction.js"></script>
+    <script>
+        function setElementStates() {
+            relays.forEach(function (relay) {
+                if (!relay.isActive) {
+                    cy.$("#r" + relay.relayID).classes('newStyle');
+                }
+            });
+
+            connections.forEach(function (connection) {
+                if (!connection.isActive) {
+                    var elementId;
+                    if (connection.relayID === null) {
+                        elementId = "s" + connection.storeID + "r" + connection.destRelayID;
+                    } else {
+                        elementId = "r" + connection.relayID + "r" + connection.destRelayID;
+                    }
+                    cy.$("#" + elementId).classes('newStyle');
+                }
+            })
+        }
+
+        setElementStates();
+    </script>
 }
 
 
@@ -26,10 +50,9 @@
     </div>
 
 </div>
+
 <div class="col-md-2 col-md-offset-7">
-
     <button id="flowBtn" class="btn btn-primary" type="submit" onclick="toggleFlow()">Stop</button>
-
 </div>
 
 <script>

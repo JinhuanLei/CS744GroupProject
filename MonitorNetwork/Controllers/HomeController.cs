@@ -44,7 +44,7 @@ namespace MonitorNetwork.Controllers
             return PartialView("_EncryptTransactionRowPartial", transaction);
         }
 
-        public ActionResult SetRelayStationActive(int relayId, bool isActive)
+        public ActionResult SetRelayActive(int relayId, bool isActive)
         {
             relay relay = db.relay.Find(relayId);
             if (relay == null)
