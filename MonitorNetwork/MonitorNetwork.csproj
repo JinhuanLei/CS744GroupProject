@@ -163,6 +163,7 @@
     <Compile Include="Database\connections.cs" />
     <Compile Include="Database\creditcard.cs" />
     <Compile Include="Database\MNDatabase.cs" />
+    <Compile Include="Database\region.cs" />
     <Compile Include="Database\relay.cs" />
     <Compile Include="Database\store.cs" />
     <Compile Include="Database\transaction.cs" />

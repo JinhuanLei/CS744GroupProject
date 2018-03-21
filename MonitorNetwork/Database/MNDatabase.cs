@@ -15,6 +15,7 @@ namespace MonitorNetwork.Database
         public virtual DbSet<account> account { get; set; }
         public virtual DbSet<connections> connections { get; set; }
         public virtual DbSet<creditcard> creditcard { get; set; }
+        public virtual DbSet<region> region { get; set; }
         public virtual DbSet<relay> relay { get; set; }
         public virtual DbSet<store> store { get; set; }
         public virtual DbSet<transaction> transaction { get; set; }
@@ -30,16 +31,6 @@ namespace MonitorNetwork.Database
                 .Property(e => e.balance)
                 .HasPrecision(10, 2);
 
-            modelBuilder.Entity<account>()
-                .HasMany(e => e.creditcard)
-                .WithRequired(e => e.account)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<account>()
-                .HasMany(e => e.transaction)
-                .WithRequired(e => e.account)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<creditcard>()
                 .Property(e => e.expirationDate)
                 .HasPrecision(0);
@@ -53,11 +44,6 @@ namespace MonitorNetwork.Database
                 .HasMany(e => e.connections1)
                 .WithRequired(e => e.relay1)
                 .HasForeignKey(e => e.destRelayID)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<store>()
-                .HasMany(e => e.transaction)
-                .WithRequired(e => e.store)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<transaction>()

@@ -26,6 +26,8 @@ namespace MonitorNetwork.Database
         [StringLength(30)]
         public string merchantName { get; set; }
 
+        public int? regionNumber { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<connections> connections { get; set; }
 
