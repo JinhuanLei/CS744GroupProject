@@ -24,10 +24,10 @@ namespace MonitorNetwork.Controllers
         // GET: Transaction/Create
         public ActionResult Create()
         {
-            var accountInfo = from acct in db.account
-                              select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName };
+            var creditcardInfo = from creditcard in db.creditcard
+                              select new { creditcard.cardID, fullname = creditcard.customerFirstName + " " + creditcard.customerLastName };
 
-            ViewBag.accountID = new SelectList(accountInfo, "accountID", "fullname");
+            ViewBag.cardID = new SelectList(creditcardInfo, "cardID", "fullname");
             ViewBag.storeID = new SelectList(db.store, "storeID", "merchantName");
             return View();
         }
@@ -36,7 +36,7 @@ namespace MonitorNetwork.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create([Bind(Include = "transactionID,timeOfTransaction,timeOfResponse,amount,isCredit,status,isEncrypted,isSent,storeID,accountID,isSelf")] transaction transaction)
+        public ActionResult Create([Bind(Include = "transactionID,timeOfTransaction,timeOfResponse,amount,isCredit,status,isEncrypted,isSent,storeID,cardID,isSelf")] transaction transaction)
         {
             if (ModelState.IsValid)
             {
@@ -45,10 +45,10 @@ namespace MonitorNetwork.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var accountInfo = from acct in db.account
-                              select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName };
+            var creditcardInfo = from creditcard in db.creditcard
+                                 select new { creditcard.cardID, fullname = creditcard.customerFirstName + " " + creditcard.customerLastName };
 
-            ViewBag.accountID = new SelectList(accountInfo, "accountID", "fullname", transaction.accountID);
+            ViewBag.cardID = new SelectList(creditcardInfo, "cardID", "fullname");
             ViewBag.storeID = new SelectList(db.store, "storeID", "merchantName", transaction.storeID);
             return View(transaction);
         }
