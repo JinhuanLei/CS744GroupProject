@@ -28,7 +28,7 @@ namespace MonitorNetwork.Database
 
         public bool isProcessingCenter { get; set; }
 
-        public int? regionNumber { get; set; }
+        public int? regionID { get; set; }
 
         public bool isGateway { get; set; }
 
@@ -37,5 +37,7 @@ namespace MonitorNetwork.Database
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<connections> connections1 { get; set; }
+
+        public virtual region region { get; set; }
     }
 }
