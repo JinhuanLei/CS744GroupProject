@@ -1,5 +1,5 @@
 ﻿//var processingCenterId;
-//var elementQueues = { "r1" : { type: "R", queue: [{ transactionId: 100001, toProcCenter = true, storeId: "s1", destinationReached: false, timeoutObj : {timeoutObj} }], limit : 10 };
+//var elementQueues = { "r1" : { type: "R", queue: [{ transactionId: 100001, toProcCenter = true, storeId: "s1", destinationReached: false, timeoutObj : {timeoutObj} }], limit : 10, showLimit : 10 };
 //var connectionQueues = { "s1r1" : { transactionId: 100001, toProcCenter = true, storeId: "s1", timeoutObj : {timeoutObj} } }
 //var timeoutObj = { timeout: func, sendFunc: func, fromNode: "r1", toNode: "s6" }
 
@@ -33,14 +33,16 @@ function sendToConnection(fromNode, toNode, transaction) {
     if (!queueIsPassedLimit(connectionId)) {
         // No transaction on the connection
 
-        // Get transaction that is in the queue but are out of limits.
-        var queueLimitTransacion = getOutOfQueueLimitTransaction(elementId);
+        // Get transaction from node the transaction is moving away from
+        // that is in the queue but are out of limits.
+        var queueLimitTransaction = getOutOfQueueLimitTransaction(fromNode);
+        var isQueueLimitTransaction = queueLimitTransaction != null;
+
+        if(isQueueLimitTransaction) elementQueues[fromNode].showLimit--;
 
         moveTransactionFromNodeToConnection(fromNode, toNode, connectionId, transaction);
 
-        if (queueLimitTransaction != null) {
-
-        }
+        if (isQueueLimitTransaction) sendTransactionToElement(queueLimitTransacion);
 
         if (getQueueLength(fromNode) > 0) {
             // There is still transactions in the fromNode's queue, start the next one.

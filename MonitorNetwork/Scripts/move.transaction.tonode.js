@@ -37,8 +37,6 @@ function processTransactionAtDestination(transaction) {
 
 function sendToNode(fromNode, toNode, transaction) {
 
-    elementQueues[toNode].queue.push(transaction);
-
     // Check to see if the queue of the node that the transaction came from
     // needs to be processed.
     if (fromNode !== null) {

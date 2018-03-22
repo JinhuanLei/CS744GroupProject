@@ -82,11 +82,11 @@
 
     function constructNodeQueues() {
         relays.forEach(function (relay) {
-            elementQueues["r" + relay.relayID] = { type: "R", queue: [], limit: relay.queueLimit };
+            elementQueues["r" + relay.relayID] = { type: "R", queue: [], limit: relay.queueLimit, showLimit: 0 };
         });
 
         stores.forEach(function (store) {
-            elementQueues["s" + store.storeID] = { type: "S", queue: [], limit: -1 };
+            elementQueues["s" + store.storeID] = { type: "S", queue: [], limit: Number.MAX_SAFE_INTEGER, showLimit: Number.MAX_SAFE_INTEGER };
         });
 
         connections.forEach(function (connection) {

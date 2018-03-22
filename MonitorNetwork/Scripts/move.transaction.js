@@ -17,6 +17,7 @@ function sendTransactionToProcessCenter(transactionId, storeId) {
 
 function moveTransaction(transaction) {
     if (transaction.toProcCenter) {
+        elementQueues[transaction.storeId].queue.push(transaction);
         sendToNode(null, transaction.storeId, transaction);
     } else {
         sendToNode(null, processingCenterId, transaction);
