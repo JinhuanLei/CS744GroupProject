@@ -35,6 +35,10 @@ namespace MonitorNetwork.Database
 				.Property(e => e.expirationDate)
 				.HasPrecision(0);
 
+			modelBuilder.Entity<region>()
+				.Property(e => e.regionColor)
+				.IsUnicode(false);
+
 			modelBuilder.Entity<relay>()
 				.HasMany(e => e.connections)
 				.WithOptional(e => e.relay)
