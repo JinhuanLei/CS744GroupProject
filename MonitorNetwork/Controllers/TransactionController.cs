@@ -25,8 +25,7 @@ namespace MonitorNetwork.Controllers
         public ActionResult Create()
         {
             var creditcardInfo = from creditcard in db.creditcard
-                              select new { creditcard.cardID, fullname = creditcard.customerFirstName + " " + creditcard.customerLastName };
-
+                                 select new { creditcard.cardID, fullname = creditcard.customerFirstName + " " + creditcard.customerLastName };
             ViewBag.cardID = new SelectList(creditcardInfo, "cardID", "fullname");
             ViewBag.storeID = new SelectList(db.store, "storeID", "merchantName");
             return View();
