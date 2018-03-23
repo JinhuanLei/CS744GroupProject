@@ -78,15 +78,19 @@ function cytoscapeToolTip() {
     var label = this.data('label');
     var transactionIds = [];
 
-    var numberOfTransactionsToShow = elementQueues[nodeId].showLimit;
+    //var numberOfTransactionsToShow = elementQueues[nodeId].showLimit;
 
-    for (var i = 0; i < numberOfTransactionsToShow; i++) {
-        transactionIds.push(elementQueues[nodeId].queue[i].transactionId);
-    }
+    //for (var i = 0; i < numberOfTransactionsToShow; i++) {
+    //    transactionIds.push(elementQueues[nodeId].queue[i].transactionId);
+    //}
+
+    elementQueues[nodeId].queue.forEach(function (transaction) {
+        transactionIds.push(transaction.transactionId);
+    });
 
     var queueStr = transactionIds.join(", ");
     if (nodeId[0] == "r") {
-        return '192.168.' + this.data('label') + '\n Limit: ' + elementQueues[nodeId].limit + '\nQueue:' + queueStr
+        return '192.168.' + this.data('label') + '\n Limit: ' + elementQueues[nodeId].limit + '\n Queue: ' + queueStr
     } else {
         var merchantName;
         stores.forEach(function (t, number, ts) {

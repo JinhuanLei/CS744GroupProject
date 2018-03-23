@@ -1,34 +1,17 @@
 ﻿
 
-// Add transaction to an element queue.
-function addTransactionToElementQueue(elementId, transaction, timeoutObj) {
-
-    elementQueues[elementId].queue.push(transaction);
-
-    // Add timeouts to transaction for pausing and resuming.
-    transaction.timeoutObj = timeoutObj;
-}
-
 // Sends the transaction to its defined next element.
 function sendTransactionToElement(transaction) {
-    var transactionTimeout = transaction.timeout;
+    var transactionTimeout = transaction.timeoutObj;
     transactionTimeout.sendFunc(transactionTimeout.fromNode, transactionTimeout.toNode, transaction);
 }
 
-function queueIsPassedLimit(nodeId) {
-    return getQueueLength(nodeId) > elementQueues[nodeId].limit;
+function queueIsAtLimit(nodeId) {
+    return getQueueLength(nodeId) >= elementQueues[nodeId].limit;
 }
 
 function getQueueLength(elementId) {
     return elementQueues[elementId].queue.length;
-}
-
-function getOutOfQueueLimitTransaction(elementId) {
-    if (queueIsPassedLimit(elementId)) {
-        return elementQueues[elementId].queue[elementQueues[nodeId].limit];
-    }
-
-    return null;
 }
 
 function hasReachedDestination(currentNode, transaction) {

@@ -73,11 +73,11 @@
                 if (data === "LAST_CARD_NON_ZERO_BALANCE") {
                     alert("This is the last credit card on the associated account, and the account does not have a zero balance. You must pay account balance before deleting the last credit card.");
                 } else if (data === "LAST_CARD") {
-                    if (confirm("This is the last credit card on the associated account. Are you sure you want to delete this credit card and the credit card account?")) {
+                    if (confirm("This is the last credit card on the associated account. Are you sure you want to delete this credit card, its credit card account, and all of the credit card's transactions?")) {
                         post("/CreditCard/Delete", { "id": creditCardId });
                     }
                 } else if (data === "DELETE") {
-                    if (confirm("Are you sure you want to delete this credit card?")) {
+                    if (confirm("Are you sure you want to delete this credit card and all of its transactions?")) {
                         post("/CreditCard/Delete", { "id": creditCardId });
                     }
                 } else {

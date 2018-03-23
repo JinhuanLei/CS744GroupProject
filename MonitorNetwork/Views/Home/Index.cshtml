@@ -11,8 +11,6 @@
     <script src="~/Scripts/graph.findpath.js"></script>
     <script src="~/Scripts/graph.start.stop.js"></script>
     <script src="~/Scripts/move.transaction.helpers.js"></script>
-    <script src="~/Scripts/move.transaction.toconnection.js"></script>
-    <script src="~/Scripts/move.transaction.tonode.js"></script>
     <script src="~/Scripts/move.transaction.js"></script>
     <script>
         function setElementStates() {
@@ -82,11 +80,11 @@
 
     function constructNodeQueues() {
         relays.forEach(function (relay) {
-            elementQueues["r" + relay.relayID] = { type: "R", queue: [], limit: relay.queueLimit, showLimit: 0 };
+            elementQueues["r" + relay.relayID] = { type: "R", queue: [], limit: relay.queueLimit };
         });
 
         stores.forEach(function (store) {
-            elementQueues["s" + store.storeID] = { type: "S", queue: [], limit: Number.MAX_SAFE_INTEGER, showLimit: Number.MAX_SAFE_INTEGER };
+            elementQueues["s" + store.storeID] = { type: "S", queue: [], limit: Number.MAX_SAFE_INTEGER };
         });
 
         connections.forEach(function (connection) {
