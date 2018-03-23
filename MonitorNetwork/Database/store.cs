@@ -23,7 +23,7 @@ namespace MonitorNetwork.Database
         public string storeIP { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(30, MinimumLength = 2, ErrorMessage = "Invalid merchant name length.")]
         public string merchantName { get; set; }
 
         public int? regionID { get; set; }
