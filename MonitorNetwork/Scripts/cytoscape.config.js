@@ -20,6 +20,11 @@ var cy = cytoscape({
             'label': 'data(label)',
             'background-color': '#000000'
         })
+        .selector("node[id^='p']")
+        .css({
+            'label': 'data(label)',
+            'background-color': 'data(label)'
+        })
         .selector("node[id='r11']")
         .css({
             'label': 'data(label)',
@@ -86,7 +91,7 @@ var cy = cytoscape({
 
 var layout = cy.elements().layout({
     name: 'cose-bilkent',
-    nodeDimensionsIncludeLabels: true,
+   // nodeDimensionsIncludeLabels: true,
    edgeDimensionsIncludeLabels: true,
     roots: '#r11'
 });
