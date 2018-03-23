@@ -11,6 +11,8 @@ namespace MonitorNetwork.Models
         public region region { get; set; }
         public store store { get; set; }
 		public relay relay { get; set; }
+		public connections connections { get; set; }
 
-    }
+
+	}
 }

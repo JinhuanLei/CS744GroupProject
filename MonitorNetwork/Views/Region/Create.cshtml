@@ -10,39 +10,54 @@
 
 @using (Html.BeginForm())
 {
-	@Html.AntiForgeryToken()
-
-	<div class="form-horizontal">
-		<h4>Region</h4>
-		<hr />
-		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-		<div class="form-group">
-			@Html.LabelFor(model => model.region.regionNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-10">
-				@Html.EditorFor(model => model.region.regionNumber, new { htmlAttributes = new { @class = "form-control" } })
-				@Html.ValidationMessageFor(model => model.region.regionNumber, "", new { @class = "text-danger" })
-			</div>
-		</div>
-
-		<h4>Store</h4>
-		<hr />
-		@Html.Partial("~/Views/Store/_StorePartial.cshtml")
-
-		<h4>Relay</h4>
-		<hr />
-		<div class="form-group">
-			@Html.LabelFor(model => model.relay.relayIP, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-10">
-				@Html.EditorFor(model => model.relay.relayIP, new { htmlAttributes = new { @class = "form-control" } })
-				@Html.ValidationMessageFor(model => model.relay.relayIP, "", new { @class = "text-danger" })
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
-				<input type="submit" value="Create" class="btn btn-default" />
-			</div>
+<div class="form-horizontal">
+	<h4>Region</h4>
+	<hr />
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+	<div class="form-group">
+		@Html.LabelFor(model => model.region.regionNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.EditorFor(model => model.region.regionNumber, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.region.regionNumber, "", new { @class = "text-danger" })
 		</div>
 	</div>
+
+	<h4>Store</h4>
+	<hr />
+	@Html.Partial("~/Views/Store/_StorePartial.cshtml")
+
+	<h4>Relay</h4>
+	<hr />
+	<div class="form-group">
+		@Html.LabelFor(model => model.relay.relayIP, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.EditorFor(model => model.relay.relayIP, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.relay.relayIP, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	<h4>Line Weight Between Store and Relay</h4>
+	<hr />
+	<div class="form-group">
+		@Html.LabelFor(model => model.connections.weight, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.EditorFor(model => model.connections.weight, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.connections.weight, "", new { @class = "text-danger" })
+		</div>
+	</div>
+	
+	<h4>Line Weights Between Relay and Gateways</h4>
+	<hr />
+	<div class="form-group">
+
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-offset-2 col-md-10">
+			<input type="submit" value="Create" class="btn btn-default" />
+		</div>
+	</div>
+</div>
 }
 
 <div>

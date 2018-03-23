@@ -46,7 +46,6 @@ namespace MonitorNetwork.Views
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(RegionStoreRelayModel regionStoreRelay)
         {
             if (ModelState.IsValid)
@@ -54,8 +53,9 @@ namespace MonitorNetwork.Views
 				regionStoreRelay.region.store.Add(regionStoreRelay.store);
 				regionStoreRelay.region.relay.Add(regionStoreRelay.relay);
 				db.region.Add(regionStoreRelay.region);
+				var gateways = db.relay.Where(x => x.isGateway);
                 db.SaveChanges();
-                return RedirectToAction("Home");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(regionStoreRelay);
