@@ -171,6 +171,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\RegionStoreRelayModel.cs" />
     <Compile Include="Models\CheckboxRelayModel.cs" />
     <Compile Include="Models\CreditCardAndAccountViewModel.cs" />
     <Compile Include="Models\NetworkModel.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Controllers\CreditCardController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
+    <Compile Include="Controllers\RegionController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BLL\ValidCreditCards.txt">
@@ -290,7 +292,6 @@
     <Content Include="Views\Store\Details.cshtml" />
     <Content Include="Views\Store\Edit.cshtml" />
     <Content Include="Views\Store\Index.cshtml" />
-    <Content Include="Views\Store\_RelayPartial.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
