@@ -48,29 +48,32 @@ namespace MonitorNetwork.Views
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "storeID,storeIP,merchantName,regionID")] store store)
+        public ActionResult Create(store store)
         {
-            ViewBag.regionID = new SelectList(db.region, "regionID", "regionID", store.regionID);
-            TempData["regionID"] = store.regionID.ToString();
-            return RedirectToAction("Create2");
-        
-        }
-        public ActionResult Create2(store store)
-        {
-            int regionID = Int32.Parse(TempData["regionID"].ToString());
-            var relays = db.relay.Where(x => x.regionID == regionID);
-            //ViewBag.relayInfo = relays;
-            StoreModel sm = new StoreModel();
-            sm.relays = relays.ToArray();
             if (ModelState.IsValid)
             {
-                db.store.Add(store);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
-            return View(sm);
+
+            ViewBag.regionID = new SelectList(db.region, "regionID", "regionID", store.regionID);
+            return View(store);
         }
+
+        [HttpGet]
+        public ActionResult GetRelays(int regionId)
+        {
+            var region = db.region.FirstOrDefault(x => x.regionID == regionId);
+
+            var checkboxRelayModel = from relay in region.relay
+                                     select new CheckboxRelayModel
+                                     {
+                                         selected = false,
+                                         relayIP = relay.relayIP
+                                     };
+
+            return PartialView(checkboxRelayModel);
+        }
+
         // GET: Store/Edit/5
         public ActionResult Edit(int? id)
         {

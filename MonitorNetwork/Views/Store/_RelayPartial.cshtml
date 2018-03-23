@@ -1,0 +1,13 @@
+﻿@model IList<MonitorNetwork.Models.CheckboxRelayModel>
+
+
+<div class="form-group">
+    @Html.Label("Relay IP", htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-10" })
+    @foreach (var checkboxRelay in Model)
+    {
+        <div class="col-md-2">@checkboxRelay.relayIP</div>
+        <div class="col-md-1">
+            @Html.CheckBoxFor(m => checkboxRelay.selected)
+        </div>
+    }
+</div>

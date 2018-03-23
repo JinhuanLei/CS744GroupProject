@@ -8,6 +8,8 @@ namespace MonitorNetwork.Models
 {
     public class StoreModel
     {
-        public relay[] relays { get; set; }
+        public store store { get; set; }
+
+        public CheckboxRelayModel checkboxRelayModel { get; set; }
     }
 }
