@@ -28,7 +28,7 @@ namespace MonitorNetwork.Database
 
         public bool isProcessingCenter { get; set; }
 
-        public int? regionID { get; set; }
+        public int regionID { get; set; }
 
         public bool isGateway { get; set; }
 
