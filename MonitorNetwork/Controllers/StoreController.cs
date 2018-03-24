@@ -78,8 +78,7 @@ namespace MonitorNetwork.Views
                 return RedirectToAction("Index", "Store");
             }
 
-            //storeModel.checkboxRelayModel = GetCheckboxRelays(storeModel.store.regionID);
-            storeModel.checkboxRelayModel = GetCheckboxRelays(1);
+            storeModel.checkboxRelayModel = GetCheckboxRelays(storeModel.store.regionID);
 
             ViewBag.store = new { regionID = new SelectList(db.region, "regionID", "regionColor", storeModel.store.regionID) };
             return View(storeModel);
@@ -98,6 +97,7 @@ namespace MonitorNetwork.Views
             var region = db.region.FirstOrDefault(x => x.regionID == regionId);
 
             return (from relay in region.relay
+                    where !relay.isProcessingCenter
                    select new CheckboxRelayModel
                    {
                        selected = false,
