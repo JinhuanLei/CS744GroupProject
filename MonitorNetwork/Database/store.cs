@@ -27,7 +27,7 @@ namespace MonitorNetwork.Database
         [StringLength(30, MinimumLength = 2, ErrorMessage = "Invalid merchant name length.")]
         public string merchantName { get; set; }
 
-        public int? regionID { get; set; }
+        public int regionID { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<connections> connections { get; set; }
