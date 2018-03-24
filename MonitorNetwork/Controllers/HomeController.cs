@@ -91,7 +91,7 @@ namespace MonitorNetwork.Controllers
 
         public void SetupJavascriptData(NetworkModel nm)
         {
-                
+
             nm.connections = (from conn in db.connections
                               select new Connections
                               {

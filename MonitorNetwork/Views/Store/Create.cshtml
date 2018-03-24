@@ -5,24 +5,42 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts
+{
+    <script>
+        function regionChange() {
+            $.ajax({
+                type: "GET",
+                url: '/Store/GetRelays?regionId=' + $("#store_regionID").val(),
+                dataType: 'html',
+                success: function (data) {
+                    $('#relay-partial').html(data);
+                }
+            });
+        }
+
+        $("#store_storeIP").inputmask({ alias: "ip", mask: "\\1\\9\\2\\.\\1\\6\\8\\.9[9][9]\\.9[9][9]" });
+    </script>
+}
 <h2>Create</h2>
 
 @using (Html.BeginForm()) 
 {
     <div class="form-horizontal">
-        <h4>store</h4>
+        <h4>Store</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            Store IP
+            @Html.Label("Store IP", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.store.storeIP, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.store.storeIP, "", new { @class = "text-danger" })
+                <small class="form-text text-muted">Press space to move to the next IP field.</small>
             </div>
         </div>
 
         <div class="form-group">
-            Merchant Name
+            @Html.Label("Merchant Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.store.merchantName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.store.merchantName, "", new { @class = "text-danger" })
@@ -30,14 +48,19 @@
         </div>
 
         <div class="form-group">
-            Region Number
+            @Html.Label("Region Color", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("regionID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("store.regionID", null, htmlAttributes: new { @class = "form-control", onchange = "regionChange()" })
                 @Html.ValidationMessageFor(model => model.store.regionID, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        @Html.Partial("_RelayPartial")
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <div id="relay-partial">
+                    @Html.Partial("_RelayPartial")
+                </div>
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

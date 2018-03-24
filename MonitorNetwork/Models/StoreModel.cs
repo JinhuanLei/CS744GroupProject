@@ -10,6 +10,6 @@ namespace MonitorNetwork.Models
     {
         public store store { get; set; }
 
-        public CheckboxRelayModel checkboxRelayModel { get; set; }
+        public IList<CheckboxRelayModel> checkboxRelayModel { get; set; }
     }
 }

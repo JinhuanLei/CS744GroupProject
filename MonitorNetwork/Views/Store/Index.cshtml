@@ -1,44 +1,38 @@
 ﻿@model IEnumerable<MonitorNetwork.Database.store>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Stores";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Stores</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Store", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.region.regionID)
+            Region Color
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.storeIP)
+            Store IP
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.merchantName)
+            Merchant Name
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.region.regionID)
+            @Html.DisplayFor(modelItem => item.region.regionColor)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.storeIP)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.merchantName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.storeID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.storeID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.storeID })
         </td>
     </tr>
 }
