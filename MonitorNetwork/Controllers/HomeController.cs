@@ -127,7 +127,9 @@ namespace MonitorNetwork.Controllers
                                      data = new CytoscapeNode()
                                      {
                                          id = "r" + relay.relayID,
-                                         label = relay.relayIP.Substring(8)
+                                         label = relay.relayIP.Substring(8),
+                                         parent = relay.isProcessingCenter ? "" : "p"+relay.regionID,
+                                         name = relay.isProcessingCenter ? "c" + relay.relayID : relay.isGateway ? "g" + relay.relayID : "r" + relay.relayID
                                      }
                                  })
                         .Concat(from store in db.store
@@ -136,7 +138,20 @@ namespace MonitorNetwork.Controllers
                                     data = new CytoscapeNode()
                                     {
                                         id = "s" + store.storeID,
-                                        label = store.storeIP.Substring(8)
+                                        label = store.storeIP.Substring(8),
+                                        parent = "p" + store.regionID,
+                                        name = "s" + store.storeID
+                                    }
+                                })
+                        .Concat(from region in db.region
+                                select new CytoscapeData
+                                {
+                                    data = new CytoscapeNode()
+                                    {
+                                        id = "p" + region.regionID,
+                                        label = region.regionColor,
+                                        parent = "p" + region.regionID,
+                                        name = "p" + region.regionID
                                     }
                                 }).ToList();
 
