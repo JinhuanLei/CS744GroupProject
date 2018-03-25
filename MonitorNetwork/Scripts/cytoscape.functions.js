@@ -78,11 +78,9 @@ function cytoscapeToolTip() {
     var label = this.data('label');
     var transactionIds = [];
 
-    //var numberOfTransactionsToShow = elementQueues[nodeId].showLimit;
-
-    //for (var i = 0; i < numberOfTransactionsToShow; i++) {
-    //    transactionIds.push(elementQueues[nodeId].queue[i].transactionId);
-    //}
+    if (nodeId[0] === "p") {
+        return;
+    }
 
     elementQueues[nodeId].queue.forEach(function (transaction) {
         transactionIds.push(transaction.transactionId);
