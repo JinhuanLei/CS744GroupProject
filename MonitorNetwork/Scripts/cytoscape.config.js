@@ -109,7 +109,7 @@ var layout = cy.elements().layout({
     name: 'cose-bilkent',
     //nodeDimensionsIncludeLabels: true,
     edgeDimensionsIncludeLabels: true,
-    padding: 50,
+    nodeRepulsion: 9000,
     roots: '#r11'
 });
 
