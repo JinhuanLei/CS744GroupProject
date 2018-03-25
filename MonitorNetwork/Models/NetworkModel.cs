@@ -38,7 +38,7 @@ namespace MonitorNetwork.Models
         public string id { get; set; }
         public string label { get; set; }
         public string parent { get; set; }
-
+        public string name { get; set; }
     }
 
     public class CytoscapeEdge

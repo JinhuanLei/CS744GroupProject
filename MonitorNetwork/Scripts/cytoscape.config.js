@@ -10,25 +10,34 @@ var cy = cytoscape({
             // 'content': 'data(id)',
             'label': 'data(label)'
         })
-        .selector("node[id^='s']")
+        .selector("node[name^='s']")
         .css({
             'label': 'data(label)',
             'shape': 'triangle'
         })
-        .selector("node[id^='r']")
+        .selector("node[name^='r']")
         .css({
             'label': 'data(label)',
             'background-color': '#000000'
         })
-        .selector("node[id^='p']")
+        .selector("node[name^='p']")
         .css({
             'label': 'data(label)',
             'background-color': 'data(label)'
         })
-        .selector("node[id='r11']")
+        .selector("node[name^='c']")
         .css({
             'label': 'data(label)',
             'shape': 'rectangle',
+            'background-color': '#FFF000'
+        })
+        .selector("node[name^='g']")
+        .css({
+            'label': 'data(label)',
+            'shape': 'roundrectangle',
+            'border-color': 'white',
+            'border-width': 5,
+            'border-opacity': 0.5,
             'background-color': '#FFF000'
         })
         .selector('edge')
