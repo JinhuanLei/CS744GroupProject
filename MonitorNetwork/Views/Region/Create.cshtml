@@ -49,7 +49,7 @@
 	<h4>Relay</h4>
 	<hr />
 	<div class="form-group">
-		@Html.LabelFor(model => model.relay.relayIP, htmlAttributes: new { @class = "control-label col-md-2" })
+		@Html.Label("Relay IP", htmlAttributes: new { @class = "control-label col-md-2" })
 		<div class="col-md-10">
 			@Html.EditorFor(model => model.relay.relayIP, new { htmlAttributes = new { @class = "form-control" } })
 			@Html.ValidationMessageFor(model => model.relay.relayIP, "", new { @class = "text-danger" })
@@ -59,7 +59,7 @@
 	<h4>Line Weight Between Store and Relay</h4>
 	<hr />
 	<div class="form-group">
-		@Html.LabelFor(model => model.connections.weight, htmlAttributes: new { @class = "control-label col-md-2" })
+		@Html.Label("Connection Weight", htmlAttributes: new { @class = "control-label col-md-2" })
 		<div class="col-md-10">
 			@Html.EditorFor(model => model.connections.weight, new { htmlAttributes = new { @class = "form-control" } })
 			@Html.ValidationMessageFor(model => model.connections.weight, "", new { @class = "text-danger" })
