@@ -36,12 +36,25 @@ namespace MonitorNetwork.Views
             return View(region);
         }
 
-        // GET: Region/Create
-        public ActionResult Create()
-        {
+		// GET: Region/Create
+		public ActionResult Create()
+		{
 			RegionStoreRelayModel regionStoreRelay = new RegionStoreRelayModel();
 
 			regionStoreRelay.CheckboxGatewayModel = GetGatewayRelays();
+
+			var colorInfo = from colors in db.colors
+							select new { colors.colorID };
+
+			var colorsUsed = from region in db.region
+							 select new { region.colorID };
+
+			var temp = from colors in colorInfo.Except(colorsUsed)
+					   join colors2 in db.colors on colors.colorID equals colors2.colorID
+					   select new { colors2.colorName, colors2.colorID };
+
+			ViewBag.colorID = new SelectList(temp, "colorID", "colorName");
+
 			return View(regionStoreRelay);
 		}
 		
@@ -56,7 +69,7 @@ namespace MonitorNetwork.Views
 				regionStoreRelay.region.store.Add(regionStoreRelay.store);
 				regionStoreRelay.region.relay.Add(regionStoreRelay.relay);
 				db.region.Add(regionStoreRelay.region);
-				var gateways = db.relay.Where(x => x.isGateway);
+				var gateways = db.relay.Where(x => x.isGateway || x.isProcessingCenter);
                 db.SaveChanges();
 
 				connections connection = new connections()
@@ -90,6 +103,15 @@ namespace MonitorNetwork.Views
 
 			regionStoreRelay.CheckboxGatewayModel = GetGatewayRelays();
 
+			var colorInfo = from colors in db.colors
+							select new {colors.colorName};
+
+			var colorsUsed = from region in db.region
+							 select new { region.colors.colorName};
+
+			var temp = colorInfo.Except(colorsUsed).ToList();
+
+			ViewBag.colorID = new SelectList(temp);
 
 			return View(regionStoreRelay);
         }
@@ -163,7 +185,7 @@ namespace MonitorNetwork.Views
 		private IList<CheckboxGatewayModel> GetGatewayRelays()
 		{
 			//var region = db.region.FirstOrDefault(x => x.regionID == regionId);
-			var gateways = db.relay.Where(x => x.isGateway);
+			var gateways = db.relay.Where(x => x.isGateway || x.isProcessingCenter);
 
 			return (from relay in gateways
 					select new CheckboxGatewayModel
