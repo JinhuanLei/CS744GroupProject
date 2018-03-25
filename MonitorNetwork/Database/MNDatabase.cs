@@ -46,10 +46,6 @@ namespace MonitorNetwork.Database
                 .HasPrecision(0);
 
             modelBuilder.Entity<region>()
-                .HasOptional(e => e.region1)
-                .WithRequired(e => e.region2);
-
-            modelBuilder.Entity<region>()
                 .HasMany(e => e.relay)
                 .WithRequired(e => e.region)
                 .WillCascadeOnDelete(false);
