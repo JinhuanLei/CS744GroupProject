@@ -160,6 +160,7 @@
     <Compile Include="BLL\SimpleAES.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Database\account.cs" />
+    <Compile Include="Database\colors.cs" />
     <Compile Include="Database\connections.cs" />
     <Compile Include="Database\creditcard.cs" />
     <Compile Include="Database\MNDatabase.cs" />

@@ -18,9 +18,15 @@ namespace MonitorNetwork.Database
 
         public int regionID { get; set; }
 
-        [Required]
-        [StringLength(20)]
-        public string regionColor { get; set; }
+        public int colorID { get; set; }
+
+        public int regionNumber { get; set; }
+
+        public virtual colors colors { get; set; }
+
+        public virtual region region1 { get; set; }
+
+        public virtual region region2 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<relay> relay { get; set; }

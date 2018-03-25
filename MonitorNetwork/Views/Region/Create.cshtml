@@ -36,8 +36,8 @@
 		<div class="form-group">
 			@Html.Label("Region Color", htmlAttributes: new { @class = "control-label col-md-2" })
 			<div class="col-md-10">
-				@Html.EditorFor(model => model.region.regionColor, new { htmlAttributes = new { @class = "form-control" } })
-				@Html.ValidationMessageFor(model => model.region.regionColor, "", new { @class = "text-danger" })
+				@Html.EditorFor(model => model.region.regionID, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.region.regionID, "", new { @class = "text-danger" })
 			</div>
 		</div>
 	</div>

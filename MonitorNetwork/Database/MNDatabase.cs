@@ -13,6 +13,7 @@ namespace MonitorNetwork.Database
 		}
 
 		public virtual DbSet<account> account { get; set; }
+		public virtual DbSet<colors> colors { get; set; }
 		public virtual DbSet<connections> connections { get; set; }
 		public virtual DbSet<creditcard> creditcard { get; set; }
 		public virtual DbSet<region> region { get; set; }
@@ -31,23 +32,31 @@ namespace MonitorNetwork.Database
 				.Property(e => e.balance)
 				.HasPrecision(10, 2);
 
+			modelBuilder.Entity<colors>()
+				.Property(e => e.colorName)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<colors>()
+				.HasMany(e => e.region)
+				.WithRequired(e => e.colors)
+				.WillCascadeOnDelete(false);
+
 			modelBuilder.Entity<creditcard>()
 				.Property(e => e.expirationDate)
 				.HasPrecision(0);
 
 			modelBuilder.Entity<region>()
-				.Property(e => e.regionColor)
-				.IsUnicode(false);
+				.HasOptional(e => e.region1)
+				.WithRequired(e => e.region2);
 
-			modelBuilder.Entity<relay>()
-				.HasMany(e => e.connections)
-				.WithOptional(e => e.relay)
-				.HasForeignKey(e => e.relayID);
+			modelBuilder.Entity<region>()
+				.HasMany(e => e.relay)
+				.WithRequired(e => e.region)
+				.WillCascadeOnDelete(false);
 
-			modelBuilder.Entity<relay>()
-				.HasMany(e => e.connections1)
-				.WithRequired(e => e.relay1)
-				.HasForeignKey(e => e.destRelayID)
+			modelBuilder.Entity<region>()
+				.HasMany(e => e.store)
+				.WithRequired(e => e.region)
 				.WillCascadeOnDelete(false);
 
 			modelBuilder.Entity<transaction>()
