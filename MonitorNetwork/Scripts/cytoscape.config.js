@@ -14,6 +14,7 @@ var cy = cytoscape({
         .css({
             'label': 'data(label)',
             //'shape': 'triangle'
+            //'shape': 'triangle'
         })
         .selector("node[name^='r']")
         .css({
@@ -31,7 +32,9 @@ var cy = cytoscape({
         .css({
             'label': 'data(label)',
             'shape': 'roundrectangle',
-            'background-color': '#FFF000'
+            'background-color': '#FFF000',
+            'width': 100,
+            'height':100
         })
         .selector("node[name^='g']")
         .css({
@@ -40,7 +43,9 @@ var cy = cytoscape({
             'border-color': 'white',
             'border-width': 5,
             'border-opacity': 0.5,
-            'background-color': '#FFF000'
+        
+            'width': 50,
+            'height': 50
         })
         .selector('edge')
         .css({
@@ -102,8 +107,9 @@ var cy = cytoscape({
 
 var layout = cy.elements().layout({
     name: 'cose-bilkent',
-   // nodeDimensionsIncludeLabels: true,
-   edgeDimensionsIncludeLabels: true,
+    //nodeDimensionsIncludeLabels: true,
+    edgeDimensionsIncludeLabels: true,
+    padding: 50,
     roots: '#r11'
 });
 

@@ -60,11 +60,30 @@ table {
     display: block;
     float: left;
     height: 16px;
-    width: 30px;
+    width: 16px;
     margin-right: 5px;
     margin-left: 0;
     border: 1px solid #999;
 }
+
+    .my-legend ul.legend-labels li span.gateway {
+        display: block;
+        float: left;
+        height: 16px;
+        width: 16px;
+        margin-right: 5px;
+        margin-left: 0;
+        border: 2px solid #999;
+        border-color: lightgrey;
+    }
+
+    .my-legend ul.legend-labels li span.store {
+        height: 16px;
+        width: 16px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+    }
 
 .my-legend .legend-source {
     font-size: 70%;
@@ -75,4 +94,5 @@ table {
 .my-legend a {
     color: #777;
 }
+
 
