@@ -149,7 +149,7 @@ namespace MonitorNetwork.Controllers
                                     data = new CytoscapeNode()
                                     {
                                         id = "p" + region.regionID,
-                                        label = region.regionColor,
+                                        label = region.colors.colorName,
                                         parent = "p" + region.regionID,
                                         name = "p" + region.regionID
                                     }
