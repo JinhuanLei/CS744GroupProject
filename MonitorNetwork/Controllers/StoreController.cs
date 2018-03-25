@@ -40,7 +40,10 @@ namespace MonitorNetwork.Views
         // GET: Store/Create
         public ActionResult Create()
         {
-            ViewBag.store = new { regionID = new SelectList(db.region, "regionID", "regionColor") };
+            var selectList = from region in db.region
+                             select new { regionID = region.regionID, regionColor = region.colors.colorName };
+
+            ViewBag.store = new { regionID = new SelectList(selectList, "regionID", "regionColor") };
             StoreModel storeModel = new StoreModel();
 
             storeModel.checkboxRelayModel = GetCheckboxRelays(db.region.First().regionID);
@@ -80,7 +83,10 @@ namespace MonitorNetwork.Views
 
             storeModel.checkboxRelayModel = GetCheckboxRelays(storeModel.store.regionID);
 
-            ViewBag.store = new { regionID = new SelectList(db.region, "regionID", "regionColor", storeModel.store.regionID) };
+            var selectList = from region in db.region
+                             select new { regionID = region.regionID, regionColor = region.colors.colorName };
+
+            ViewBag.store = new { regionID = new SelectList(selectList, "regionID", "regionColor") };
             return View(storeModel);
         }
 
