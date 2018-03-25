@@ -46,7 +46,7 @@ function cytoscapeClickNode(evt) {
         return relay.relayID === nodeIdNumber;
     });
 
-    if (relay != null && !relay.isProcessingCenter) {
+    if (relay != null && !relay.isProcessingCenter && nodeId[0] !== "p" && nodeId[0] !== "s") {
 
         relay.isActive = !relay.isActive;
 

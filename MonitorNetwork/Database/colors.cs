@@ -6,28 +6,22 @@ namespace MonitorNetwork.Database
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("region")]
-    public partial class region
+    public partial class colors
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public region()
+        public colors()
         {
-            relay = new HashSet<relay>();
-            store = new HashSet<store>();
+            region = new HashSet<region>();
         }
 
-        public int regionID { get; set; }
-
+        [Key]
         public int colorID { get; set; }
 
-        public int regionNumber { get; set; }
-
-        public virtual colors colors { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<relay> relay { get; set; }
+        [Required]
+        [StringLength(128)]
+        public string colorName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<store> store { get; set; }
+        public virtual ICollection<region> region { get; set; }
     }
 }

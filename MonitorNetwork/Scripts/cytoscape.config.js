@@ -10,21 +10,42 @@ var cy = cytoscape({
             // 'content': 'data(id)',
             'label': 'data(label)'
         })
-        .selector("node[id^='s']")
+        .selector("node[name^='s']")
         .css({
             'label': 'data(label)',
-            'shape': 'triangle'
+            //'shape': 'triangle'
+            //'shape': 'triangle'
         })
-        .selector("node[id^='r']")
+        .selector("node[name^='r']")
         .css({
             'label': 'data(label)',
-            'background-color': '#000000'
+            'background-color': '#000000',
+            'shape': 'rectangle'
         })
-        .selector("node[id='r11']")
+        .selector("node[name^='p']")
+        .css({
+            'label': 'data(label)',
+            'background-color': 'data(label)'
+           
+        })
+        .selector("node[name^='c']")
+        .css({
+            'label': 'data(label)',
+            'shape': 'roundrectangle',
+            'background-color': '#FFF000',
+            'width': 100,
+            'height':100
+        })
+        .selector("node[name^='g']")
         .css({
             'label': 'data(label)',
             'shape': 'rectangle',
-            'background-color': '#FFF000'
+            'border-color': 'white',
+            'border-width': 5,
+            'border-opacity': 0.5,
+        
+            'width': 50,
+            'height': 50
         })
         .selector('edge')
         .css({
@@ -85,10 +106,13 @@ var cy = cytoscape({
 });
 
 var layout = cy.elements().layout({
-    name: 'cose',
+    name: 'cose-bilkent',
+    //nodeDimensionsIncludeLabels: true,
+    edgeDimensionsIncludeLabels: true,
+    nodeRepulsion: 9000,
     roots: '#r11'
 });
-layout.run();
+
 //cy.on('mouseover', 'node', function (event) {
 
 //    var nodeId = event.target.id();
@@ -173,6 +197,7 @@ cy.on('click', 'edge', cytoscapeClickEdge);
 
 // cy.autolock( true );
 cy.userZoomingEnabled(false);
+layout.run();
 
 
 
