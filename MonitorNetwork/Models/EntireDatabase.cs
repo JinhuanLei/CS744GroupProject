@@ -12,6 +12,7 @@ namespace MonitorNetwork.Models
         public IEnumerable<account> accounts;
         public IEnumerable<creditcard> creditcards;
         public IEnumerable<relay> relays;
+		public IEnumerable<region> regions;
         public IEnumerable<store> stores;
         public IEnumerable<transaction> transaction;
         public IEnumerable<user> user;

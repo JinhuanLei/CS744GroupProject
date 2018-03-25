@@ -5,20 +5,40 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts
+{
+	<script>
+		function regionChange() {
+			$.ajax({
+				type: "GET",
+				url: '/Store/GetRelays?regionId=' + $("#store_regionID").val(),
+				dataType: 'html',
+				success: function (data) {
+					$('#relay-partial').html(data);
+				}
+			});
+		}
+
+		$("#store_storeIP").inputmask({ alias: "ip", mask: "\\1\\9\\2\\.\\1\\6\\8\\.9[9][9]\\.9[9][9]" });
+		$("#relay_relayIP").inputmask({ alias: "ip", mask: "\\1\\9\\2\\.\\1\\6\\8\\.9[9][9]\\.9[9][9]" });
+	</script>
+}
+
 
 <h2>Create</h2>
 
 @using (Html.BeginForm())
 {
-<div class="form-horizontal">
-	<h4>Region</h4>
-	<hr />
-	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-	<div class="form-group">
-		@Html.LabelFor(model => model.region.regionNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-		<div class="col-md-10">
-			@Html.EditorFor(model => model.region.regionNumber, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.region.regionNumber, "", new { @class = "text-danger" })
+	<div class="form-horizontal">
+		<h4>Region</h4>
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		<div class="form-group">
+			@Html.Label("Region Color", htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.region.regionColor, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.region.regionColor, "", new { @class = "text-danger" })
+			</div>
 		</div>
 	</div>
 
@@ -45,11 +65,13 @@
 			@Html.ValidationMessageFor(model => model.connections.weight, "", new { @class = "text-danger" })
 		</div>
 	</div>
-	
-	<h4>Line Weights Between Relay and Gateways</h4>
+	<br />
+	<br />
+	<h4>All Possible Gateway Connections</h4>
 	<hr />
-	<div class="form-group">
 
+	<div class="form-group">
+		@Html.Partial("~/Views/Store/_GatewayPartial.cshtml")
 	</div>
 
 	<div class="form-group">
@@ -57,7 +79,7 @@
 			<input type="submit" value="Create" class="btn btn-default" />
 		</div>
 	</div>
-</div>
+
 }
 
 <div>

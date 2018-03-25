@@ -13,6 +13,8 @@ namespace MonitorNetwork.Models
 		public relay relay { get; set; }
 		public connections connections { get; set; }
 
+		public IList<CheckboxGatewayModel> CheckboxGatewayModel { get; set; }
+
 
 	}
 }

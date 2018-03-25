@@ -13,7 +13,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.regionNumber)
+            @Html.DisplayNameFor(model => model.region.regionColor)
         </th>
         <th></th>
     </tr>
@@ -21,12 +21,12 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.regionNumber)
+            @Html.DisplayFor(modelItem => item.region.regionColor)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.regionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.regionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.regionID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.region.regionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.region.regionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.region.regionID })
         </td>
     </tr>
 }

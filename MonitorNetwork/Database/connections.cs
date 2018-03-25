@@ -17,6 +17,8 @@ namespace MonitorNetwork.Database
 
         public int destRelayID { get; set; }
 
+		[Required]
+		[Range(0, Int32.MaxValue, ErrorMessage = "Please enter a value equal to or greater than 0")]
         public int weight { get; set; }
 
         public bool isActive { get; set; }

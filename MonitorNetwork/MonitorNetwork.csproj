@@ -171,6 +171,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CheckboxGatewayModel.cs" />
     <Compile Include="Models\RegionStoreRelayModel.cs" />
     <Compile Include="Models\CheckboxRelayModel.cs" />
     <Compile Include="Models\CreditCardAndAccountViewModel.cs" />
@@ -296,6 +297,8 @@
     <Content Include="Views\Region\Edit.cshtml" />
     <Content Include="Views\Region\Index.cshtml" />
     <Content Include="Views\Store\_RelayPartial.cshtml" />
+    <Content Include="Views\Store\_StorePartial.cshtml" />
+    <Content Include="Views\Store\_GatewayPartial.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -39,9 +39,12 @@ namespace MonitorNetwork.Views
         // GET: Region/Create
         public ActionResult Create()
         {
-            return View();
-        }
+			RegionStoreRelayModel regionStoreRelay = new RegionStoreRelayModel();
 
+			regionStoreRelay.CheckboxGatewayModel = GetGatewayRelays();
+			return View(regionStoreRelay);
+		}
+		
         // POST: Region/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -55,16 +58,42 @@ namespace MonitorNetwork.Views
 				db.region.Add(regionStoreRelay.region);
 				var gateways = db.relay.Where(x => x.isGateway);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+
+				var selectedRelays = regionStoreRelay.CheckboxGatewayModel.Where(x => x.selected);
+				foreach (var selectedRelay in selectedRelays)
+				{
+					connections connection = new connections()
+					{
+						relayID = regionStoreRelay.relay.relayID,
+						destRelayID = selectedRelay.relayID,
+						isActive = true,
+						weight = selectedRelay.weight
+					};
+
+					db.connections.Add(connection);
+				}
+
+				db.SaveChanges();
+				return RedirectToAction("Index", "Home");
             }
 
-            return View(regionStoreRelay);
+			regionStoreRelay.CheckboxGatewayModel = GetGatewayRelays();
+
+
+			return View(regionStoreRelay);
         }
 
-		
+		[HttpGet]
+		public ActionResult GetRelays(int regionId)
+		{
+			return PartialView("_GatewayPartial", new RegionStoreRelayModel()
+			{
+				CheckboxGatewayModel = GetGatewayRelays()
+			});
+		}
 
-        // GET: Region/Edit/5
-        public ActionResult Edit(int? id)
+		// GET: Region/Edit/5
+		public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -120,7 +149,21 @@ namespace MonitorNetwork.Views
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+		private IList<CheckboxGatewayModel> GetGatewayRelays()
+		{
+			//var region = db.region.FirstOrDefault(x => x.regionID == regionId);
+			var gateways = db.relay.Where(x => x.isGateway);
+
+			return (from relay in gateways
+					select new CheckboxGatewayModel
+					{
+						selected = false,
+						relayIP = relay.relayIP,
+						relayID = relay.relayID
+					}).ToList();
+		}
+
+		protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
