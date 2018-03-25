@@ -59,10 +59,21 @@ namespace MonitorNetwork.Views
 				var gateways = db.relay.Where(x => x.isGateway);
                 db.SaveChanges();
 
+				connections connection = new connections()
+				{
+					storeID = regionStoreRelay.store.storeID,
+					destRelayID = regionStoreRelay.relay.relayID,
+					isActive = true,
+					weight = regionStoreRelay.connections.weight
+				};
+
+				db.connections.Add(connection);
+				db.SaveChanges();
+
 				var selectedRelays = regionStoreRelay.CheckboxGatewayModel.Where(x => x.selected);
 				foreach (var selectedRelay in selectedRelays)
 				{
-					connections connection = new connections()
+					connections connection2 = new connections()
 					{
 						relayID = regionStoreRelay.relay.relayID,
 						destRelayID = selectedRelay.relayID,
@@ -70,7 +81,7 @@ namespace MonitorNetwork.Views
 						weight = selectedRelay.weight
 					};
 
-					db.connections.Add(connection);
+					db.connections.Add(connection2);
 				}
 
 				db.SaveChanges();
