@@ -11,6 +11,7 @@ namespace MonitorNetwork.Models
         public region region { get; set; }
         public store store { get; set; }
 		public relay relay { get; set; }
+		public colors colors { get; set; }
 		public connections connections { get; set; }
 
 		public IList<CheckboxGatewayModel> CheckboxGatewayModel { get; set; }
