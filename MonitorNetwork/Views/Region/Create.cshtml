@@ -41,42 +41,45 @@
 			</div>
 		</div>
 	</div>
+	<br />
 
-	<h4>Store</h4>
-	<hr />
-	@Html.Partial("~/Views/Store/_StorePartial.cshtml")
+	<div class="form-horizontal">
 
-	<h4>Relay</h4>
-	<hr />
-	<div class="form-group">
-		@Html.Label("Relay IP", htmlAttributes: new { @class = "control-label col-md-2" })
-		<div class="col-md-10">
-			@Html.EditorFor(model => model.relay.relayIP, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.relay.relayIP, "", new { @class = "text-danger" })
-		</div>
-	</div>
+		<h4>Store</h4>
+		<hr />
+		@Html.Partial("~/Views/Store/_StorePartial.cshtml")
+		<br />
 
-	<h4>Line Weight Between Store and Relay</h4>
-	<hr />
-	<div class="form-group">
-		@Html.Label("Connection Weight", htmlAttributes: new { @class = "control-label col-md-2" })
-		<div class="col-md-10">
-			@Html.EditorFor(model => model.connections.weight, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.connections.weight, "", new { @class = "text-danger" })
+		<h4>Relay</h4>
+		<hr />
+		<div class="form-group">
+			@Html.Label("Relay IP", htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.relay.relayIP, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.relay.relayIP, "", new { @class = "text-danger" })
+			</div>
+
+			@Html.Label("Line Weight Between Store and Relay", htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.connections.weight, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.connections.weight, "", new { @class = "text-danger" })
+			</div>
 		</div>
 	</div>
 	<br />
-	<br />
-	<h4>All Possible Gateway Connections</h4>
-	<hr />
 
-	<div class="form-group">
-		@Html.Partial("~/Views/Store/_GatewayPartial.cshtml")
-	</div>
+	<div class="form-horizontal">
 
-	<div class="form-group">
-		<div class="col-md-offset-2 col-md-10">
-			<input type="submit" value="Create" class="btn btn-default" />
+		<h4>All Possible Gateway Connections</h4>
+		<hr />
+		<div class="form-group">
+			@Html.Partial("~/Views/Store/_GatewayPartial.cshtml")
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Create" class="btn btn-default" />
+			</div>
 		</div>
 	</div>
 
