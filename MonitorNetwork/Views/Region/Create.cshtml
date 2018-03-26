@@ -37,7 +37,7 @@
 			@Html.Label("Region Color", htmlAttributes: new { @class = "control-label col-md-2" })
 			<div class="col-md-10">
 				@Html.DropDownList("colorID", null, htmlAttributes: new { @class = "form-control" })
-				@Html.ValidationMessageFor(model => model.colors.colorID, "", new { @class = "text-danger" })
+				@Html.ValidationMessageFor(model => model.region.colorID, "", new { @class = "text-danger" })
 			</div>
 		</div>
 	</div>
@@ -57,6 +57,11 @@
 			<div class="col-md-10">
 				@Html.EditorFor(model => model.relay.relayIP, new { htmlAttributes = new { @class = "form-control" } })
 				@Html.ValidationMessageFor(model => model.relay.relayIP, "", new { @class = "text-danger" })
+			</div>
+			@Html.Label("Queue Limit", htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.relay.queueLimit, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.relay.queueLimit, "", new { @class = "text-danger" })
 			</div>
 
 			@Html.Label("Line Weight Between Store and Relay", htmlAttributes: new { @class = "control-label col-md-2" })

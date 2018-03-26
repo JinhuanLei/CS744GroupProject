@@ -66,9 +66,28 @@ namespace MonitorNetwork.Views
         {
             if (ModelState.IsValid)
             {
-				regionStoreRelay.region.store.Add(regionStoreRelay.store);
-				regionStoreRelay.region.relay.Add(regionStoreRelay.relay);
+				region newRegion = new region()
+				{
+					colorID = regionStoreRelay.region.colorID,
+					regionNumber = regionStoreRelay.region.regionID
+				};
 				db.region.Add(regionStoreRelay.region);
+				db.store.Add(regionStoreRelay.store);
+				db.SaveChanges();
+
+				relay gatewayRelay = new relay()
+				{
+					isActive = true,
+					isProcessingCenter = false,
+					queueLimit = regionStoreRelay.relay.queueLimit,
+					isGateway = true,
+					relayIP = regionStoreRelay.relay.relayIP,
+					regionID = regionStoreRelay.relay.regionID
+				};
+
+				db.relay.Add(gatewayRelay);
+				
+				
 				var gateways = db.relay.Where(x => x.isGateway || x.isProcessingCenter);
                 db.SaveChanges();
 
@@ -104,15 +123,16 @@ namespace MonitorNetwork.Views
 			regionStoreRelay.CheckboxGatewayModel = GetGatewayRelays();
 
 			var colorInfo = from colors in db.colors
-							select new {colors.colorName};
+							select new { colors.colorID };
 
 			var colorsUsed = from region in db.region
-							 select new { region.colors.colorName};
+							 select new { region.colorID };
 
-			var temp = colorInfo.Except(colorsUsed).ToList();
+			var temp = from colors in colorInfo.Except(colorsUsed)
+					   join colors2 in db.colors on colors.colorID equals colors2.colorID
+					   select new { colors2.colorName, colors2.colorID };
 
-			ViewBag.colorID = new SelectList(temp);
-
+			ViewBag.colorID = new SelectList(temp, "colorID", "colorName");
 			return View(regionStoreRelay);
         }
 
