@@ -294,10 +294,6 @@
     <Content Include="Views\Store\Details.cshtml" />
     <Content Include="Views\Store\Index.cshtml" />
     <Content Include="Views\Region\Create.cshtml" />
-    <Content Include="Views\Region\Delete.cshtml" />
-    <Content Include="Views\Region\Details.cshtml" />
-    <Content Include="Views\Region\Edit.cshtml" />
-    <Content Include="Views\Region\Index.cshtml" />
     <Content Include="Views\Store\_RelayPartial.cshtml" />
     <Content Include="Views\Store\_StorePartial.cshtml" />
     <Content Include="Views\Store\_GatewayPartial.cshtml" />
