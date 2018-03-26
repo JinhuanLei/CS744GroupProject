@@ -76,15 +76,18 @@ function toggleElementState(elementId, type, isActive) {
 function cytoscapeToolTip() {
     var nodeId = this.data('id');
     var label = this.data('label');
+    //var name = this.data('name');
     var transactionIds = [];
-
-    if (nodeId[0] === "p") {
-        return;
-    }
-
+    console.log(nodeId);
+    //if (nodeId[0] == "p") {
+        
+    //    return name;
+    //}
+  
     elementQueues[nodeId].queue.forEach(function (transaction) {
         transactionIds.push(transaction.transactionId);
-    });
+        });
+  
 
     var queueStr = transactionIds.join(", ");
     if (nodeId[0] == "r") {
@@ -101,7 +104,7 @@ function cytoscapeToolTip() {
         });
         return merchantName + ':192.168.' + label + '\n Queue:' + queueStr
     }
-
+   
 }
 
 //function getStoreIpAdress(storeID) {
