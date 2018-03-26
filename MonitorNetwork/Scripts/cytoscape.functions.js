@@ -76,27 +76,23 @@ function toggleElementState(elementId, type, isActive) {
 function cytoscapeToolTip() {
     var nodeId = this.data('id');
     var label = this.data('label');
-    //var name = this.data('name');
     var transactionIds = [];
-    console.log(nodeId);
-    //if (nodeId[0] == "p") {
-        
-    //    return name;
-    //}
   
     elementQueues[nodeId].queue.forEach(function (transaction) {
         transactionIds.push(transaction.transactionId);
-        });
+    });
   
 
     var queueStr = transactionIds.join(", ");
-    if (nodeId[0] == "r") {
+    if (nodeId === processingCenterId) {
+        return 'Processing Center: 192.168.' + this.data('label') + '\n Queue: ' + queueStr
+    }
+    else if (nodeId[0] == "r") {
         return '192.168.' + this.data('label') + '\n Limit: ' + elementQueues[nodeId].limit + '\n Queue: ' + queueStr
-    } else {
+    }
+    else {
         var merchantName;
         stores.forEach(function (t, number, ts) {
-            //console.log(t.storeID + "   " + nodeId.substring(1));
-            //console.log(t.storeID == nodeId.substring(1));
             if (t.storeID == nodeId.substring(1)) {
 
                 merchantName = t.merchantName;
@@ -106,29 +102,3 @@ function cytoscapeToolTip() {
     }
    
 }
-
-//function getStoreIpAdress(storeID) {
-//    console.log(storeID);
-//    var nodeid = storeID;
-//    var id = (Number)(nodeid.substring(1));
-//    //alert(evt.target.id() + "  " + id);
-//    for (var x = 0; x < stores.length; x++) {
-//        //  alert(relays[x].relayID + "  " + id);
-//        if (stores[x].storeID == id) {
-
-//            return stores[x].storeIP;
-//        }
-//    }
-//}
-//function getRelayIpAdress(relayID) {
-//    console.log(relayID);
-//    var nodeid = relayID;
-//    var id = (Number)(nodeid.substring(1));
-//    //alert(evt.target.id() + "  " + id);
-//    for (var x = 0; x < relays.length; x++) {
-//        //  alert(relays[x].relayID + "  " + id);
-//        if (relays[x].relayID == id) {
-//            return relays[x].relayIP;
-//        }
-//    }
-//}

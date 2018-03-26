@@ -95,6 +95,8 @@
                 elementQueues["r" + connection.relayID + "r" + connection.destRelayID] = { type: "RR", queue: [], limit: 1 };
             }
         });
+
+        elementQueues[processingCenterId].limit = Number.MAX_SAFE_INTEGER;
     }
 
     constructNodeQueues();
