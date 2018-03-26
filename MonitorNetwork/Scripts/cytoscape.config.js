@@ -164,7 +164,7 @@ var layout = cy.elements().layout({
 //    }, event);
 
 //});
-cy.nodes().qtip({
+cy.elements("node[id!^='p']").qtip({
 
     content: cytoscapeToolTip,
     position: {
