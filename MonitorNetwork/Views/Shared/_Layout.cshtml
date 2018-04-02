@@ -20,14 +20,14 @@
                 @Html.ActionLink("Network Monitor", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li>@Html.ActionLink("Home", "Index", "Home")</li>
-					<li>@Html.ActionLink("Credit Cards", "Index", "CreditCard")</li>
-					<li>@Html.ActionLink("Accounts", "Index", "Account")</li>
-					<li>@Html.ActionLink("Stores", "Index", "Store")</li>
-					<li>@Html.ActionLink("Add Region", "Create", "Region")</li>
-
-				</ul>
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Credit Cards", "Index", "CreditCard")</li>
+                    <li>@Html.ActionLink("Accounts", "Index", "Account")</li>
+                    <li>@Html.ActionLink("Stores", "Index", "Store")</li>
+                    <li>@Html.ActionLink("Add Region", "Create", "Region")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
