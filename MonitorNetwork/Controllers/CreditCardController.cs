@@ -12,6 +12,7 @@ using MonitorNetwork.Models;
 
 namespace MonitorNetwork.Controllers
 {
+    [CheckAuthorization]
     public class CreditCardController : Controller
     {
         private MNDatabase db = new MNDatabase();

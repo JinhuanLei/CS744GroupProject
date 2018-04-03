@@ -7,9 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MonitorNetwork.Database;
+using MonitorNetwork.Models;
 
 namespace MonitorNetwork.Controllers
 {
+    [CheckAuthorization]
     public class TransactionController : Controller
     {
         private MNDatabase db = new MNDatabase();
