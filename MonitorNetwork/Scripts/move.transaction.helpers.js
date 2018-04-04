@@ -30,24 +30,47 @@ function getPath(currentNode, transaction) {
     }
 }
 
-function highlightConnection(nodeId1, nodeId2, highlight) {
-    var highlightNodeId;
-
-    for (var i = 0; i < cytoscapeEdges.length; i++) {
-        if ((cytoscapeEdges[i].data.source === nodeId1 && cytoscapeEdges[i].data.target === nodeId2) ||
-            (cytoscapeEdges[i].data.source === nodeId2 && cytoscapeEdges[i].data.target === nodeId1)) {
-            highlightNodeId = cytoscapeEdges[i].data.source + cytoscapeEdges[i].data.target;
+function transactionExists(transactionId, elementArray) {
+    for (var i = 0; i < elementArray.length; i++) {
+        if (elementArray[i].transactionId === transactionId) {
+            return true;
         }
     }
-    if (highlightNodeId === undefined) {
+
+    return false;
+}
+
+function addCSSClassToConnection(nodeId1, nodeId2, cssClass) {
+    var connectionId = getGraphConnectionId(nodeId1, nodeId2);
+
+    if (connectionId === undefined) {
         console.log("Could not find edge in graph for " + nodeId1 + " " + nodeId2);
         return;
     }
-    if (highlight) {
-        cy.$('#' + highlightNodeId).addClass('highlighted');
-    } else {
-        cy.$('#' + highlightNodeId).removeClass('highlighted');
+
+    cy.$('#' + connectionId).addClass(cssClass);
+}
+
+function removeCSSClassToConnection(nodeId1, nodeId2, cssClass) {
+    var connectionId = getGraphConnectionId(nodeId1, nodeId2);
+
+    if (connectionId === undefined) {
+        console.log("Could not find edge in graph for " + nodeId1 + " " + nodeId2);
+        return;
     }
+
+    cy.$('#' + connectionId).removeClass(cssClass);
+}
+
+function getGraphConnectionId(nodeId1, nodeId2) {
+    for (var i = 0; i < cytoscapeEdges.length; i++) {
+        if ((cytoscapeEdges[i].data.source === nodeId1 && cytoscapeEdges[i].data.target === nodeId2) ||
+            (cytoscapeEdges[i].data.source === nodeId2 && cytoscapeEdges[i].data.target === nodeId1)) {
+            return cytoscapeEdges[i].data.source + cytoscapeEdges[i].data.target;
+        }
+    }
+
+    return undefined;
 }
 
 function findConnectionId(nodeId1, nodeId2) {

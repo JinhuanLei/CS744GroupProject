@@ -24,26 +24,13 @@ function moveTransaction(transaction) {
 function sendToNode(fromNode, toNode, transaction) {
 
     if (fromNode !== null) {
-        // Remove transaction from connection;
-        var connectionId = findConnectionId(fromNode, toNode);
-        elementQueues[connectionId].queue.shift();
 
-        // Check if there is another transaction waiting for connection.
-        if (getQueueLength(connectionId) > 0) {
-            // Still transactions waiting on connection.
-
-            // Start the next transaction waiting for the connection.
-            var nextTransaction = elementQueues[connectionId].queue.shift();
-            sendTransactionToElement(nextTransaction);
-        } else {
-            // No more transactions waiting on connection.
-            highlightConnection(fromNode, toNode, false);
+        if (queueIsAtLimit(toNode)) {
+            droppedTransaction(fromNode, toNode, transaction);
+            return;
         }
-    }
 
-    if (queueIsAtLimit(toNode)) {
-        // The node's queue was full. Drop the transaction.
-        return;
+        processFromConnection(fromNode, toNode);
     }
 
     cy.$('#' + toNode).addClass('highlighted');
@@ -73,7 +60,7 @@ function sendToNode(fromNode, toNode, transaction) {
         // There are no transactions in the queue before this transaction and the graph is active.
 
         // Start timeout to move transaction.
-        var nodeTimeout = setTimeout(sendToConnection, 1000, path[0], path[1], transaction);
+        var nodeTimeout = setTimeout(sendToConnection, MILLI_SECOND_MOVEMENT_SPEED, path[0], path[1], transaction);
 
         // Add timeouts to transaction for pausing and resuming.
         transaction.timeoutObj = { timeout: nodeTimeout, sendFunc: sendToConnection, fromNode: path[0], toNode: path[1] };
@@ -96,12 +83,12 @@ function sendToConnection(fromNode, toNode, transaction) {
             cy.$('#' + fromNode).removeClass('highlighted');
         }
 
-        // Add transaction to connection.
+        // Add transaction to connection, if it hasn't been added.
         elementQueues[connectionId].queue.push(transaction);
 
-        highlightConnection(fromNode, toNode, true);
+        addCSSClassToConnection(fromNode, toNode, "highlighted");
 
-        var connectionTimeout = setTimeout(sendToNode, 1000, fromNode, toNode, transaction);
+        var connectionTimeout = setTimeout(sendToNode, MILLI_SECOND_MOVEMENT_SPEED, fromNode, toNode, transaction);
 
         // Add timeouts to transaction for pausing and resuming.
         transaction.timeoutObj = { timeout: connectionTimeout, sendFunc: sendToNode, fromNode: fromNode, toNode: toNode };
@@ -115,8 +102,44 @@ function sendToConnection(fromNode, toNode, transaction) {
         // Transaction already on connection.
 
         // Add transaction to connection queue.
-        elementQueues[connectionId].queue.push(transaction);
+        if (!transactionExists(transaction.transactionId, elementQueues[connectionId].queue)) {
+            elementQueues[connectionId].queue.push(transaction);
+        }
 
         transaction.timeoutObj = { timeout: null, sendFunc: sendToConnection, fromNode: fromNode, toNode: toNode };
     }
+}
+
+function processFromConnection(fromNode, toNode) {
+    // Remove transaction from connection;
+    var connectionId = findConnectionId(fromNode, toNode);
+    elementQueues[connectionId].queue.shift();
+
+    // Check if there is another transaction waiting for connection.
+    if (getQueueLength(connectionId) > 0) {
+        // Still transactions waiting on connection.
+
+        // Start the next transaction waiting for the connection.
+        var nextTransaction = elementQueues[connectionId].queue.shift();
+        sendTransactionToElement(nextTransaction);
+    } else {
+        // No more transactions waiting on connection.
+        removeCSSClassToConnection(fromNode, toNode, "highlighted");
+    }
+}
+
+function droppedTransaction(fromNode, toNode, transaction) {
+    removeCSSClassToConnection(fromNode, toNode, "highlighted");
+
+    addCSSClassToConnection(fromNode, toNode, "dropped");
+
+    var connectionTimeout = setTimeout(removeDroppedTransaction, MILLI_SECOND_MOVEMENT_SPEED, fromNode, toNode, transaction);
+
+    // Add timeouts to transaction for pausing and resuming.
+    transaction.timeoutObj = { timeout: connectionTimeout, sendFunc: removeDroppedTransaction, fromNode: fromNode, toNode: toNode };
+}
+
+function removeDroppedTransaction(fromNode, toNode, transaction) {
+    removeCSSClassToConnection(fromNode, toNode, "dropped");
+    processFromConnection(fromNode, toNode);
 }
