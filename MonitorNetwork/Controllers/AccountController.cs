@@ -10,8 +10,9 @@ using MonitorNetwork.BLL;
 using MonitorNetwork.Database;
 using MonitorNetwork.Models;
 
-namespace MonitorNetwork.Views
+namespace MonitorNetwork.Controllers
 {
+    [CheckAuthorization]
     public class AccountController : Controller
     {
         private MNDatabase db = new MNDatabase();

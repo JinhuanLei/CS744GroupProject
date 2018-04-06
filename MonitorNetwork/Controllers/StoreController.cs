@@ -9,8 +9,9 @@ using System.Web.Mvc;
 using MonitorNetwork.Database;
 using MonitorNetwork.Models;
 
-namespace MonitorNetwork.Views
+namespace MonitorNetwork.Controllers
 {
+    [CheckAuthorization]
     public class StoreController : Controller
     {
         private MNDatabase db = new MNDatabase();

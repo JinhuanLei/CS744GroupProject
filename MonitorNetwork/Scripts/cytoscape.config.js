@@ -64,6 +64,14 @@ var cy = cytoscape({
             'transition-property': 'background-color, line-color, target-arrow-color',
             'transition-duration': '0.5s'
         })
+        .selector('.dropped')
+        .css({
+            'background-color': '#000000',
+            'line-color': '#000000',
+            'target-arrow-color': '#61bffc',
+            'transition-property': 'background-color, line-color, target-arrow-color',
+            'transition-duration': '0.5s'
+        })
         .selector('.newStyle')
         .css({
             'background-color': '#8080ff',

@@ -10,6 +10,7 @@ using System.Net;
 
 namespace MonitorNetwork.Controllers
 {
+    [CheckAuthorization]
     public class HomeController : Controller
     {
         private MNDatabase db = new MNDatabase();
