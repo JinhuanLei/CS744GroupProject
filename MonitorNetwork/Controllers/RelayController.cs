@@ -11,7 +11,8 @@ using MonitorNetwork.Models;
 
 namespace MonitorNetwork.Views
 {
-    public class RelayController : Controller
+	[CheckAuthorization]
+	public class RelayController : Controller
     {
         private MNDatabase db = new MNDatabase();
 
@@ -40,6 +41,7 @@ namespace MonitorNetwork.Views
         // GET: Store/Create
         public ActionResult Create()
         {
+
             var selectList = from region in db.region
                              select new { regionID = region.regionID, regionColor = region.colors.colorName };
 
@@ -57,6 +59,23 @@ namespace MonitorNetwork.Views
 		[HttpPost]
 		public ActionResult Create(RelayModel relayModel)
 		{
+			
+			if (!relayIPOkay(relayModel.relay))
+			{
+				ModelState.AddModelError("relay.relayIP", "IP already exists");
+			}
+
+			if (relayModel.checkboxRelayModel.Where(x => x.selected).Count() <= 0)
+			{
+				ModelState.AddModelError("", "Must select at least one relay connection");
+			}
+			if (relayModel.checkboxStoreModel.Where(x => x.selected).Count() <= 0)
+			{
+				if (relayModel.checkboxRelayModel.Where(x => x.selected).Count() <= 1)
+				{
+					ModelState.AddModelError("", "Incorrect number of connections");
+				}
+			}
 			if (ModelState.IsValid)
 			{
 				db.relay.Add(relayModel.relay);
@@ -161,5 +180,24 @@ namespace MonitorNetwork.Views
             }
             base.Dispose(disposing);
         }
-    }
+
+		public bool relayIPOkay(relay relayToCheck)
+		{
+			var stores = db.store.Where(x => x.storeIP == relayToCheck.relayIP);
+
+			if (stores.Count() == 0)
+			{
+				var relays = db.relay.Where(x => x.relayIP == relayToCheck.relayIP);
+
+				if (relays.Count() == 0)
+				{
+					return true;
+				}
+				return false;
+
+			}
+			return false;
+
+		}
+	}
 }

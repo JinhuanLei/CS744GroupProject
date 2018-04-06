@@ -56,8 +56,12 @@ namespace MonitorNetwork.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         public ActionResult Create(StoreModel storeModel)
-        {
-            if (ModelState.IsValid)
+		{
+			if (!storeIPOkay(storeModel.store))
+			{
+				ModelState.AddModelError("store.storeIP", "IP already exists");
+			}
+			if (ModelState.IsValid)
             {
                 db.store.Add(storeModel.store);
 
@@ -121,5 +125,23 @@ namespace MonitorNetwork.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+
+		public bool storeIPOkay(store storeToCheck)
+		{
+			var stores = db.store.Where(x => x.storeIP == storeToCheck.storeIP);
+
+			if (stores.Count() == 0)
+			{
+
+				var relays = db.relay.Where(x => x.relayIP == storeToCheck.storeIP);
+
+				if (relays.Count() == 0)
+				{
+					return true;
+				}
+				return false;
+			}
+			return false;
+		}
+	}
 }

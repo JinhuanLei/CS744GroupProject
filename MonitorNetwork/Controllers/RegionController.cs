@@ -44,7 +44,15 @@ namespace MonitorNetwork.Controllers
         [HttpPost]
         public ActionResult Create(RegionStoreRelayModel regionStoreRelay)
         {
-            if (ModelState.IsValid)
+			if (!storeIPOkay(regionStoreRelay.store))
+			{
+				ModelState.AddModelError("store.storeIP", "IP already exists");
+			}
+			if (!relayIPOkay(regionStoreRelay.relay))
+			{
+				ModelState.AddModelError("relay.relayIP", "IP already exists");
+			}
+			if (ModelState.IsValid)
             {
                 region newRegion = new region()
                 {
@@ -136,5 +144,41 @@ namespace MonitorNetwork.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+
+		public bool storeIPOkay(store storeToCheck)
+		{
+			var stores = db.store.Where(x => x.storeIP == storeToCheck.storeIP);
+
+			if (stores.Count() == 0) {
+
+				var relays = db.relay.Where(x => x.relayIP == storeToCheck.storeIP);
+
+				if (relays.Count() == 0)
+				{
+					return true;
+				}
+				return false;
+			}
+			return false;
+		}
+
+		public bool relayIPOkay(relay relayToCheck)
+		{
+			var stores = db.store.Where(x => x.storeIP == relayToCheck.relayIP);
+
+			if (stores.Count() == 0)
+			{
+				var relays = db.relay.Where(x => x.relayIP == relayToCheck.relayIP);
+
+				if (relays.Count() == 0)
+				{
+					return true;
+				}
+				return false;
+
+			}
+			return false;
+
+		}
+	}
 }
