@@ -1,14 +1,14 @@
-﻿@model IEnumerable<MonitorNetwork.Database.store>
+﻿@model IEnumerable<MonitorNetwork.Database.relay>
 
 @{
-    ViewBag.Title = "Stores";
+    ViewBag.Title = "Relay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Stores</h2>
+<h2>Relays</h2>
 
 <p>
-    @Html.ActionLink("Create New Store", "Create")
+    @Html.ActionLink("Create New Relay", "Create")
 </p>
 <table class="table">
     <tr>
@@ -16,10 +16,10 @@
             Region Color
         </th>
         <th>
-            Store IP
+            Relay IP
         </th>
         <th>
-            Merchant Name
+            Queue Limit
         </th>
     </tr>
 
@@ -29,10 +29,10 @@
             @Html.DisplayFor(modelItem => item.region.colors.colorName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.storeIP)
+            @Html.DisplayFor(modelItem => item.relayIP)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.merchantName)
+            @Html.DisplayFor(modelItem => item.queueLimit)
         </td>
     </tr>
 }

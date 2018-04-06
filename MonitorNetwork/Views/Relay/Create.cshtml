@@ -1,67 +1,96 @@
 ﻿@model MonitorNetwork.Models.RelayModel
 
 @{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Create";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Scripts
 {
-    <script>
-        function regionChange() {
-            $.ajax({
-                type: "GET",
-                url: '/Relay/GetRelays?regionId=' + $("#relay_regionID").val(),
-                dataType: 'html',
-                success: function (data) {
-                    $('#relay-partial').html(data);
-                }
-            });
-        }
+	<script>
+		function regionChange() {
+			$.ajax({
+				type: "GET",
+				url: '/Relay/GetRelays?regionId=' + $("#relay_regionID").val(),
+				dataType: 'html',
+				success: function (data) {
+					$('#relay-partial').html(data);
+				}
+			});
 
-        $("#relay_relayIP").inputmask({ alias: "ip", mask: "\\1\\9\\2\\.\\1\\6\\8\\.9[9][9]\\.9[9][9]" });
-    </script>
+			$.ajax({
+				type: "GET",
+				url: '/Relay/GetStores?regionId=' + $("#relay_regionID").val(),
+				dataType: 'html',
+				success: function (data) {
+					$('#store-partial').html(data);
+				}
+			});
+		}
+
+		$("#relay_relayIP").inputmask({ alias: "ip", mask: "\\1\\9\\2\\.\\1\\6\\8\\.9[9][9]\\.9[9][9]" });
+	</script>
+
 }
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
-    <div class="form-horizontal">
-        <h4>Relay</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.Label("Relay IP", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.relay.relayIP, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.relay.relayIP, "", new { @class = "text-danger" })
-            </div>
-        </div>
+	<div class="form-horizontal">
+		<h4>Relay</h4>
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		<div class="form-group">
+			@Html.Label("Relay IP", htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.relay.relayIP, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.relay.relayIP, "", new { @class = "text-danger" })
+			</div>
+		</div>
 
-        <div class="form-group">
-            @Html.Label("Queue Limit", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.relay.queueLimit, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.relay.queueLimit, "", new { @class = "text-danger" })
-            </div>
-        </div>
+		<div class="form-group">
 
-        <div class="form-group">
-            @Html.Label("Region Color", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("relay.regionID", null, htmlAttributes: new { @class = "form-control", onchange = "regionChange()" })
-                @Html.ValidationMessageFor(model => model.relay.regionID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+			@Html.Label("Queue Limit", htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.relay.queueLimit, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.relay.queueLimit, "", new { @class = "text-danger" })
+			</div>
+		</div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+		<div class="form-group">
+			@Html.Label("Region Color", htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.DropDownList("relay.regionID", null, htmlAttributes: new { @class = "form-control", onchange = "regionChange()" })
+				@Html.ValidationMessageFor(model => model.relay.regionID, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="form-group">
+			<h4>All Possible Relay Connections</h4>
+			<hr />
+			<div class="col-md-10 col-md-offset-2">
+				<div id="relay-partial">
+					@Html.Partial("_RelayPartial")
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<h4>All Possible Store Connections</h4>
+			<hr />
+			<div class="col-md-10 col-md-offset-2">
+				<div id="store-partial">
+					@Html.Partial("_StorePartial")
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Create" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+	@Html.ActionLink("Back to List", "Index")
 </div>

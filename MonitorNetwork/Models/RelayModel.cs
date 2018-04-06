@@ -11,5 +11,7 @@ namespace MonitorNetwork.Models
         public relay relay { get; set; }
 
         public IList<CheckboxRelayModel> checkboxRelayModel { get; set; }
+
+		public IList<CheckboxStoreModel> checkboxStoreModel { get; set; }
     }
 }

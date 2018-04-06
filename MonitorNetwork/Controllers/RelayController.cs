@@ -44,66 +44,93 @@ namespace MonitorNetwork.Views
                              select new { regionID = region.regionID, regionColor = region.colors.colorName };
 
             ViewBag.relay = new { regionID = new SelectList(selectList, "regionID", "regionColor") };
-            RelayModel storeModel = new StoreModel();
+            RelayModel relayModel = new RelayModel();
 
-            storeModel.checkboxRelayModel = GetCheckboxRelays(db.region.First().regionID);
-            return View(storeModel);
+            relayModel.checkboxRelayModel = GetCheckboxRelays(db.region.First().regionID);
+			relayModel.checkboxStoreModel = GetCheckboxStores(db.region.First().regionID);
+            return View(relayModel);
         }
 
-        // POST: Store/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        public ActionResult Create(StoreModel storeModel)
-        {
-            if (ModelState.IsValid)
-            {
-                db.store.Add(storeModel.store);
+		// POST: Store/Create
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		public ActionResult Create(RelayModel relayModel)
+		{
+			if (ModelState.IsValid)
+			{
+				db.relay.Add(relayModel.relay);
 
-                db.SaveChanges();
+				db.SaveChanges();
 
-                var selectedRelays = storeModel.checkboxRelayModel.Where(x => x.selected);
-                foreach (var selectedRelay in selectedRelays)
-                {
-                    connections connection = new connections()
-                    {
-                        storeID = storeModel.store.storeID,
-                        destRelayID = selectedRelay.relayID,
-                        isActive = true,
-                        weight = selectedRelay.weight
-                    };
+				var selectedRelays = relayModel.checkboxRelayModel.Where(x => x.selected);
+				foreach (var selectedRelay in selectedRelays)
+				{
+					connections connection = new connections()
+					{
+						relayID = relayModel.relay.relayID,
+						destRelayID = selectedRelay.relayID,
+						isActive = true,
+						weight = selectedRelay.weight
+					};
 
-                    db.connections.Add(connection);
-                }
+					db.connections.Add(connection);
+				}
 
-                db.SaveChanges();
+				var selectedStores = relayModel.checkboxStoreModel.Where(x => x.selected);
+				foreach (var selectedStore in selectedStores)
+				{
+					connections connection2 = new connections()
+					{
+						storeID = selectedStore.storeID,
+						destRelayID = relayModel.relay.relayID,
+						isActive = true,
+						weight = selectedStore.weight
+					};
 
-                return RedirectToAction("Index", "Store");
-            }
+					db.connections.Add(connection2);
+				}
 
-            storeModel.checkboxRelayModel = GetCheckboxRelays(storeModel.store.regionID);
+				db.SaveChanges();
 
-            var selectList = from region in db.region
-                             select new { regionID = region.regionID, regionColor = region.colors.colorName };
+				return RedirectToAction("Index", "Relay");
+			}
+			
 
-            ViewBag.store = new { regionID = new SelectList(selectList, "regionID", "regionColor") };
-            return View(storeModel);
+			relayModel.checkboxRelayModel = GetCheckboxRelays(relayModel.relay.regionID);
+			relayModel.checkboxStoreModel = GetCheckboxStores(relayModel.relay.regionID);
+
+			var selectList = from region in db.region
+							 select new { regionID = region.regionID, regionColor = region.colors.colorName };
+
+
+			ViewBag.relay = new { regionID = new SelectList(selectList, "regionID", "regionColor") };
+
+            return View(relayModel);
         }
 
         [HttpGet]
         public ActionResult GetRelays(int regionId)
         {
-            return PartialView("_RelayPartial", new StoreModel() {
+            return PartialView("_RelayPartial", new RelayModel() {
                 checkboxRelayModel = GetCheckboxRelays(regionId)
             });
         }
 
-        private IList<CheckboxRelayModel> GetCheckboxRelays(int regionId)
+		[HttpGet]
+		public ActionResult GetStores(int regionId)
+		{
+			return PartialView("_StorePartial", new RelayModel()
+			{
+				checkboxStoreModel = GetCheckboxStores(regionId)
+			});
+		}
+
+		private IList<CheckboxRelayModel> GetCheckboxRelays(int regionId)
         {
             var region = db.region.FirstOrDefault(x => x.regionID == regionId);
 
             return (from relay in region.relay
-                    where !relay.isProcessingCenter
                    select new CheckboxRelayModel
                    {
                        selected = false,
@@ -112,7 +139,21 @@ namespace MonitorNetwork.Views
                    }).ToList();
         }
 
-        protected override void Dispose(bool disposing)
+		private IList<CheckboxStoreModel> GetCheckboxStores(int regionId)
+		{
+			var region = db.region.FirstOrDefault(x => x.regionID == regionId);
+
+			return (from store in region.store
+					select new CheckboxStoreModel
+					{
+						selected = false,
+						storeIP = store.storeIP,
+						storeID = store.storeID,
+						merchantName = store.merchantName
+					}).ToList();
+		}
+
+		protected override void Dispose(bool disposing)
         {
             if (disposing)
             {

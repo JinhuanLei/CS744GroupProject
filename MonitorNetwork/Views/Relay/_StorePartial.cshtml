@@ -1,0 +1,27 @@
+﻿@model MonitorNetwork.Models.RelayModel
+
+
+<table>
+    <thead>
+        <tr>
+			<th>Merchant Name</th>
+            <th>Store IP</th>
+            <th>Connect</th>
+            <th>Weight</th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        for (int i = 0; i < Model.checkboxStoreModel.Count; i++)
+        {
+            <tr>
+				<td>@Model.checkboxStoreModel[i].merchantName</td>
+                <td>@Model.checkboxStoreModel[i].storeIP</td>
+                <td>@Html.CheckBoxFor(m => Model.checkboxStoreModel[i].selected)</td>
+                <td>@Html.EditorFor(model => Model.checkboxStoreModel[i].weight, new { htmlAttributes = new { @class = "form-control", style = "width:70px;" } })</td>
+                @Html.HiddenFor(model => Model.checkboxStoreModel[i].storeID)
+            </tr>
+        }
+    }
+    </tbody>
+</table>
