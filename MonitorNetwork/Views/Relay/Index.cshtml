@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MonitorNetwork.Database.store>
+
+@{
+    ViewBag.Title = "Stores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Stores</h2>
+
+<p>
+    @Html.ActionLink("Create New Store", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Region Color
+        </th>
+        <th>
+            Store IP
+        </th>
+        <th>
+            Merchant Name
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.region.colors.colorName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.storeIP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.merchantName)
+        </td>
+    </tr>
+}
+
+</table>
