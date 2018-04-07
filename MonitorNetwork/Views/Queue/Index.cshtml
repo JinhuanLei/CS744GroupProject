@@ -4,6 +4,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts  
+{
+<script>
+    function setRelayQueueLimit(relayId) {
+        $.ajax({
+            type: "POST",
+            url: '/Queue/setQueueLimit',
+            data: {
+                relayID: relayId,
+                relayIP: $("#relayRow" + relayId + " input#relayIP").val(),
+                queueLimit: $("#relayRow" + relayId + " input#queueLimit").val()
+            },
+            dataType: 'html',
+            success: function (data) {
+                $('#relayRow' + relayId).html(data);
+            }
+        });
+    }
+</script>
+}
 
 <h2>Set Queue</h2>
 <br />
@@ -23,31 +43,9 @@
 
     @foreach (var item in Model)
     {
-        using (Html.BeginForm())
-        {
-   
-        <tr>
-
-            <td>
-                <div class="form-group">
-                    @Html.DisplayFor(modelItem => item.relayIP)
-                    @Html.HiddenFor(modelItem => item.relayID)
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    @Html.EditorFor(modelItem => item.queueLimit, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-
-            </td>
-            <td>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
-            </td>
+        <tr id="relayRow@(item.relayID)">
+            @Html.Partial("_ChangeQueuePartial", item)
         </tr>
-   
-        }
     }
 
 </table>

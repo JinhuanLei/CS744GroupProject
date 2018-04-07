@@ -305,6 +305,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Login\SecurityQuestion.cshtml" />
     <Content Include="Views\Queue\Index.cshtml" />
+    <Content Include="Views\Queue\_ChangeQueuePartial.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

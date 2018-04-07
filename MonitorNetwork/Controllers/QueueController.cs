@@ -34,11 +34,12 @@ namespace MonitorNetwork.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(relay).State = EntityState.Modified;
+                var relayForSetQueue = db.relay.Where(x => x.relayID == relay.relayID).FirstOrDefault();
+                relayForSetQueue.queueLimit = relay.queueLimit;
+
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(relay);
+            return PartialView("_ChangeQueuePartial", relay);
         }
     }
 
