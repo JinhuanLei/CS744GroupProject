@@ -9,9 +9,9 @@ function sendTransactionToProcessCenter(transactionId, storeId) {
     moveTransaction({ transactionId: transactionId, toProcCenter: true, storeId: "s" + storeId, destinationReached: false, timeoutObj: { timeout: null, sendFunc: null, fromNode: "", toNode: "" } });
 }
 
-//function sendTransactionToStore() {
-
-//}
+function sendTransactionToStore(transactionId, storeId) {
+	moveTransaction({ transactionId: transactionId, toProcCenter: false, storeId: "s" + storeId, destinationReached: false, timeoutObj: { timeout: null, sendFunc: null, fromNode: "", toNode: "" } });
+}
 
 function moveTransaction(transaction) {
     if (transaction.toProcCenter) {

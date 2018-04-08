@@ -187,7 +187,7 @@ namespace MonitorNetwork.Controllers
 				db.SaveChanges();
 			}
 
-			if (!currentTransaction.isCredit && currentTransaction.amount < currentAccount.balance)
+			else if (!currentTransaction.isCredit && currentTransaction.amount < currentAccount.balance)
 			{
 				//transaction approved
 				currentTransaction.status = true;
@@ -195,7 +195,14 @@ namespace MonitorNetwork.Controllers
 				db.SaveChanges();
 			}
 
-			return PartialView("_ProcessingTransactionPartial", currentTransaction);
+			else
+			{
+				//transaction declined
+				currentTransaction.status = false;
+				db.SaveChanges();
+			}
+
+				return PartialView("_ProcessingTransactionPartial", currentTransaction);
 		}
     }
 }

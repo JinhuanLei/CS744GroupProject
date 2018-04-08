@@ -39,7 +39,8 @@
         <tr id="transactionRow@(item.transactionID)">
         @if (item.isEncrypted)
          {
-            @Html.Partial("_EncryptTransactionRowPartial", item)
+			@Html.Partial("_ProcessingTransactionPartial", item)
+            //@Html.Partial("_EncryptTransactionRowPartial", item)
          }
          else
          {
@@ -62,5 +63,19 @@
         });
 
         sendTransactionToProcessCenter(transactionId, storeId);
-    }
+	}
+
+	function processingTransaction(transactionId, storeId) {
+		$.ajax({
+			type: "GET",
+			url: '/Home/ProcessTransaction?id=' + transactionId,
+			dataType: 'html',
+			success: function (data) {
+				$('#transactionRow' + transactionId).html(data);
+			}
+		});
+
+		sendTransactionToStore(transactionId, storeId);
+	}
+
 </script>
