@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MonitorNetwork.Database.relay>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts  
+{
+<script>
+    function setRelayQueueLimit(relayId) {
+        $.ajax({
+            type: "POST",
+            url: '/Queue/setQueueLimit',
+            data: {
+                relayID: relayId,
+                relayIP: $("#relayRow" + relayId + " input#relayIP").val(),
+                queueLimit: $("#relayRow" + relayId + " input#queueLimit").val()
+            },
+            dataType: 'html',
+            success: function (data) {
+                $('#relayRow' + relayId).html(data);
+            }
+        });
+    }
+</script>
+}
+
+<h2>Set Queue</h2>
+<br />
+<table class="table">
+    <tr>
+
+        <th>
+            Inactivated Relay IP
+        </th>
+        <th>
+            Queue Limits
+        </th>
+        <th>
+            Operation
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr id="relayRow@(item.relayID)">
+            @Html.Partial("_ChangeQueuePartial", item)
+        </tr>
+    }
+
+</table>

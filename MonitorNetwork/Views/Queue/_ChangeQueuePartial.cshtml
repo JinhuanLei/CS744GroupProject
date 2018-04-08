@@ -1,0 +1,21 @@
+﻿@model MonitorNetwork.Database.relay
+
+<td>
+    <div class="form-group">
+        @Html.DisplayFor(modelItem => Model.relayIP)
+        @Html.HiddenFor(modelItem => Model.relayID)
+        @Html.HiddenFor(modelItem => Model.relayIP)
+    </div>
+</td>
+<td>
+    <div class="form-group">
+        @Html.EditorFor(modelItem => Model.queueLimit, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.queueLimit, "", new { @class = "text-danger" })
+    </div>
+
+</td>
+<td>
+    <div class="form-group">
+        <button onclick="setRelayQueueLimit(@(Model.relayID))" class="btn btn-default">Save</button>
+    </div>
+</td>
