@@ -36,22 +36,22 @@
 
 	@foreach (var item in Model.Reverse())
 	{
-	<tr id="transactionRow@(item.transactionID)">
+	    <tr id="transactionRow@(item.transactionID)">
 
-		@if (item.atProcCenter)
-	{
-		@Html.Partial("_ProcessingTransactionPartial", item)
-}
-else if (item.isEncrypted)
-{
-	@Html.Partial("_EncryptTransactionRowPartial", item)
-}
-else
-{
-	@Html.Partial("_DetailTransactionRowPartial", item)
-}
+		    @if (item.atProcCenter)
+	        {
+		        @Html.Partial("_ProcessingTransactionPartial", item)
+            }
+            else if (item.isEncrypted)
+            {
+	            @Html.Partial("_EncryptTransactionRowPartial", item)
+            }
+            else
+            {
+	            @Html.Partial("_DetailTransactionRowPartial", item)
+            }
 
-	</tr>
+	    </tr>
 	}
 
 </table>

@@ -91,7 +91,7 @@ function constructGraph(toProcCenter) {
                     if (toProcCenter) {
                         graph.addUniEdge("s" + connection.storeID, "r" + connection.destRelayID);
                     } else {
-                        graph.addUniEdge("r" + connection.storeID, "s" + connection.destRelayID);
+                        graph.addUniEdge("r" + connection.destRelayID, "s" + connection.storeID);
                     }
                 }
             }

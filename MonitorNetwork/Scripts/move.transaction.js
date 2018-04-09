@@ -35,15 +35,31 @@ function sendToNode(fromNode, toNode, transaction) {
 
     cy.$('#' + toNode).addClass('highlighted');
 
-    elementQueues[toNode].queue.push(transaction);
+    if (!transactionExists(transaction.transactionId, elementQueues[toNode].queue)) {
+        elementQueues[toNode].queue.push(transaction);
+    }
 
     if (hasReachedDestination(toNode, transaction)) {
         // Transaction has reached it's destination.
 
 		transaction.destinationReached = true;
-		if (transaction.toProcCenter) {
-			reachedProcessingCenter(transaction.transactionId);
-		}
+        if (transaction.toProcCenter) {
+            reachedProcessingCenter(transaction.transactionId);
+        }
+        else
+        {
+            setTimeout(function () {
+                if (getQueueLength(toNode) <= 1) {
+                    // No more transaction in the queue
+                    // Remove highlighting for node.
+                    cy.$('#' + toNode).removeClass('highlighted');
+                }
+            }, MILLI_SECOND_MOVEMENT_SPEED);
+
+            /// TODO: Maddie - Needs another ajax method call below this comment 
+            /// to decrypt transaaction and show transaction details in the table 
+            /// below the graph.
+        }
 
         return;
     }
@@ -52,7 +68,7 @@ function sendToNode(fromNode, toNode, transaction) {
 
     if (path === null) {
         // No path was found to move the transaction to destination.
-        elementQueues[toNode].queue.timeoutObj.timeout = null;
+        elementQueues[toNode].queue[0].timeoutObj.timeout = null;
         return;
     }
 
