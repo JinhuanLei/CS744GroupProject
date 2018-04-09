@@ -222,5 +222,26 @@ namespace MonitorNetwork.Controllers
 
 			return PartialView("_EncryptProcessedTransactionPartial", currentTransaction);
 		}
+
+		public ActionResult DecryptAtEnd(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			transaction transaction = db.transaction.Find(id);
+			if (transaction == null)
+			{
+				return HttpNotFound();
+			}
+
+			transaction.isEncrypted = false;
+			transaction.isSent = true;
+
+			db.SaveChanges();
+
+			return PartialView("_DetailTransactionRowPartial", transaction);
+		}
+
 	}
 }

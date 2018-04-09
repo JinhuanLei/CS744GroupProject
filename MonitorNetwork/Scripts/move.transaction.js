@@ -59,6 +59,14 @@ function sendToNode(fromNode, toNode, transaction) {
             /// TODO: Maddie - Needs another ajax method call below this comment 
             /// to decrypt transaaction and show transaction details in the table 
             /// below the graph.
+			$.ajax({
+				type: "GET",
+				url: '/Home/DecryptAtEnd?id=' + transaction.transactionId,
+				dataType: 'html',
+				success: function (data) {
+					$('#transactionRow' + transaction.transactionId).html(data);
+				}
+			});
         }
 
         return;
