@@ -57,13 +57,29 @@ namespace MonitorNetwork.Views
 		[HttpPost]
 		public ActionResult Create(RelayModel relayModel)
 		{
-			if (ModelState.IsValid)
+			var selectedRelaysCount = relayModel.checkboxRelayModel.Where(x => x.selected).Count();
+			var selectedStoresCount = relayModel.checkboxStoreModel.Where(x => x.selected).Count();
+			if (selectedRelaysCount < 1)
 			{
+				ModelState.AddModelError("relay-partial", "Needs to have at least one relay connection");
+			}
+			if (selectedRelaysCount + selectedStoresCount < 2)
+			{
+				ModelState.AddModelError("relay-partial", "Invalid number of connections");
+			}
+				if (ModelState.IsValid)
+			{
+				if (!IPUniqueness(relayModel.relay.relayIP))
+				{
+					ModelState.AddModelError("relay-ip", "IP already in use");
+				}
 				db.relay.Add(relayModel.relay);
 
 				db.SaveChanges();
 
 				var selectedRelays = relayModel.checkboxRelayModel.Where(x => x.selected);
+				
+					
 				foreach (var selectedRelay in selectedRelays)
 				{
 					connections connection = new connections()
@@ -161,5 +177,25 @@ namespace MonitorNetwork.Views
             }
             base.Dispose(disposing);
         }
-    }
+
+		public bool IPUniqueness(String IP) {
+			var storeChecking = db.store.Where(x => x.storeIP == IP).FirstOrDefault();
+			if (storeChecking == null)
+			{
+				var relayChecking = db.relay.Where(x => x.relayIP == IP).FirstOrDefault();
+				if (relayChecking == null)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
 }
