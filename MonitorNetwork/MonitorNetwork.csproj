@@ -314,6 +314,8 @@
     <Content Include="Views\Relay\Index.cshtml" />
     <Content Include="Views\Relay\_RelayPartial.cshtml" />
     <Content Include="Views\Relay\_StorePartial.cshtml" />
+    <Content Include="Views\Home\_ProcessingTransactionPartial.cshtml" />
+    <Content Include="Views\Home\_EncryptProcessedTransactionPartial.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

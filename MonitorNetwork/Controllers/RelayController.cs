@@ -11,7 +11,8 @@ using MonitorNetwork.Models;
 
 namespace MonitorNetwork.Views
 {
-    public class RelayController : Controller
+	[CheckAuthorization]
+	public class RelayController : Controller
     {
         private MNDatabase db = new MNDatabase();
 
@@ -57,29 +58,30 @@ namespace MonitorNetwork.Views
 		[HttpPost]
 		public ActionResult Create(RelayModel relayModel)
 		{
-			var selectedRelaysCount = relayModel.checkboxRelayModel.Where(x => x.selected).Count();
-			var selectedStoresCount = relayModel.checkboxStoreModel.Where(x => x.selected).Count();
-			if (selectedRelaysCount < 1)
+			
+			if (!relayIPOkay(relayModel.relay))
 			{
-				ModelState.AddModelError("relay-partial", "Needs to have at least one relay connection");
+				ModelState.AddModelError("relay.relayIP", "IP already exists");
 			}
-			if (selectedRelaysCount + selectedStoresCount < 2)
+
+			if (relayModel.checkboxRelayModel.Where(x => x.selected).Count() <= 0)
 			{
-				ModelState.AddModelError("relay-partial", "Invalid number of connections");
+				ModelState.AddModelError("", "Must select at least one relay connection");
 			}
-				if (ModelState.IsValid)
+			if (relayModel.checkboxStoreModel.Where(x => x.selected).Count() <= 0)
 			{
-				if (!IPUniqueness(relayModel.relay.relayIP))
+				if (relayModel.checkboxRelayModel.Where(x => x.selected).Count() <= 1)
 				{
-					ModelState.AddModelError("relay-ip", "IP already in use");
+					ModelState.AddModelError("", "Incorrect number of connections");
 				}
+			}
+			if (ModelState.IsValid)
+			{
 				db.relay.Add(relayModel.relay);
 
 				db.SaveChanges();
 
 				var selectedRelays = relayModel.checkboxRelayModel.Where(x => x.selected);
-				
-					
 				foreach (var selectedRelay in selectedRelays)
 				{
 					connections connection = new connections()
@@ -178,24 +180,23 @@ namespace MonitorNetwork.Views
             base.Dispose(disposing);
         }
 
-		public bool IPUniqueness(String IP) {
-			var storeChecking = db.store.Where(x => x.storeIP == IP).FirstOrDefault();
-			if (storeChecking == null)
+		public bool relayIPOkay(relay relayToCheck)
+		{
+			var stores = db.store.Where(x => x.storeIP == relayToCheck.relayIP);
+
+			if (stores.Count() == 0)
 			{
-				var relayChecking = db.relay.Where(x => x.relayIP == IP).FirstOrDefault();
-				if (relayChecking == null)
+				var relays = db.relay.Where(x => x.relayIP == relayToCheck.relayIP);
+
+				if (relays.Count() == 0)
 				{
 					return true;
 				}
-				else
-				{
-					return false;
-				}
-			}
-			else
-			{
 				return false;
+
 			}
+			return false;
+
 		}
 	}
 }

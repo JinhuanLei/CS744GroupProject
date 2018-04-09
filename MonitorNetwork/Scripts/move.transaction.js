@@ -9,9 +9,9 @@ function sendTransactionToProcessCenter(transactionId, storeId) {
     moveTransaction({ transactionId: transactionId, toProcCenter: true, storeId: "s" + storeId, destinationReached: false, timeoutObj: { timeout: null, sendFunc: null, fromNode: "", toNode: "" } });
 }
 
-//function sendTransactionToStore() {
-
-//}
+function sendTransactionToStore(transactionId, storeId) {
+	moveTransaction({ transactionId: transactionId, toProcCenter: false, storeId: "s" + storeId, destinationReached: false, timeoutObj: { timeout: null, sendFunc: null, fromNode: "", toNode: "" } });
+}
 
 function moveTransaction(transaction) {
     if (transaction.toProcCenter) {
@@ -38,9 +38,13 @@ function sendToNode(fromNode, toNode, transaction) {
     elementQueues[toNode].queue.push(transaction);
 
     if (hasReachedDestination(toNode, transaction)) {
-        // Node has reached it's destination.
+        // Transaction has reached it's destination.
 
-        transaction.destinationReached = true;
+		transaction.destinationReached = true;
+		if (transaction.toProcCenter) {
+			reachedProcessingCenter(transaction.transactionId);
+		}
+
         return;
     }
 

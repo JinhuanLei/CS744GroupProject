@@ -91,3 +91,15 @@ function findConnectionId(nodeId1, nodeId2) {
         return;
     }
 }
+
+function reachedProcessingCenter(transId) {
+
+	$.ajax({
+		type: "GET",
+		url: '/Home/ReadyToBeProcessed?id=' + transId,
+		dataType: 'html',
+		success: function (data) {
+			$('#transactionRow' + transId).html(data);
+		}
+	});
+}

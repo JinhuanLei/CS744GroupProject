@@ -168,5 +168,59 @@ namespace MonitorNetwork.Controllers
                                      }
                                  }).ToList();
         }
-    }
+
+		public ActionResult ProcessTransaction(int id)
+		{
+			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
+			
+
+			creditcard currentCard = currentTransaction.creditcard;
+
+			account currentAccount = currentCard.account;
+
+			var totalSpendingCredit = currentAccount.spendingLimit - currentAccount.balance;
+
+			if (currentTransaction.isCredit && currentTransaction.amount < totalSpendingCredit)
+			{
+				//transaction approved
+				currentTransaction.status = true;
+				currentAccount.balance = currentAccount.balance + currentTransaction.amount;
+				db.SaveChanges();
+			}
+
+			else if (!currentTransaction.isCredit && currentTransaction.amount < currentAccount.balance)
+			{
+				//transaction approved
+				currentTransaction.status = true;
+				currentAccount.balance = currentAccount.balance - currentTransaction.amount;
+				db.SaveChanges();
+			}
+
+			else
+			{
+				//transaction declined
+				currentTransaction.status = false;
+				db.SaveChanges();
+			}
+
+				return PartialView("_DetailTransactionRowPartial", currentTransaction);
+		}
+
+		public ActionResult ReadyToBeProcessed(int id)
+		{
+			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
+
+			currentTransaction.atProcCenter = true;
+			db.SaveChanges();
+
+			return PartialView("_ProcessingTransactionPartial", currentTransaction);
+		}
+
+		public ActionResult SendBackToStore(int id)
+		{
+			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
+
+			return PartialView("_EncryptProcessedTransactionPartial", currentTransaction);
+		}
+	}
 }

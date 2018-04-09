@@ -36,7 +36,11 @@
     }
 </td>
 <td>
-    @if (Model.isSent)
+	@if (Model.atProcCenter)
+	{
+		<a href="javascript:void(0)" onclick="sendBackToStore(@Model.transactionID, @Model.storeID)">Send Back to Store</a>
+	}
+    else if (Model.isSent)
     {
         @: Sent
     }

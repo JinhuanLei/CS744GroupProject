@@ -1,0 +1,31 @@
+﻿@model MonitorNetwork.Database.transaction
+
+<td>
+	@Html.DisplayFor(modelItem => Model.transactionID)
+</td>
+<td colspan="4">
+	(Encrypted)
+</td>
+
+
+<td>
+	@if (Model.status == true)
+	{
+	<td>Approved</td>
+	}
+	else if (Model.status == false)
+	{
+		<td>Declined</td>
+		}
+		else {
+		<td>Unprocessed</td>
+		}
+	
+
+	<td>
+		@if (Model.status == null)
+		{
+		<a href="javascript:void(0)" onclick="processingTransaction(@Model.transactionID, @Model.storeID)">Process Transaction</a>
+		}
+	</td>
+
