@@ -9,45 +9,50 @@
 </div>
 
 <table class="table">
-    <tr>
-        <th>
-            Transaction ID
-        </th>
-        <th>
-            Account
-        </th>
-        <th>
-            Merchant Name
-        </th>
-        <th>
-            Credit/Debit
-        </th>
-        <th>
-            SELF
-        </th>
-        <th>
-            Amount
-        </th>
-        <th>
-            Status
-        </th>
-        <th></th>
-    </tr>
+	<tr>
+		<th>
+			Transaction ID
+		</th>
+		<th>
+			Account
+		</th>
+		<th>
+			Merchant Name
+		</th>
+		<th>
+			Credit/Debit
+		</th>
+		<th>
+			SELF
+		</th>
+		<th>
+			Amount
+		</th>
+		<th>
+			Status
+		</th>
+		<th></th>
+	</tr>
 
-    @foreach (var item in Model.Reverse())
-    {
-        <tr id="transactionRow@(item.transactionID)">
-        @if (item.isEncrypted)
-         {
-			@Html.Partial("_ProcessingTransactionPartial", item)
-            //@Html.Partial("_EncryptTransactionRowPartial", item)
-         }
-         else
-         {
-            @Html.Partial("_DetailTransactionRowPartial", item)
-         }
-        </tr>
-    }
+	@foreach (var item in Model.Reverse())
+	{
+	<tr id="transactionRow@(item.transactionID)">
+
+		@if (item.atProcCenter)
+	{
+		@Html.Partial("_ProcessingTransactionPartial", item)
+}
+else if (item.isEncrypted)
+{
+	@Html.Partial("_EncryptTransactionRowPartial", item)
+}
+else
+{
+	@Html.Partial("_DetailTransactionRowPartial", item)
+}
+
+	</tr>
+	}
 
 </table>
 
@@ -75,6 +80,17 @@
 			}
 		});
 
+	}
+
+	function sendBackToStore(transactionId, storeId) {
+		$.ajax({
+			type: "GET",
+			url: '/Home/SendBackToStore?id=' + transactionId,
+			dataType: 'html',
+			success: function (data) {
+				$('#transactionRow' + transactionId).html(data);
+			}
+		});
 		sendTransactionToStore(transactionId, storeId);
 	}
 

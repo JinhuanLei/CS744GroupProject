@@ -33,6 +33,8 @@ namespace MonitorNetwork.Database
 
         public bool isSelf { get; set; }
 
+		public bool atProcCenter { get; set; }
+
         public virtual creditcard creditcard { get; set; }
 
         public virtual store store { get; set; }

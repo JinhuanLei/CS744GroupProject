@@ -169,13 +169,14 @@ namespace MonitorNetwork.Controllers
                                  }).ToList();
         }
 
-		public ActionResult ProcessTransaction(int transID)
+		public ActionResult ProcessTransaction(int id)
 		{
-			transaction currentTransaction = db.transaction.Where(x => x.transactionID == transID).FirstOrDefault();
+			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
+			
 
-			creditcard currentCard = db.creditcard.Where(x => x.cardID == currentTransaction.cardID).FirstOrDefault();
+			creditcard currentCard = currentTransaction.creditcard;
 
-			account currentAccount = db.account.Where(x => x.accountID == currentCard.accountID).FirstOrDefault();
+			account currentAccount = currentCard.account;
 
 			var totalSpendingCredit = currentAccount.spendingLimit - currentAccount.balance;
 
@@ -202,7 +203,24 @@ namespace MonitorNetwork.Controllers
 				db.SaveChanges();
 			}
 
-				return PartialView("_ProcessingTransactionPartial", currentTransaction);
+				return PartialView("_DetailTransactionRowPartial", currentTransaction);
 		}
-    }
+
+		public ActionResult ReadyToBeProcessed(int id)
+		{
+			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
+
+			currentTransaction.atProcCenter = true;
+			db.SaveChanges();
+
+			return PartialView("_ProcessingTransactionPartial", currentTransaction);
+		}
+
+		public ActionResult SendBackToStore(int id)
+		{
+			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
+
+			return PartialView("_EncryptProcessedTransactionPartial", currentTransaction);
+		}
+	}
 }

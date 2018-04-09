@@ -38,9 +38,13 @@ function sendToNode(fromNode, toNode, transaction) {
     elementQueues[toNode].queue.push(transaction);
 
     if (hasReachedDestination(toNode, transaction)) {
-        // Node has reached it's destination.
+        // Transaction has reached it's destination.
 
-        transaction.destinationReached = true;
+		transaction.destinationReached = true;
+		if (transaction.toProcCenter) {
+			reachedProcessingCenter(transaction.transactionId);
+		}
+
         return;
     }
 
