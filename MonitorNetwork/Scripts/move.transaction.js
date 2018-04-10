@@ -56,9 +56,6 @@ function sendToNode(fromNode, toNode, transaction) {
                 }
             }, MILLI_SECOND_MOVEMENT_SPEED);
 
-            /// TODO: Maddie - Needs another ajax method call below this comment 
-            /// to decrypt transaaction and show transaction details in the table 
-            /// below the graph.
 			$.ajax({
 				type: "GET",
 				url: '/Home/DecryptAtEnd?id=' + transaction.transactionId,
@@ -80,7 +77,7 @@ function sendToNode(fromNode, toNode, transaction) {
         return;
     }
 
-    if (getQueueLength(toNode) > 1 || graphStopped) {
+    if ((fromNode !== null && toNode != processingCenterId) && (getQueueLength(toNode) > 1 || graphStopped)) {
         // There are other transactions in the queue before this transaction or the graph has stopped.
         transaction.timeoutObj = { timeout: null, sendFunc: sendToConnection, fromNode: path[0], toNode: path[1] };
 
@@ -103,7 +100,7 @@ function sendToConnection(fromNode, toNode, transaction) {
         // No transaction on the connection
 
         // Remove transaction from the node the transaction was just at.
-        elementQueues[fromNode].queue.shift();
+        removeTransactionFromQueue(fromNode, transaction);
 
         if (getQueueLength(fromNode) <= 0) {
             // No more transaction in the queue
@@ -121,7 +118,7 @@ function sendToConnection(fromNode, toNode, transaction) {
         // Add timeouts to transaction for pausing and resuming.
         transaction.timeoutObj = { timeout: connectionTimeout, sendFunc: sendToNode, fromNode: fromNode, toNode: toNode };
 
-        if (getQueueLength(fromNode) > 0) {
+        if (fromNode != processingCenterId && getQueueLength(fromNode) > 0) {
             // There is still transactions in the fromNode's queue, start the next one.
             sendTransactionToElement(elementQueues[fromNode].queue[0]);
         }
@@ -170,4 +167,16 @@ function droppedTransaction(fromNode, toNode, transaction) {
 function removeDroppedTransaction(fromNode, toNode, transaction) {
     removeCSSClassToConnection(fromNode, toNode, "dropped");
     processFromConnection(fromNode, toNode);
+}
+
+function removeTransactionFromQueue(node, transaction) {
+    var indexes = $.map(elementQueues[node].queue, function (obj, index) {
+        if (obj.transactionId == transaction.transactionId) {
+            return index;
+        }
+    });
+
+    if (indexes[0] > -1) {
+        elementQueues[node].queue.splice(indexes[0], 1);
+    }
 }

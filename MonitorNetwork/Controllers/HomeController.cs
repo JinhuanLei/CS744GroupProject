@@ -39,6 +39,7 @@ namespace MonitorNetwork.Controllers
 
             transaction.isEncrypted = true;
             transaction.isSent = true;
+            transaction.timeOfTransaction = DateTime.Now;
 
             db.SaveChanges();
 
@@ -180,7 +181,9 @@ namespace MonitorNetwork.Controllers
 
 			var totalSpendingCredit = currentAccount.spendingLimit - currentAccount.balance;
 
-			if (currentTransaction.isCredit && currentTransaction.amount < totalSpendingCredit)
+            currentTransaction.timeOfResponse = DateTime.Now;
+
+            if (currentTransaction.isCredit && currentTransaction.amount < totalSpendingCredit)
 			{
 				//transaction approved
 				currentTransaction.status = true;
@@ -225,10 +228,6 @@ namespace MonitorNetwork.Controllers
 
 		public ActionResult DecryptAtEnd(int id)
 		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
 			transaction transaction = db.transaction.Find(id);
 			if (transaction == null)
 			{
