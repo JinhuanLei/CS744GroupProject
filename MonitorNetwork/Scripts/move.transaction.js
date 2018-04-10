@@ -35,7 +35,8 @@ function sendToNode(fromNode, toNode, transaction) {
 
     cy.$('#' + toNode).addClass('highlighted');
 
-    if (!transactionExists(transaction.transactionId, elementQueues[toNode].queue)) {
+    if (!transactionExists(transaction.transactionId, elementQueues[toNode].queue) &&
+        !hasReachedDestination(toNode, transaction)) {
         elementQueues[toNode].queue.push(transaction);
     }
 
