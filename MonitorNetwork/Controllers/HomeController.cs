@@ -223,7 +223,10 @@ namespace MonitorNetwork.Controllers
 		{
 			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
 
-			return PartialView("_EncryptProcessedTransactionPartial", currentTransaction);
+            currentTransaction.atProcCenter = false;
+            db.SaveChanges();
+
+            return PartialView("_EncryptProcessedTransactionPartial", currentTransaction);
 		}
 
 		public ActionResult DecryptAtEnd(int id)
@@ -238,7 +241,7 @@ namespace MonitorNetwork.Controllers
 			transaction.isSent = true;
 
 			db.SaveChanges();
-			return PartialView("_FinishedTransactionsPartial", transaction);
+			return PartialView("_FinishedTransactionPartial", transaction);
 		}
 
 	}

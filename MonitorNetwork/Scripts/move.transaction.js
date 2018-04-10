@@ -77,13 +77,13 @@ function sendToNode(fromNode, toNode, transaction) {
         return;
     }
 
-    if ((fromNode !== null && toNode != processingCenterId) && (getQueueLength(toNode) > 1 || graphStopped)) {
+    if ((fromNode !== null && toNode != processingCenterId && getQueueLength(toNode) > 1) || graphStopped) {
         // There are other transactions in the queue before this transaction or the graph has stopped.
         transaction.timeoutObj = { timeout: null, sendFunc: sendToConnection, fromNode: path[0], toNode: path[1] };
 
     } else {
         // There are no transactions in the queue before this transaction and the graph is active.
-
+         
         // Start timeout to move transaction.
         var nodeTimeout = setTimeout(sendToConnection, MILLI_SECOND_MOVEMENT_SPEED, path[0], path[1], transaction);
 
