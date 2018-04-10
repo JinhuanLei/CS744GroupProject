@@ -223,7 +223,7 @@ namespace MonitorNetwork.Controllers
 			return PartialView("_EncryptProcessedTransactionPartial", currentTransaction);
 		}
 
-		public ActionResult DecryptAtEnd(int? id)
+		public ActionResult DecryptAtEnd(int id)
 		{
 			if (id == null)
 			{
@@ -239,8 +239,7 @@ namespace MonitorNetwork.Controllers
 			transaction.isSent = true;
 
 			db.SaveChanges();
-
-			return PartialView("_DetailTransactionRowPartial", transaction);
+			return PartialView("_FinishedTransactionsPartial", transaction);
 		}
 
 	}
