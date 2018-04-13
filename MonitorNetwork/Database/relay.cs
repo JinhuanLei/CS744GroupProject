@@ -26,7 +26,7 @@ namespace MonitorNetwork.Database
         public bool isActive { get; set; }
 
 		[Required]
-		[Range(1, 100, ErrorMessage = "Please enter a positive value")]
+		[Range(0, Int32.MaxValue, ErrorMessage = "Please enter a positive value")]
         public int queueLimit { get; set; }
 
         public bool isProcessingCenter { get; set; }
