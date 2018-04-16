@@ -29,7 +29,9 @@ namespace MonitorNetwork.Controllers
             var creditcardInfo = from creditcard in db.creditcard
                                  select new { creditcard.cardID, fullname = creditcard.customerFirstName + " " + creditcard.customerLastName };
             ViewBag.cardID = new SelectList(creditcardInfo, "cardID", "fullname");
-            ViewBag.storeID = new SelectList(db.store, "storeID", "merchantName");
+            var storeInfo = from store in db.store
+                            select new { store.storeID, storeName = store.merchantName + " (" + store.storeIP.Substring(8) + ")" };
+            ViewBag.storeID = new SelectList(storeInfo, "storeID", "storeName");
             return View();
         }
 
@@ -50,7 +52,10 @@ namespace MonitorNetwork.Controllers
                                  select new { creditcard.cardID, fullname = creditcard.customerFirstName + " " + creditcard.customerLastName };
 
             ViewBag.cardID = new SelectList(creditcardInfo, "cardID", "fullname");
-            ViewBag.storeID = new SelectList(db.store, "storeID", "merchantName", transaction.storeID);
+            var storeInfo = from store in db.store
+                            select new { store.storeID, storeName = store.merchantName + " (" + store.storeIP.Substring(8) + ")" };
+            ViewBag.storeID = new SelectList(storeInfo, "storeID", "storeName");
+
             return View(transaction);
         }
 
