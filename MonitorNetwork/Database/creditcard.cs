@@ -1,5 +1,6 @@
 namespace MonitorNetwork.Database
 {
+    using MonitorNetwork.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -20,6 +21,7 @@ namespace MonitorNetwork.Database
 
         [Required]
         [StringLength(16)]
+        [CardNumberValidation(ErrorMessage = "Invalid credit card number.")]
         public string cardNumber { get; set; }
 
         [Column(TypeName = "datetime2")]

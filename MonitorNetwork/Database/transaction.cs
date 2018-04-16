@@ -21,6 +21,7 @@ namespace MonitorNetwork.Database
         [Column(TypeName = "datetime2")]
         public DateTime? timeOfResponse { get; set; }
 
+        [Range(0, Int32.MaxValue, ErrorMessage = "Please enter a positive value.")]
         public decimal amount { get; set; }
 
         public bool isCredit { get; set; }

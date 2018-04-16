@@ -27,9 +27,7 @@ namespace MonitorNetwork.Controllers
         // GET: CreditCard/Create
         public ActionResult Create()
         {
-           GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
             ViewBag.creditcard = new { accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname") };
-            ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
 
             return View();
         }
@@ -65,7 +63,6 @@ namespace MonitorNetwork.Controllers
             GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
 
             ViewBag.creditcard = new { accountID = new SelectList((from acct in db.account select new { accountID = acct.accountID, fullname = acct.accountFirstName + " " + acct.accountLastName }), "accountID", "fullname", creditCardAndAccount.creditcard.accountID) };
-            ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
 
             return View(creditCardAndAccount);
         }

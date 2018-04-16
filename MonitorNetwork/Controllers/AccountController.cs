@@ -41,9 +41,6 @@ namespace MonitorNetwork.Controllers
         // GET: accounts/Create
         public ActionResult Create()
         {
-            GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
-            ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
-
             return View();
         }
 
@@ -60,9 +57,6 @@ namespace MonitorNetwork.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            GenerateCreditCard creditCardGenerator = new GenerateCreditCard(db);
-            ViewBag.creditCardNumber = creditCardGenerator.GetValidUnusedCreditCard();
 
             return View(creditCardAndAccount);
         }
