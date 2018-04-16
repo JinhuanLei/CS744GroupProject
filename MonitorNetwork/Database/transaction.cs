@@ -13,7 +13,7 @@ namespace MonitorNetwork.Database
 
         public int storeID { get; set; }
 
-        public int cardID { get; set; }
+        public int? cardID { get; set; }
 
         [Column(TypeName = "datetime2")]
         public DateTime? timeOfTransaction { get; set; }
@@ -33,7 +33,16 @@ namespace MonitorNetwork.Database
 
         public bool isSelf { get; set; }
 
-		public bool atProcCenter { get; set; }
+        public bool atProcCenter { get; set; }
+
+        [Required]
+        [StringLength(16)]
+        public string cardNumber { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime expirationDate { get; set; }
+
+        public int securityCode { get; set; }
 
         public virtual creditcard creditcard { get; set; }
 
