@@ -61,6 +61,10 @@ namespace MonitorNetwork.Controllers
 			{
 				ModelState.AddModelError("store.storeIP", "IP already exists");
 			}
+			if (storeModel.checkboxRelayModel.Where(x => x.selected).Count() < 1)
+			{
+				ModelState.AddModelError("", "Needs to be connected to a relay");
+			}
 			if (ModelState.IsValid)
             {
                 db.store.Add(storeModel.store);
