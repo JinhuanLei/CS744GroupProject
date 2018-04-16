@@ -52,6 +52,12 @@ namespace MonitorNetwork.Controllers
 			{
 				ModelState.AddModelError("relay.relayIP", "IP already exists");
 			}
+			
+			if (regionStoreRelay.CheckboxGatewayModel.Where(x => x.selected).Count() < 1)
+				{
+					ModelState.AddModelError("", "Needs to be connected to gateway or processing center");
+				}
+
 			if (ModelState.IsValid)
             {
                 region newRegion = new region()
