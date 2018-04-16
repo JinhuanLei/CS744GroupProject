@@ -3,26 +3,10 @@
 <td>
     @Html.DisplayFor(modelItem => Model.transactionID)
 </td>
-<td colspan="5">
+<td colspan="8">
     (Encrypted)
 </td>
-<td>
-	@if (Model.status.HasValue)
-	{
-		if (Model.status.Value)
-		{
-			@:Approved
-		}
-		else
-		{
-			@:Declined
-		};
-	}
-	else
-	{
-		@:Unprocessed
-	}
-</td>
+
 <td>
    Sending to store
 </td>
