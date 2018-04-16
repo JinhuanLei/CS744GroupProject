@@ -29,7 +29,9 @@ namespace MonitorNetwork.Controllers
             var creditcardInfo = from creditcard in db.creditcard
                                  select new { creditcard.cardID, fullname = creditcard.customerFirstName + " " + creditcard.customerLastName };
             ViewBag.cardID = new SelectList(creditcardInfo, "cardID", "fullname");
-            ViewBag.storeID = new SelectList(db.store, "storeID", "merchantName");
+            var storeInfo = from store in db.store
+                            select new { store.storeID, storeName = store.merchantName + " (" + store.storeIP.Substring(8) + ")" };
+            ViewBag.storeID = new SelectList(storeInfo, "storeID", "storeName");
             return View();
         }
 
@@ -37,7 +39,7 @@ namespace MonitorNetwork.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create([Bind(Include = "transactionID,timeOfTransaction,timeOfResponse,amount,isCredit,status,isEncrypted,isSent,storeID,cardID,isSelf")] transaction transaction)
+        public ActionResult Create(transaction transaction)
         {
             if (ModelState.IsValid)
             {
@@ -50,7 +52,10 @@ namespace MonitorNetwork.Controllers
                                  select new { creditcard.cardID, fullname = creditcard.customerFirstName + " " + creditcard.customerLastName };
 
             ViewBag.cardID = new SelectList(creditcardInfo, "cardID", "fullname");
-            ViewBag.storeID = new SelectList(db.store, "storeID", "merchantName", transaction.storeID);
+            var storeInfo = from store in db.store
+                            select new { store.storeID, storeName = store.merchantName + " (" + store.storeIP.Substring(8) + ")" };
+            ViewBag.storeID = new SelectList(storeInfo, "storeID", "storeName");
+
             return View(transaction);
         }
 

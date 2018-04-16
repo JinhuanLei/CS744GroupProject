@@ -10,6 +10,9 @@
     <script>
 
         $(document).ready(function () {
+            $("#cardNumber").inputmask({ mask: "9999 9999 9999 9999", removeMaskOnSubmit: true });
+            $("#expirationDate").inputmask("99/9999");
+            $("#securityCode").inputmask({ mask: "999" });
             $("#amount").inputmask({ alias: 'currency', removeMaskOnSubmit: true });
         });
 
@@ -26,11 +29,35 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.Label("Credit Card", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("cardID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.cardID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.Label("Credit Card Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cardNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cardNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Expiration Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.expirationDate, new { htmlAttributes = new { @class = "form-control", placeholder = "mm/yyyy" } })
+                @Html.ValidationMessageFor(model => model.expirationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Security Code", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.securityCode, new { htmlAttributes = new { @class = "form-control", @type = "text" } })
+                @Html.ValidationMessageFor(model => model.securityCode, "", new { @class = "text-danger" })
             </div>
         </div>
 

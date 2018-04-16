@@ -22,12 +22,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Credit Cards", "Index", "CreditCard")</li>
-                    <li>@Html.ActionLink("Accounts", "Index", "Account")</li>
-                    <li>@Html.ActionLink("Stores", "Index", "Store")</li>
-					<li>@Html.ActionLink("Relays", "Index", "Relay")</li>
-                    <li>@Html.ActionLink("Add Region", "Create", "Region")</li>
-                    <li>@Html.ActionLink("Set Queue", "Index", "Queue")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Credit Cards", "Index", "CreditCard")</li>
+                        <li>@Html.ActionLink("Accounts", "Index", "Account")</li>
+                        <li>@Html.ActionLink("Stores", "Index", "Store")</li>
+					    <li>@Html.ActionLink("Relays", "Index", "Relay")</li>
+                        <li>@Html.ActionLink("Add Region", "Create", "Region")</li>
+                        <li>@Html.ActionLink("Set Queue", "Index", "Queue")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

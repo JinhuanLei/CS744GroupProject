@@ -20,7 +20,7 @@ namespace MonitorNetwork.Database
 
         [Required]
         [StringLength(15)]
-        [RegularExpression(@"^192.168.[0-9]{1,3}.[0-9]{1,3}$", ErrorMessage = "Must be a valid IP address")]
+        [RegularExpression(@"^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$", ErrorMessage = "Must be a valid IP address")]
         public string storeIP { get; set; }
 
         [Required]

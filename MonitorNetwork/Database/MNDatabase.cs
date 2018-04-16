@@ -45,26 +45,26 @@ namespace MonitorNetwork.Database
                 .Property(e => e.expirationDate)
                 .HasPrecision(0);
 
-            modelBuilder.Entity<region>()
-                .HasMany(e => e.relay)
-                .WithRequired(e => e.region)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<region>()
-                .HasMany(e => e.store)
-                .WithRequired(e => e.region)
-                .WillCascadeOnDelete(false);
+            modelBuilder.Entity<creditcard>()
+                .HasMany(e => e.transaction)
+                .WithOptional(e => e.creditcard)
+                .WillCascadeOnDelete();
 
             modelBuilder.Entity<relay>()
                 .HasMany(e => e.connections)
-                .WithOptional(e => e.relay)
-                .HasForeignKey(e => e.relayID);
+                .WithRequired(e => e.relay)
+                .HasForeignKey(e => e.destRelayID)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<relay>()
                 .HasMany(e => e.connections1)
-                .WithRequired(e => e.relay1)
-                .HasForeignKey(e => e.destRelayID)
-                .WillCascadeOnDelete(false);
+                .WithOptional(e => e.relay1)
+                .HasForeignKey(e => e.relayID);
+
+            modelBuilder.Entity<store>()
+                .HasMany(e => e.connections)
+                .WithOptional(e => e.store)
+                .WillCascadeOnDelete();
 
             modelBuilder.Entity<transaction>()
                 .Property(e => e.timeOfTransaction)
@@ -77,6 +77,10 @@ namespace MonitorNetwork.Database
             modelBuilder.Entity<transaction>()
                 .Property(e => e.amount)
                 .HasPrecision(10, 2);
+
+            modelBuilder.Entity<transaction>()
+                .Property(e => e.expirationDate)
+                .HasPrecision(0);
         }
     }
 }
