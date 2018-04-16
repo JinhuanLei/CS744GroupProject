@@ -52,12 +52,17 @@
             {
 	            @Html.Partial("_EncryptTransactionRowPartial", item)
             }
+            else if (!item.isEncrypted && item.isSent && !item.atProcCenter)
+            {
+                @Html.Partial("_FinishedTransactionPartial", item)
+            }
             else
             {
-	            @Html.Partial("_DetailTransactionRowPartial", item)
+                @Html.Partial("_DetailTransactionRowPartial", item)
             }
 
-	    </tr>
+
+        </tr>
 	}
 
 </table>

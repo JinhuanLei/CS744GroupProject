@@ -1,4 +1,5 @@
 ﻿using MonitorNetwork.Database;
+using MonitorNetwork.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace MonitorNetwork.Controllers
 {
+    [CheckAuthorization]
     public class QueueController : Controller
     {
         private MNDatabase db = new MNDatabase();
