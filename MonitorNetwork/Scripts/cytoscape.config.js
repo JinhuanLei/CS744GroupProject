@@ -118,7 +118,9 @@ var layout = cy.elements().layout({
     //nodeDimensionsIncludeLabels: true,
     edgeDimensionsIncludeLabels: true,
     nodeRepulsion: 9000,
-    roots: '#r11'
+    edgeElasticity:0.85,
+    gravity: 1,
+  
 });
 
 //cy.on('mouseover', 'node', function (event) {
