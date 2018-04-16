@@ -3,7 +3,7 @@
 <td>
 	@Html.DisplayFor(modelItem => Model.transactionID)
 </td>
-<td colspan="4">
+<td colspan="5">
 	(Encrypted)
 </td>
 
@@ -21,6 +21,9 @@
 		<td>Unprocessed</td>
 		}
 	
+<td>
+	@Html.DisplayFor(modelItem => Model.timeOfResponse)
+</td>
 
 	<td>
 		@if (Model.status == null)
@@ -28,4 +31,5 @@
 		<a href="javascript:void(0)" onclick="processingTransaction(@Model.transactionID, @Model.storeID)">Process Transaction</a>
 		}
 	</td>
+
 

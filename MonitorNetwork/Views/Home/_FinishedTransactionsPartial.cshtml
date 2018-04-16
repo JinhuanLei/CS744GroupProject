@@ -4,6 +4,16 @@
     @Html.DisplayFor(modelItem => Model.transactionID)
 </td>
 <td>
+	@if (Model.timeOfTransaction.HasValue)
+	{
+		@Model.timeOfTransaction.Value.ToString("MMM dd, yyyy hh:mm:ss tt");
+	}
+	else
+	{
+		@: NULL
+	}
+</td>
+<td>
     @(Html.DisplayFor(modelItem => Model.creditcard.customerFirstName)) @(Html.DisplayFor(modelItem => Model.creditcard.customerLastName))
 </td>
 <td>
@@ -34,6 +44,16 @@
     {
         @:Unprocessed
     }
+</td>
+<td>
+	@if (Model.timeOfResponse.HasValue)
+	{
+		@Model.timeOfResponse.Value.ToString("MMM dd, yyyy hh:mm:ss tt");
+	}
+	else
+	{
+		@: NULL
+	}
 </td>
 <td>
 	Finished
