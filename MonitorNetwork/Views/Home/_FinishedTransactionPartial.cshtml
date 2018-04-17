@@ -8,10 +8,6 @@
 	{
 		@Model.timeOfTransaction.Value.ToString("MMM dd, yyyy hh:mm:ss tt");
 	}
-	else
-	{
-		@: NULL
-	}
 </td>
 <td>
     @(Html.DisplayFor(modelItem => Model.creditcard.customerFirstName)) @(Html.DisplayFor(modelItem => Model.creditcard.customerLastName))

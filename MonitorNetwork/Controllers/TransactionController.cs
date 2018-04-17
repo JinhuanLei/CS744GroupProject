@@ -43,6 +43,7 @@ namespace MonitorNetwork.Controllers
         {
             if (ModelState.IsValid)
             {
+				transaction.isProcessed = false;
                 db.transaction.Add(transaction);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");

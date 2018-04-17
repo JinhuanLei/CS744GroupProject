@@ -172,16 +172,38 @@ namespace MonitorNetwork.Controllers
 
 		public ActionResult ProcessTransaction(int id)
 		{
-			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
-			
-
-			creditcard currentCard = currentTransaction.creditcard;
-
-			account currentAccount = currentCard.account;
-
+			transaction currentTransaction = null;
+			String currentCardNumber = null;
+			creditcard currentCard = null;
+			account currentAccount = null;
+			try
+			{
+				currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
+				currentCardNumber = currentTransaction.cardNumber;
+				currentCard = db.creditcard.Where(x => x.cardNumber == currentCardNumber).FirstOrDefault();
+				currentAccount = currentCard.account;
+			}
+			catch (Exception e)
+			{
+				currentTransaction.status = false;
+				db.SaveChanges();
+				return PartialView("_DetailTransactionRowPartial", currentTransaction);
+			}
+			if (!currentTransaction.expirationDate.Equals(currentCard.expirationDate))
+			{
+				currentTransaction.status = false;
+				db.SaveChanges();
+				return PartialView("_DetailTransactionRowPartial", currentTransaction);
+			}
+			if ((currentTransaction.securityCode)!=(currentCard.securityCode))
+			{
+				currentTransaction.status = false;
+				db.SaveChanges();
+				return PartialView("_DetailTransactionRowPartial", currentTransaction);
+			}
 			var totalSpendingCredit = currentAccount.spendingLimit - currentAccount.balance;
-
             currentTransaction.timeOfResponse = DateTime.Now;
+			currentTransaction.cardID = currentCard.cardID;
 
             if (currentTransaction.isCredit && currentTransaction.amount < totalSpendingCredit)
 			{
