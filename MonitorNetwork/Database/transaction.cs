@@ -34,6 +34,8 @@ namespace MonitorNetwork.Database
 
         public bool isSelf { get; set; }
 
+        public bool isProcessed { get; set; }
+
         public bool atProcCenter { get; set; }
 
         [Required]
