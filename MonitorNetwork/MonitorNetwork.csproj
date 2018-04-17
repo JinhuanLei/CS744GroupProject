@@ -317,6 +317,7 @@
     <Content Include="Views\Home\_ProcessingTransactionPartial.cshtml" />
     <Content Include="Views\Home\_EncryptProcessedTransactionPartial.cshtml" />
     <Content Include="Views\Home\_FinishedTransactionPartial.cshtml" />
+    <Content Include="Views\Home\_DroppedTransactionRowPartial.cshtml" />
     <None Include="Web.Development.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

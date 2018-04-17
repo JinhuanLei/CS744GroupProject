@@ -93,6 +93,13 @@ namespace MonitorNetwork.Controllers
 
         public void SetupJavascriptData(NetworkModel nm)
         {
+            nm.pcTransactions = (from tran in db.transaction
+                                 where tran.atProcCenter
+                                 select new PCTransactions
+                                 {
+                                     transactionID = tran.transactionID,
+                                     storeID = tran.storeID
+                                 }).ToList();
 
             nm.connections = (from conn in db.connections
                               select new Connections
@@ -170,6 +177,13 @@ namespace MonitorNetwork.Controllers
                                  }).ToList();
         }
 
+        public ActionResult DropTransaction(int id)
+        {
+            transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
+
+            return PartialView("_DroppedTransactionRowPartial", currentTransaction);
+        }
+
 		public ActionResult ProcessTransaction(int id)
 		{
 			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
@@ -182,6 +196,7 @@ namespace MonitorNetwork.Controllers
 			var totalSpendingCredit = currentAccount.spendingLimit - currentAccount.balance;
 
             currentTransaction.timeOfResponse = DateTime.Now;
+            currentTransaction.isProcessed = true;
 
             if (currentTransaction.isCredit && currentTransaction.amount < totalSpendingCredit)
 			{
@@ -206,7 +221,7 @@ namespace MonitorNetwork.Controllers
 				db.SaveChanges();
 			}
 
-				return PartialView("_DetailTransactionRowPartial", currentTransaction);
+			return PartialView("_DetailTransactionRowPartial", currentTransaction);
 		}
 
 		public ActionResult ReadyToBeProcessed(int id)
@@ -214,6 +229,7 @@ namespace MonitorNetwork.Controllers
 			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
 
 			currentTransaction.atProcCenter = true;
+            currentTransaction.isSent = false;
 			db.SaveChanges();
 
 			return PartialView("_ProcessingTransactionPartial", currentTransaction);
@@ -224,6 +240,7 @@ namespace MonitorNetwork.Controllers
 			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
 
             currentTransaction.atProcCenter = false;
+            currentTransaction.isSent = true;
             db.SaveChanges();
 
             return PartialView("_EncryptProcessedTransactionPartial", currentTransaction);
@@ -238,7 +255,7 @@ namespace MonitorNetwork.Controllers
 			}
 
 			transaction.isEncrypted = false;
-			transaction.isSent = true;
+			transaction.isSent = false;
 
 			db.SaveChanges();
 			return PartialView("_FinishedTransactionPartial", transaction);

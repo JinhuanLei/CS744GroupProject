@@ -33,7 +33,27 @@
             })
         }
 
+        function addTransactionsToProcessingCenter() {
+            if (pcTransactions.length > 0) {
+                cy.$('#' + processingCenterId).addClass('highlighted');
+            }
+
+            pcTransactions.forEach(function (pcTransaction) {
+                var transaction = { transactionId: pcTransaction.transactionID, toProcCenter: false, storeId: "s" + pcTransaction.storeID, destinationReached: false, timeoutObj: { timeout: null, sendFunc: null, fromNode: "", toNode: "" } };
+                var path = getPath(processingCenterId, transaction);
+
+                if (path === null) {
+                    // No path was found to move the transaction to destination.
+                    return;
+                }
+                transaction.timeoutObj = { timeout: null, sendFunc: sendToConnection, fromNode: path[0], toNode: path[1] };
+
+                elementQueues[processingCenterId].queue.push(transaction)
+            });
+        }
+
         setElementStates();
+        addTransactionsToProcessingCenter();
     </script>
 }
 
@@ -60,12 +80,14 @@
 <script>
 
     @{
+        string pcTransactions = Newtonsoft.Json.JsonConvert.SerializeObject(Model.pcTransactions);
         string connections = Newtonsoft.Json.JsonConvert.SerializeObject(Model.connections);
         string relays = Newtonsoft.Json.JsonConvert.SerializeObject(Model.relays);
         string stores = Newtonsoft.Json.JsonConvert.SerializeObject(Model.stores);
         string nodes = Newtonsoft.Json.JsonConvert.SerializeObject(Model.cytoscapeNodes);
         string edges = Newtonsoft.Json.JsonConvert.SerializeObject(Model.cytoscapeEdges);
     }
+    var pcTransactions = @Html.Raw(pcTransactions);
     var connections = @Html.Raw(connections);
     var relays = @Html.Raw(relays);
     var stores = @Html.Raw(stores);
@@ -99,7 +121,7 @@
         elementQueues[processingCenterId].limit = Number.MAX_SAFE_INTEGER;
     }
 
-    constructNodeQueues();
+    constructNodeQueues();    
 
 </script>
 

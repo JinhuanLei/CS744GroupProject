@@ -13,6 +13,9 @@ namespace MonitorNetwork.Models
         public IList<transaction> transactions { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
+        public IList<PCTransactions> pcTransactions { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
         public IList<Connections> connections { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
@@ -47,6 +50,12 @@ namespace MonitorNetwork.Models
         public int weight { get; set; }
         public string source { get; set; }
         public string target { get; set; }
+    }
+
+    public class PCTransactions
+    {
+        public int transactionID { get; set; }
+        public int storeID { get; set; }
     }
 
     public class Connections

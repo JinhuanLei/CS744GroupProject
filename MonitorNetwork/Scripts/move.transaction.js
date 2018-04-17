@@ -159,6 +159,15 @@ function droppedTransaction(fromNode, toNode, transaction) {
 
     addCSSClassToConnection(fromNode, toNode, "dropped");
 
+    $.ajax({
+        type: "GET",
+        url: '/Home/DropTransaction?id=' + transaction.transactionId,
+        dataType: 'html',
+        success: function (data) {
+            $('#transactionRow' + transaction.transactionId).html(data);
+        }
+    });
+
     var connectionTimeout = setTimeout(removeDroppedTransaction, MILLI_SECOND_MOVEMENT_SPEED, fromNode, toNode, transaction);
 
     // Add timeouts to transaction for pausing and resuming.
