@@ -186,18 +186,21 @@ namespace MonitorNetwork.Controllers
 			catch (Exception e)
 			{
 				currentTransaction.status = false;
+				currentTransaction.timeOfResponse = DateTime.Now;
 				db.SaveChanges();
 				return PartialView("_DetailTransactionRowPartial", currentTransaction);
 			}
 			if (!currentTransaction.expirationDate.Equals(currentCard.expirationDate))
 			{
 				currentTransaction.status = false;
+				currentTransaction.timeOfResponse = DateTime.Now;
 				db.SaveChanges();
 				return PartialView("_DetailTransactionRowPartial", currentTransaction);
 			}
-			if ((currentTransaction.securityCode)!=(currentCard.securityCode))
+			if (!((currentTransaction.securityCode)==(currentCard.securityCode)))
 			{
 				currentTransaction.status = false;
+				currentTransaction.timeOfResponse = DateTime.Now;
 				db.SaveChanges();
 				return PartialView("_DetailTransactionRowPartial", currentTransaction);
 			}

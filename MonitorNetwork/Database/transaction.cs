@@ -38,8 +38,6 @@ namespace MonitorNetwork.Database
 
         public bool atProcCenter { get; set; }
 
-		public bool isProcessed { get; set; }
-
 		[Required]
         [StringLength(16)]
         public string cardNumber { get; set; }
