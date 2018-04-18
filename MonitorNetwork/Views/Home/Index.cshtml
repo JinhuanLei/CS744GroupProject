@@ -34,27 +34,35 @@
         }
         setElementStates();
 
+        function creditCardChange() {
+            var creditCardNumber = $("#cardNumber").val();
+            $(".transactionClass").hide();
+            $(".cardNumber" + creditCardNumber).show();
+        }
+
+        creditCardChange();
+
     </script>
 }
 
 
 <div id="cy" style=" z-index: 0; overflow: hidden; width: 800px; height: 700px; margin: 0 auto; "></div>
-<div class='col-md-3 my-legend'>
-    <div class='legend-title'>Node Explanation</div>
-    <div class='legend-scale'>
-        <ul class='legend-labels'>
-            <li><span style='background:#FFF000;'></span>Processing Center</li>
-            <li><span class='gateway' style='background:#999999;'></span>Gateway</li>
-            <li><span style='background:#000000;'></span>Relay Stations</li>
-            <li><span class="store" style='background:#999999;'></span>Stores</li>
-            <li><span style='background:#8080FF;'></span>Deactivate</li>
-        </ul>
+<div class="row">
+    <div class='col-md-3 my-legend'>
+        <div class='legend-title'>Node Explanation</div>
+        <div class='legend-scale'>
+            <ul class='legend-labels'>
+                <li><span style='background:#FFF000;'></span>Processing Center</li>
+                <li><span class='gateway' style='background:#999999;'></span>Gateway</li>
+                <li><span style='background:#000000;'></span>Relay Stations</li>
+                <li><span class="store" style='background:#999999;'></span>Stores</li>
+                <li><span style='background:#8080FF;'></span>Deactivate</li>
+            </ul>
+        </div>
     </div>
-
-</div>
-
-<div class="col-md-2 col-md-offset-7">
-    <button id="flowBtn" class="btn btn-primary" type="submit" onclick="toggleFlow()">Stop</button>
+    <div class="col-md-2 col-md-offset-7">
+        <button id="flowBtn" class="btn btn-primary" type="submit" onclick="toggleFlow()">Stop</button>
+    </div>
 </div>
 
 <script>
@@ -99,10 +107,10 @@
         elementQueues[processingCenterId].limit = Number.MAX_SAFE_INTEGER;
     }
 
-    constructNodeQueues();    
+    constructNodeQueues();
 
 </script>
 
-<div id="transactions" style="padding-top: 120px;">
+<div id="transactions">
     @Html.Partial("_TransactionPartial", Model.transactions)
 </div>

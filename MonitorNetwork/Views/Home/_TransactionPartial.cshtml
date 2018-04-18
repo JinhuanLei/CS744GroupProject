@@ -1,11 +1,17 @@
 ﻿@model IList<MonitorNetwork.Database.transaction>
 
-<div>
-    <h3>Transactions</h3>
+<div style="position: relative;">
+    <div style="display: inline-block;">
+        <h3>Transactions</h3>
 
-    <p>
-        @Html.ActionLink("Create New Transaction", "Create", "Transaction")
-    </p>
+        <p>
+            @Html.ActionLink("Create New Transaction", "Create", "Transaction")
+        </p>
+    </div>
+    <div style="display: inline-block; float: right; padding-top: 20px;">
+        @Html.Label("Credit Card", htmlAttributes: new { @class = "control-label" })
+        @Html.DropDownList("cardNumber", null, htmlAttributes: new { @class = "form-control", onchange = "creditCardChange()" })
+    </div>
 </div>
 
 <table class="table">
@@ -42,7 +48,7 @@
 
 	@foreach (var item in Model.Reverse())
 	{
-	    <tr id="transactionRow@(item.transactionID)">
+	    <tr id="transactionRow@(item.transactionID)" class="cardNumber@(item.cardNumber) transactionClass" style="display: none;">
 
 		    @if (item.isSent)
             {
