@@ -93,14 +93,6 @@ namespace MonitorNetwork.Controllers
 
         public void SetupJavascriptData(NetworkModel nm)
         {
-            nm.pcTransactions = (from tran in db.transaction
-                                 where tran.atProcCenter
-                                 select new PCTransactions
-                                 {
-                                     transactionID = tran.transactionID,
-                                     storeID = tran.storeID
-                                 }).ToList();
-
             nm.connections = (from conn in db.connections
                               select new Connections
                               {
@@ -186,17 +178,43 @@ namespace MonitorNetwork.Controllers
 
 		public ActionResult ProcessTransaction(int id)
 		{
-			transaction currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
-			
-
-			creditcard currentCard = currentTransaction.creditcard;
-
-			account currentAccount = currentCard.account;
-
+			transaction currentTransaction = null;
+			String currentCardNumber = null;
+			creditcard currentCard = null;
+			account currentAccount = null;
+			try
+			{
+				currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
+                currentTransaction.isProcessed = true;
+                currentTransaction.isEncrypted = false;
+                currentCardNumber = currentTransaction.cardNumber;
+				currentCard = db.creditcard.Where(x => x.cardNumber == currentCardNumber).FirstOrDefault();
+				currentAccount = currentCard.account;
+			}
+			catch (Exception e)
+			{
+				currentTransaction.status = false;
+				currentTransaction.timeOfResponse = DateTime.Now;
+				db.SaveChanges();
+				return PartialView("_DetailTransactionRowPartial", currentTransaction);
+			}
+			if (!currentTransaction.expirationDate.Equals(currentCard.expirationDate))
+			{
+				currentTransaction.status = false;
+				currentTransaction.timeOfResponse = DateTime.Now;
+				db.SaveChanges();
+				return PartialView("_DetailTransactionRowPartial", currentTransaction);
+			}
+			if (!((currentTransaction.securityCode)==(currentCard.securityCode)))
+			{
+				currentTransaction.status = false;
+				currentTransaction.timeOfResponse = DateTime.Now;
+				db.SaveChanges();
+				return PartialView("_DetailTransactionRowPartial", currentTransaction);
+			}
 			var totalSpendingCredit = currentAccount.spendingLimit - currentAccount.balance;
-
             currentTransaction.timeOfResponse = DateTime.Now;
-            currentTransaction.isProcessed = true;
+			currentTransaction.cardID = currentCard.cardID;
 
             if (currentTransaction.isCredit && currentTransaction.amount < totalSpendingCredit)
 			{
@@ -241,6 +259,7 @@ namespace MonitorNetwork.Controllers
 
             currentTransaction.atProcCenter = false;
             currentTransaction.isSent = true;
+            currentTransaction.isEncrypted = true;
             db.SaveChanges();
 
             return PartialView("_EncryptProcessedTransactionPartial", currentTransaction);

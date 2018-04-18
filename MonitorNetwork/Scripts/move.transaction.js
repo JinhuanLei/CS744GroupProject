@@ -43,20 +43,21 @@ function sendToNode(fromNode, toNode, transaction) {
     if (hasReachedDestination(toNode, transaction)) {
         // Transaction has reached it's destination.
 
-		transaction.destinationReached = true;
+        transaction.destinationReached = true;
+
+        setTimeout(function () {
+            if (getQueueLength(toNode) <= 1) {
+                // No more transaction in the queue
+                // Remove highlighting for node.
+                cy.$('#' + toNode).removeClass('highlighted');
+            }
+        }, MILLI_SECOND_MOVEMENT_SPEED);
+
         if (transaction.toProcCenter) {
             reachedProcessingCenter(transaction.transactionId);
         }
         else
         {
-            setTimeout(function () {
-                if (getQueueLength(toNode) <= 1) {
-                    // No more transaction in the queue
-                    // Remove highlighting for node.
-                    cy.$('#' + toNode).removeClass('highlighted');
-                }
-            }, MILLI_SECOND_MOVEMENT_SPEED);
-
 			$.ajax({
 				type: "GET",
 				url: '/Home/DecryptAtEnd?id=' + transaction.transactionId,

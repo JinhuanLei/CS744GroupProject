@@ -38,7 +38,7 @@ namespace MonitorNetwork.Database
 
         public bool atProcCenter { get; set; }
 
-        [Required]
+		[Required]
         [StringLength(16)]
         public string cardNumber { get; set; }
 
