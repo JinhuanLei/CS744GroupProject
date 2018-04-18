@@ -167,7 +167,7 @@ namespace MonitorNetwork.Controllers
                 return RedirectToLocal(viewmodel.returnURL);
             }
 
-            if(viewmodel.askedQuestions.Count >= 2)
+            if(viewmodel.askedQuestions.Count >= 3)
             {
                 user.isBlocked = true;
 
