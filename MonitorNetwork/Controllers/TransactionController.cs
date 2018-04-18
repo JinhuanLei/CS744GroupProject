@@ -19,9 +19,6 @@ namespace MonitorNetwork.Controllers
         // GET: Transaction/Create
         public ActionResult Create()
         {
-            var creditcardInfo = from creditcard in db.creditcard
-                                 select new { creditcard.cardID, fullname = creditcard.customerFirstName + " " + creditcard.customerLastName };
-            ViewBag.cardID = new SelectList(creditcardInfo, "cardID", "fullname");
             var storeInfo = from store in db.store
                             select new { store.storeID, storeName = store.merchantName + " (" + store.storeIP.Substring(8) + ")" };
             ViewBag.storeID = new SelectList(storeInfo, "storeID", "storeName");
@@ -42,10 +39,6 @@ namespace MonitorNetwork.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var creditcardInfo = from creditcard in db.creditcard
-                                 select new { creditcard.cardID, fullname = creditcard.customerFirstName + " " + creditcard.customerLastName };
-
-            ViewBag.cardID = new SelectList(creditcardInfo, "cardID", "fullname");
             var storeInfo = from store in db.store
                             select new { store.storeID, storeName = store.merchantName + " (" + store.storeIP.Substring(8) + ")" };
             ViewBag.storeID = new SelectList(storeInfo, "storeID", "storeName");

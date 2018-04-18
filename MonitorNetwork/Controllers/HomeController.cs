@@ -19,8 +19,16 @@ namespace MonitorNetwork.Controllers
         {
             NetworkModel nm = new NetworkModel();
             nm.transactions = db.transaction.ToList();
-
+        
             SetupJavascriptData(nm);
+
+            var creditCardTransactions = db.transaction.Select(x => x.cardNumber).Distinct().AsEnumerable().Select(w => new
+                                          {
+                                              cardNumber = w,
+                                              cardNumberFormat = string.Format("{0:0000 0000 0000 0000}", (Int64.Parse(w)))
+                                          });
+
+            ViewBag.cardNumber = new SelectList(creditCardTransactions, "cardNumber", "cardNumberFormat");
 
             return View(nm);
         }
