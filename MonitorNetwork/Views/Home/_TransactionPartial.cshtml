@@ -44,15 +44,19 @@
 	{
 	    <tr id="transactionRow@(item.transactionID)">
 
-		    @if (item.atProcCenter)
-	        {
-		        @Html.Partial("_ProcessingTransactionPartial", item)
-            }
-            else if (item.isEncrypted)
+		    @if (item.isSent)
             {
-	            @Html.Partial("_EncryptTransactionRowPartial", item)
+                @Html.Partial("_DroppedTransactionRowPartial", item)
             }
-            else if (!item.isEncrypted && item.isSent && !item.atProcCenter)
+            else if (item.atProcCenter && item.isEncrypted)
+            {
+                @Html.Partial("_ProcessingTransactionPartial", item)
+            }
+            else if (item.isEncrypted && item.isSent && !item.atProcCenter && !item.isProcessed)
+            {
+                @Html.Partial("_EncryptTransactionRowPartial", item)
+            }
+            else if (!item.isEncrypted && !item.isSent && !item.atProcCenter && item.isProcessed)
             {
                 @Html.Partial("_FinishedTransactionPartial", item)
             }

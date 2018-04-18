@@ -43,20 +43,21 @@ function sendToNode(fromNode, toNode, transaction) {
     if (hasReachedDestination(toNode, transaction)) {
         // Transaction has reached it's destination.
 
-		transaction.destinationReached = true;
+        transaction.destinationReached = true;
+
+        setTimeout(function () {
+            if (getQueueLength(toNode) <= 1) {
+                // No more transaction in the queue
+                // Remove highlighting for node.
+                cy.$('#' + toNode).removeClass('highlighted');
+            }
+        }, MILLI_SECOND_MOVEMENT_SPEED);
+
         if (transaction.toProcCenter) {
             reachedProcessingCenter(transaction.transactionId);
         }
         else
         {
-            setTimeout(function () {
-                if (getQueueLength(toNode) <= 1) {
-                    // No more transaction in the queue
-                    // Remove highlighting for node.
-                    cy.$('#' + toNode).removeClass('highlighted');
-                }
-            }, MILLI_SECOND_MOVEMENT_SPEED);
-
 			$.ajax({
 				type: "GET",
 				url: '/Home/DecryptAtEnd?id=' + transaction.transactionId,
@@ -158,6 +159,15 @@ function droppedTransaction(fromNode, toNode, transaction) {
     removeCSSClassToConnection(fromNode, toNode, "highlighted");
 
     addCSSClassToConnection(fromNode, toNode, "dropped");
+
+    $.ajax({
+        type: "GET",
+        url: '/Home/DropTransaction?id=' + transaction.transactionId,
+        dataType: 'html',
+        success: function (data) {
+            $('#transactionRow' + transaction.transactionId).html(data);
+        }
+    });
 
     var connectionTimeout = setTimeout(removeDroppedTransaction, MILLI_SECOND_MOVEMENT_SPEED, fromNode, toNode, transaction);
 
