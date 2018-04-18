@@ -6,7 +6,7 @@
 <td> 
 	@if (Model.timeOfTransaction.HasValue)
 	{
-		@Model.timeOfTransaction.Value.ToString("MMM dd, yyyy hh:mm:ss tt");
+		@Model.timeOfTransaction.Value.ToString("MMM dd, yyyy HH:mm");
 	}
 	
 </td>
@@ -45,7 +45,7 @@
 <td>
 	@if (Model.timeOfResponse.HasValue)
 	{
-		@Model.timeOfResponse.Value.ToString("MMM dd, yyyy hh:mm:ss tt");
+		@Model.timeOfResponse.Value.ToString("MMM dd, yyyy HH:mm");
 	}
 	
 </td>
