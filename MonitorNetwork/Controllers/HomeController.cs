@@ -25,13 +25,6 @@ namespace MonitorNetwork.Controllers
             return View(nm);
         }
 
-		public ActionResult IndexRedo(string num)
-		{
-			NetworkModel nm = new NetworkModel();
-			nm.transactions = db.transaction.Where(x => x.cardNumber == num).ToList();
-			return View(nm);
-		}
-
         public ActionResult EncryptThenSend(int? id)
         {
             if (id == null)

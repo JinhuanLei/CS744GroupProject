@@ -7,124 +7,106 @@
         @Html.ActionLink("Create New Transaction", "Create", "Transaction")
     </p>
 </div>
-	<div class="form-group">
-	@Html.Label("Card Number", htmlAttributes: new { @class = "control-label col-md-2" })
-	<div class="col-md-10">
-		@Html.DropDownList("transaction.cardNumber", null, htmlAttributes: new { @class = "form-control", onchange = "cardNumberChange()" })
-	</div>
-	</div>
-	<table class="table">
 
-		<table class="table">
+<table class="table">
+	<tr>
+		<th>
+			Transaction ID
+		</th>
+		<th>
+			Time of	Creation
+		</th>
+		<th>
+			Account
+		</th>
+		<th>
+			Merchant Name
+		</th>
+		<th>
+			Credit/Debit
+		</th>
+		<th>
+			SELF
+		</th>
+		<th>
+			Amount
+		</th>
+		<th>
+			Status
+		</th>
+		<th>
+			Time of Response
+		</th>
+		<th></th>
+	</tr>
 
-			<tr>
-				<th>
-					Transaction ID
-				</th>
-				<th>
-					Time of	Creation
-				</th>
-				<th>
-					Account
-				</th>
-				<th>
-					Merchant Name
-				</th>
-				<th>
-					Credit/Debit
-				</th>
-				<th>
-					SELF
-				</th>
-				<th>
-					Amount
-				</th>
-				<th>
-					Status
-				</th>
-				<th>
-					Time of Response
-				</th>
-				<th></th>
-			</tr>
-
-			@foreach (var item in Model.Reverse())
+	@foreach (var item in Model.Reverse())
 	{
-		<tr id="transactionRow@(item.transactionID)">
+	    <tr id="transactionRow@(item.transactionID)">
 
-			@if (item.isSent)
-	{
-		@Html.Partial("_DroppedTransactionRowPartial", item)
-}
-else if (item.atProcCenter && item.isEncrypted)
-{
-		@Html.Partial("_ProcessingTransactionPartial", item)
-}
-else if (item.isEncrypted && item.isSent && !item.atProcCenter && !item.isProcessed)
-{
-		@Html.Partial("_EncryptTransactionRowPartial", item)
-}
-else if (!item.isEncrypted && !item.isSent && !item.atProcCenter && item.isProcessed)
-{
-		@Html.Partial("_FinishedTransactionPartial", item)
-}
-else
-{
-		@Html.Partial("_DetailTransactionRowPartial", item)
-}
+		    @if (item.isSent)
+            {
+                @Html.Partial("_DroppedTransactionRowPartial", item)
+            }
+            else if (item.atProcCenter && item.isEncrypted)
+            {
+                @Html.Partial("_ProcessingTransactionPartial", item)
+            }
+            else if (item.isEncrypted && item.isSent && !item.atProcCenter && !item.isProcessed)
+            {
+                @Html.Partial("_EncryptTransactionRowPartial", item)
+            }
+            else if (!item.isEncrypted && !item.isSent && !item.atProcCenter && item.isProcessed)
+            {
+                @Html.Partial("_FinishedTransactionPartial", item)
+            }
+            else
+            {
+                @Html.Partial("_DetailTransactionRowPartial", item)
+            }
 
 
-		</tr>
-}
+        </tr>
+	}
 
-		</table>
+</table>
 
-	<script>
-		function sendTransaction(transactionId, storeId) {
-			$.ajax({
-				type: "GET",
-				url: '/Home/EncryptThenSend?id=' + transactionId,
-				dataType: 'html',
-				success: function (data) {
-					$('#transactionRow' + transactionId).html(data);
-				}
-			});
+<script>
+    function sendTransaction(transactionId, storeId) {
+        $.ajax({
+            type: "GET",
+            url: '/Home/EncryptThenSend?id=' + transactionId,
+            dataType: 'html',
+            success: function (data) {
+                $('#transactionRow' + transactionId).html(data);
+            }
+        });
 
-			sendTransactionToProcessCenter(transactionId, storeId);
-		}
+        sendTransactionToProcessCenter(transactionId, storeId);
+	}
 
-		function processingTransaction(transactionId, storeId) {
-			$.ajax({
-				type: "GET",
-				url: '/Home/ProcessTransaction?id=' + transactionId,
-				dataType: 'html',
-				success: function (data) {
-					$('#transactionRow' + transactionId).html(data);
-				}
-			});
+	function processingTransaction(transactionId, storeId) {
+		$.ajax({
+			type: "GET",
+			url: '/Home/ProcessTransaction?id=' + transactionId,
+			dataType: 'html',
+			success: function (data) {
+				$('#transactionRow' + transactionId).html(data);
+			}
+		});
 
-		}
+	}
 
-		function sendBackToStore(transactionId, storeId) {
-			$.ajax({
-				type: "GET",
-				url: '/Home/SendBackToStore?id=' + transactionId,
-				dataType: 'html',
-				success: function (data) {
-					$('#transactionRow' + transactionId).html(data);
-				}
-			});
-			sendTransactionToStore(transactionId, storeId);
-		}
+	function sendBackToStore(transactionId, storeId) {
+		$.ajax({
+			type: "GET",
+			url: '/Home/SendBackToStore?id=' + transactionId,
+			dataType: 'html',
+			success: function (data) {
+				$('#transactionRow' + transactionId).html(data);
+			}
+		});
+		sendTransactionToStore(transactionId, storeId);
+	}
 
-		function cardNumberChange(creditCardNumber) {
-			$.ajax({
-				type: "GET",
-				url: '/Home/IndexRedo?num=' + $("#transaction_cardNumber").val(),
-				dataType: 'html',
-				success: function (data) {
-					$('#transactionRow' + transactionId).html(data);
-				}
-			});
-
-	</script>
+</script>
