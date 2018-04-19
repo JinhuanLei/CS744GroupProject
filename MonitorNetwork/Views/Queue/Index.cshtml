@@ -19,6 +19,7 @@
             dataType: 'html',
             success: function (data) {
                 $('#relayRow' + relayId).html(data);
+                alert("update relay(" + $("#relayRow" + relayId + " input#relayIP").val() +") successful");
             }
         });
     }
