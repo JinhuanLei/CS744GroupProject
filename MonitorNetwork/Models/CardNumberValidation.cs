@@ -12,7 +12,7 @@ namespace MonitorNetwork.Models
         public override bool IsValid(object creditCardNumber)
         {
             //// check whether input string is null or empty
-            if (string.IsNullOrEmpty(creditCardNumber.ToString()))
+            if (creditCardNumber == null || string.IsNullOrEmpty(creditCardNumber.ToString()))
             {
                 return false;
             }
