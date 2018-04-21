@@ -26,7 +26,7 @@ function sendToNode(fromNode, toNode, transaction) {
     if (fromNode !== null) {
 
         if (queueIsAtLimit(toNode)) {
-            droppedTransaction(fromNode, toNode, transaction);
+            droppedQueueLimitTransaction(fromNode, toNode, transaction);
             return;
         }
 
@@ -75,7 +75,14 @@ function sendToNode(fromNode, toNode, transaction) {
 
     if (path === null) {
         // No path was found to move the transaction to destination.
-        elementQueues[toNode].queue[0].timeoutObj.timeout = null;
+        if (graphStopped) {
+            transaction.timeoutObj = { timeout: null, sendFunc: droppedNoPathTransaction, fromNode: fromNode, toNode: toNode };
+        }
+        else {
+            var nodeTimeout = setTimeout(droppedNoPathTransaction, MILLI_SECOND_MOVEMENT_SPEED, fromNode, toNode, transaction);
+            transaction.timeoutObj = { timeout: nodeTimeout, sendFunc: droppedNoPathTransaction, fromNode: fromNode, toNode: toNode };
+        }
+        
         return;
     }
 
@@ -155,7 +162,51 @@ function processFromConnection(fromNode, toNode) {
     }
 }
 
-function droppedTransaction(fromNode, toNode, transaction) {
+function droppedNoPathTransaction(fromNode, toNode, transaction) {
+
+    $.ajax({
+        type: "GET",
+        url: '/Home/DropTransaction?id=' + transaction.transactionId,
+        dataType: 'html',
+        success: function (data) {
+            $('#transactionRow' + transaction.transactionId).html(data);
+        }
+    });
+
+    if (fromNode != null) {
+        removeTransactionFromQueue(fromNode, transaction);
+        cy.$('#' + fromNode).removeClass('highlighted');
+        cy.$('#' + fromNode).addClass('dropped');
+    } else {
+        removeTransactionFromQueue(toNode, transaction);
+        cy.$('#' + toNode).removeClass('highlighted');
+        cy.$('#' + toNode).addClass('dropped');
+    }
+
+    setTimeout(function () {
+        if (fromNode != null) {
+            if (getQueueLength(fromNode) < 1) {
+                cy.$('#' + fromNode).removeClass('dropped');
+            } else {
+                cy.$('#' + fromNode).addClass('highlighted');
+                if (fromNode != processingCenterId && getQueueLength(fromNode) > 0) {
+                    // There is still transactions in the fromNode's queue, start the next one.
+                    sendTransactionToElement(elementQueues[fromNode].queue[0]);
+                }
+            }
+        }
+        else if (toNode != null) {
+            if (getQueueLength(toNode) < 1) {
+                cy.$('#' + toNode).removeClass('dropped');
+            } else {
+                cy.$('#' + toNode).addClass('highlighted');
+                sendTransactionToElement(elementQueues[toNode].queue[0]);
+            }
+        }
+    }, MILLI_SECOND_MOVEMENT_SPEED);
+}
+
+function droppedQueueLimitTransaction(fromNode, toNode, transaction) {
     removeCSSClassToConnection(fromNode, toNode, "highlighted");
 
     addCSSClassToConnection(fromNode, toNode, "dropped");
