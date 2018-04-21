@@ -190,38 +190,35 @@ namespace MonitorNetwork.Controllers
 			String currentCardNumber = null;
 			creditcard currentCard = null;
 			account currentAccount = null;
-			try
-			{
+			int currentCardCount = 0;
+		
 				currentTransaction = db.transaction.Where(x => x.transactionID == id).FirstOrDefault();
                 currentTransaction.isProcessed = true;
                 currentTransaction.isEncrypted = false;
                 currentCardNumber = currentTransaction.cardNumber;
+				currentCardCount = db.creditcard.Where(x => x.cardNumber == currentCardNumber).Count();
+			currentTransaction.timeOfResponse = DateTime.Now;
+
+			if (currentCardCount < 1)
+			{
+				currentTransaction.status = false;
+				db.SaveChanges();
+				return PartialView("_DetailTransactionRowPartial", currentTransaction);
+			}
+			else {
 				currentCard = db.creditcard.Where(x => x.cardNumber == currentCardNumber).FirstOrDefault();
 				currentAccount = currentCard.account;
 			}
-			catch (Exception e)
+			
+			if (!currentTransaction.expirationDate.Equals(currentCard.expirationDate)|| 
+				!((currentTransaction.securityCode) == (currentCard.securityCode)))
 			{
 				currentTransaction.status = false;
-				currentTransaction.timeOfResponse = DateTime.Now;
 				db.SaveChanges();
 				return PartialView("_DetailTransactionRowPartial", currentTransaction);
 			}
-			if (!currentTransaction.expirationDate.Equals(currentCard.expirationDate))
-			{
-				currentTransaction.status = false;
-				currentTransaction.timeOfResponse = DateTime.Now;
-				db.SaveChanges();
-				return PartialView("_DetailTransactionRowPartial", currentTransaction);
-			}
-			if (!((currentTransaction.securityCode)==(currentCard.securityCode)))
-			{
-				currentTransaction.status = false;
-				currentTransaction.timeOfResponse = DateTime.Now;
-				db.SaveChanges();
-				return PartialView("_DetailTransactionRowPartial", currentTransaction);
-			}
+			
 			var totalSpendingCredit = currentAccount.spendingLimit - currentAccount.balance;
-            currentTransaction.timeOfResponse = DateTime.Now;
 			currentTransaction.cardID = currentCard.cardID;
 
             if (currentTransaction.isCredit && currentTransaction.amount < totalSpendingCredit)
