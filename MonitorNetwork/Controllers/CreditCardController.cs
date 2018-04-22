@@ -38,6 +38,11 @@ namespace MonitorNetwork.Controllers
         [HttpPost]
         public ActionResult Create(CreditCardAndAccountViewModel creditCardAndAccount)
         {
+            if (db.creditcard.Where(x => x.cardNumber == creditCardAndAccount.creditcard.cardNumber).Count() > 0)
+            {
+                ModelState.AddModelError("creditcard.cardNumber", "Credit card number all ready exists.");
+            }
+
             if (creditCardAndAccount.existing)
             {
                 foreach (var key in ModelState.Keys.Where(x => x.StartsWith("account.")))
@@ -88,6 +93,11 @@ namespace MonitorNetwork.Controllers
         [HttpPost]
         public ActionResult Edit([Bind(Include = "cardID,cardNumber,expirationDate,securityCode,customerFirstName,customerLastName,accountID")] creditcard creditcard)
         {
+            if (db.creditcard.Where(x => x.cardNumber == creditcard.cardNumber).Count() > 0)
+            {
+                ModelState.AddModelError("cardNumber", "Credit card number all ready exists.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(creditcard).State = EntityState.Modified;
