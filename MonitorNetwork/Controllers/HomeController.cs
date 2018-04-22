@@ -210,7 +210,8 @@ namespace MonitorNetwork.Controllers
 				currentAccount = currentCard.account;
 			}
 			
-			if (!currentTransaction.expirationDate.Equals(currentCard.expirationDate)|| 
+			if (!currentTransaction.expirationDate.Equals(currentCard.expirationDate)||
+				currentTransaction.expirationDate < DateTime.Now ||
 				!((currentTransaction.securityCode) == (currentCard.securityCode)))
 			{
 				currentTransaction.status = false;
