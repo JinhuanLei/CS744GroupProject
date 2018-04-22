@@ -2,6 +2,9 @@
 
 function cytoscapeClickEdge(evt) {
     //alert(evt.target.id());
+    if (!graphStopped) {
+        return;
+    }
     var edgeId = evt.target.id();
     var start = "";
     var dest = "";
@@ -38,6 +41,9 @@ function cytoscapeClickEdge(evt) {
 }
 
 function cytoscapeClickNode(evt) {
+    if (!graphStopped) {
+        return;
+    }
     var nodeId = evt.target.id();
 
     var nodeIdNumber = (Number)(nodeId.substring(1));
