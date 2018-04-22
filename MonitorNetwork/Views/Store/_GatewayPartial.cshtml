@@ -21,7 +21,7 @@
                         @Html.ValidationMessageFor(model => model.CheckboxGatewayModel[i].weight, "", new { @class = "text-danger" })
                     </td>
                     @Html.HiddenFor(model => Model.CheckboxGatewayModel[i].relayID)
-                    @Html.HiddenFor(m => Model.CheckboxGatewayModel[i].relayIP);
+                    @Html.HiddenFor(m => Model.CheckboxGatewayModel[i].relayIP)
                 </tr>
             }
         }
