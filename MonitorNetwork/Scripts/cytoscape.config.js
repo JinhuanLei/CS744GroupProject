@@ -116,7 +116,9 @@ var cy = cytoscape({
 var layout = cy.elements().layout({
     name: 'cose-bilkent',
     //nodeDimensionsIncludeLabels: true,
-    //edgeDimensionsIncludeLabels: true,
+    edgeDimensionsIncludeLabels: true,
+    fit: true,
+    idealEdgeLength: 100,
     //nodeRepulsion: 9000,
     //padding:500
     //edgeElasticity:0.85,
