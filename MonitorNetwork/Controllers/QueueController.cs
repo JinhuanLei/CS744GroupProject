@@ -38,7 +38,7 @@ namespace MonitorNetwork.Controllers
             {
                 var relayForSetQueue = db.relay.Where(x => x.relayID == relay.relayID).FirstOrDefault();
                 relayForSetQueue.queueLimit = relay.queueLimit;
-
+                ViewBag.success = "Successfully update the relay(" + relay.relayIP+")";
                 db.SaveChanges();
             }
             return PartialView("_ChangeQueuePartial", relay);
