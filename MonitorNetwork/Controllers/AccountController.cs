@@ -50,6 +50,11 @@ namespace MonitorNetwork.Controllers
         [HttpPost]
         public ActionResult Create(CreditCardAndAccountViewModel creditCardAndAccount)
         {
+            if (db.creditcard.Where(x => x.cardNumber == creditCardAndAccount.creditcard.cardNumber).Count() > 0)
+            {
+                ModelState.AddModelError("creditcard.cardNumber", "Credit card number all ready exists.");
+            }
+
             if (ModelState.IsValid)
             {
                 creditCardAndAccount.account.creditcard.Add(creditCardAndAccount.creditcard);
