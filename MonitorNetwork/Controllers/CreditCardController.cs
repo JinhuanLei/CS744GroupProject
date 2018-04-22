@@ -93,7 +93,7 @@ namespace MonitorNetwork.Controllers
         [HttpPost]
         public ActionResult Edit([Bind(Include = "cardID,cardNumber,expirationDate,securityCode,customerFirstName,customerLastName,accountID")] creditcard creditcard)
         {
-            if (db.creditcard.Where(x => x.cardNumber == creditcard.cardNumber).Count() > 0)
+            if (db.creditcard.Where(x => x.cardNumber == creditcard.cardNumber && x.cardID != creditcard.cardID).Count() > 0)
             {
                 ModelState.AddModelError("cardNumber", "Credit card number all ready exists.");
             }
