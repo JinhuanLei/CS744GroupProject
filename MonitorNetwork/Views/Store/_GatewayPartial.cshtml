@@ -10,16 +10,20 @@
         </tr>
     </thead>
     <tbody>
-    @{
-        for (int i = 0; i < Model.CheckboxGatewayModel.Count; i++)
-        {
-            <tr>
-                <td>@Model.CheckboxGatewayModel[i].relayIP</td>
-                <td>@Html.CheckBoxFor(m => Model.CheckboxGatewayModel[i].selected)</td>
-                <td>@Html.EditorFor(model => Model.CheckboxGatewayModel[i].weight, new { htmlAttributes = new { @class = "form-control", style = "width:70px;" } })</td>
-                @Html.HiddenFor(model => Model.CheckboxGatewayModel[i].relayID)
-            </tr>
+        @{
+            for (int i = 0; i < Model.CheckboxGatewayModel.Count; i++)
+            {
+                <tr>
+                    <td>@Model.CheckboxGatewayModel[i].relayIP</td>
+                    <td>@Html.CheckBoxFor(m => Model.CheckboxGatewayModel[i].selected)</td>
+                    <td>
+                        @Html.EditorFor(model => Model.CheckboxGatewayModel[i].weight, new { htmlAttributes = new { @class = "form-control", style = "width:70px;" } })
+                        @Html.ValidationMessageFor(model => model.CheckboxGatewayModel[i].weight, "", new { @class = "text-danger" })
+                    </td>
+                    @Html.HiddenFor(model => Model.CheckboxGatewayModel[i].relayID)
+                    @Html.HiddenFor(m => Model.CheckboxGatewayModel[i].relayIP);
+                </tr>
+            }
         }
-    }
     </tbody>
 </table>

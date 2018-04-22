@@ -115,8 +115,8 @@ namespace MonitorNetwork.Views
 			}
 			
 
-			relayModel.checkboxRelayModel = GetCheckboxRelays(relayModel.relay.regionID);
-			relayModel.checkboxStoreModel = GetCheckboxStores(relayModel.relay.regionID);
+			//relayModel.checkboxRelayModel = GetCheckboxRelays(relayModel.relay.regionID);
+			//relayModel.checkboxStoreModel = GetCheckboxStores(relayModel.relay.regionID);
 
 			var selectList = from region in db.region
 							 select new { regionID = region.regionID, regionColor = region.colors.colorName };

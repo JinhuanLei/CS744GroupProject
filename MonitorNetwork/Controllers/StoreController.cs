@@ -90,8 +90,6 @@ namespace MonitorNetwork.Controllers
                 return RedirectToAction("Index", "Store");
             }
 
-            storeModel.checkboxRelayModel = GetCheckboxRelays(storeModel.store.regionID);
-
             var selectList = from region in db.region
                              select new { regionID = region.regionID, regionColor = region.colors.colorName };
 
