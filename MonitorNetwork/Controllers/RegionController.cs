@@ -112,7 +112,7 @@ namespace MonitorNetwork.Controllers
 				return RedirectToAction("Index", "Home");
             }
 
-			regionStoreRelay.CheckboxGatewayModel = GetGatewayRelays();
+			//regionStoreRelay.CheckboxGatewayModel = GetGatewayRelays();
 
 			var colorInfo = from colors in db.colors
 							select new { colors.colorID };

@@ -18,8 +18,13 @@
 				<td>@Model.checkboxStoreModel[i].merchantName</td>
                 <td>@Model.checkboxStoreModel[i].storeIP</td>
                 <td>@Html.CheckBoxFor(m => Model.checkboxStoreModel[i].selected)</td>
-                <td>@Html.EditorFor(model => Model.checkboxStoreModel[i].weight, new { htmlAttributes = new { @class = "form-control", style = "width:70px;" } })</td>
+                <td>
+                    @Html.EditorFor(model => Model.checkboxStoreModel[i].weight, new { htmlAttributes = new { @class = "form-control", style = "width:70px;" } })
+                    @Html.ValidationMessageFor(model => model.checkboxStoreModel[i].weight, "", new { @class = "text-danger" })
+                </td>
                 @Html.HiddenFor(model => Model.checkboxStoreModel[i].storeID)
+                @Html.HiddenFor(m => Model.checkboxStoreModel[i].storeIP)
+                @Html.HiddenFor(m => Model.checkboxStoreModel[i].merchantName)
             </tr>
         }
     }

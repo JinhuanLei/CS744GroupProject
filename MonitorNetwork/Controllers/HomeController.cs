@@ -211,7 +211,6 @@ namespace MonitorNetwork.Controllers
 			}
 			
 			if (!currentTransaction.expirationDate.Equals(currentCard.expirationDate)||
-				currentTransaction.expirationDate < DateTime.Now ||
 				!((currentTransaction.securityCode) == (currentCard.securityCode)))
 			{
 				currentTransaction.status = false;
@@ -222,7 +221,14 @@ namespace MonitorNetwork.Controllers
 			var totalSpendingCredit = currentAccount.spendingLimit - currentAccount.balance;
 			currentTransaction.cardID = currentCard.cardID;
 
-            if (currentTransaction.isCredit && currentTransaction.amount < totalSpendingCredit)
+			if (currentTransaction.expirationDate < DateTime.Now)
+			{
+				currentTransaction.status = false;
+				db.SaveChanges();
+				return PartialView("_DetailTransactionRowPartial", currentTransaction);
+			}
+
+			if (currentTransaction.isCredit && currentTransaction.amount < totalSpendingCredit)
 			{
 				//transaction approved
 				currentTransaction.status = true;
@@ -230,7 +236,7 @@ namespace MonitorNetwork.Controllers
 				db.SaveChanges();
 			}
 
-			else if (!currentTransaction.isCredit && currentTransaction.amount < currentAccount.balance)
+			else if (!currentTransaction.isCredit)
 			{
 				//transaction approved
 				currentTransaction.status = true;
